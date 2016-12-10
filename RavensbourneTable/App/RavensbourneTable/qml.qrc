@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Page1.qml</file>
+        <file>Page1Form.ui.qml</file>
+        <file>Sketch.qml</file>
+        <file>SketchForm.ui.qml</file>
+        <file>Sketch.js</file>
+        <file>TextItem.qml</file>
+        <file>GeometryUtils.js</file>
+        <file>EditablItem/EditableItem.qml</file>
+        <file>barcodescanner.cpp</file>
+        <file>barcodescanner.h</file>
+        <file>main.cpp</file>
+        <file>ImageItem.qml</file>
+        <file>MenuTest.qml</file>
+        <file>MenuTestForm.ui.qml</file>
+        <file>MenuModel.qml</file>
+        <file>icons/add.png</file>
+        <file>icons/create.png</file>
+        <file>icons/docs.png</file>
+        <file>icons/image.png</file>
+        <file>icons/rotate.png</file>
+        <file>icons/search.png</file>
+        <file>icons/text.png</file>
+        <file>icons/text_format.png</file>
+        <file>icons/user.png</file>
+        <file>icons/move.png</file>
+    </qresource>
+</RCC>
