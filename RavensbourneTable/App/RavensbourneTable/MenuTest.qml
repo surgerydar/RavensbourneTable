@@ -268,4 +268,10 @@ MenuTestForm {
         }
     }
     */
+    CircularListView {
+        x: 20
+        y: 20
+        width:  64
+        height: 64
+    }
 }

@@ -8,10 +8,14 @@ ListModel {
     ListElement {
         name: "docs"
         icon: "icons/docs.png"
+        type: "action"
+        action: "browsedocuments"
     }
     ListElement {
         name: "add"
         icon: "icons/add.png"
+        type: "submenu"
+        model: "AddItem.qml"
     }
     ListElement {
         name: "user"

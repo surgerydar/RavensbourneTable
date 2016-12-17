@@ -19,6 +19,16 @@ SketchForm {
             createSketchItem(source, { x: mouse.x, y: mouse.y } );
         }
     }
+
+    sketch.onDoubleClicked: {
+        puck.visible = !puck.visible;
+        if( puck.visible ) {
+            puck.x = mouse.x - puck.width / 2;
+            puck.y = mouse.y - puck.height / 2;
+        }
+    }
+
+
     textButton.onCheckedChanged: {
         if ( textButton.checked ) {
             tool = "text";
@@ -32,6 +42,13 @@ SketchForm {
     drawButton.onCheckedChanged: {
         if ( drawButton.checked ) {
             tool = "draw";
+        }
+    }
+
+    Puck {
+        id: puck
+        onPerformAction: {
+            console.log( "puck action" + JSON.stringify(action) );
         }
     }
 
@@ -83,7 +100,7 @@ SketchForm {
         }
     }
     */
-    property var tool: "text"
+    property var tool: "draw"
     //
     // item creation
     // TODO: create component registry on load
