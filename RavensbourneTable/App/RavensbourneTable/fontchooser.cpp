@@ -8,226 +8,852 @@
 
 #include "fontchooser.h"
 
-const std::vector<QFont::Weight> weights = { QFont::Normal, QFont::Bold };
-
-FontChooser::FontChooser(QQuickItem *parent) : CircularMenu(parent) {
-    //
-    //
-    //
-    setAcceptedMouseButtons(Qt::AllButtons);
-    //
-    // setup hsl gradient
-    //
-    int count = 180;
-    qreal h = 0.;
-    qreal hIncrement = 1. / count;
-    qreal position = .25;
-    qreal positionIncrement = .25 / count;
-    for ( int i = 0; i < count + 1; i++ ) {
-        QColor colour;
-        colour.setHslF(h,1.,.5);
-        m_gradient.setColorAt(position,colour);
-        h += hIncrement;
-        position += positionIncrement;
+static void listFonts() {
+    QFontDatabase database;
+    foreach (const QString &family, database.families()) {
+        qDebug() << family;
+        foreach (const QString &style, database.styles(family)) {
+            qDebug() << ">> " << style;
+        }
     }
-    m_gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
-    m_gradient.setCenter(1.,1.);
+}
+
+FontChooser::FontChooser(QQuickItem *parent) :
+    CircularMenu(parent),
+    m_fontSizeSelector(0.,90.,16.,48.),
+    m_colourSelector(90.,90.),
+    m_boldSelector(180.,30.,"b",true),
+    m_italicSelector(210.,30.,"i",true),
+    m_underlineSelector(240.,30.,"u",true),
+    m_sansSelector(270.,30.,"H",true),
+    m_serifSelector(300.,30.,"T",true),
+    m_familyGroup( 270., 60.) {
+    //m_cursiveSelector(330.,30.,"e",false) {
+    //
+    //
+    //
+    m_fontSizeSelector.setFont(QFont());
+    m_fontSizeSelector.setSize(16.);
+    QFont boldFont;
+    boldFont.setPixelSize(32.);
+    boldFont.setBold(true);
+    m_boldSelector.setFont(boldFont);
+    QFont italicFont;
+    italicFont.setPixelSize(32.);
+    italicFont.setItalic(true);
+    m_italicSelector.setFont(italicFont);
+    QFont underlineFont;
+    underlineFont.setPixelSize(32.);
+    underlineFont.setUnderline(true);
+    m_underlineSelector.setFont(underlineFont);
+    QFont sansFont;
+    sansFont.setFamily("Helvetica");
+    sansFont.setPixelSize(32.);
+    m_sansSelector.setFont(sansFont);
+    m_sansSelector.setChecked();
+    QFont serifFont;
+    serifFont.setFamily("Times");
+    serifFont.setPixelSize(32.);
+    m_serifSelector.setFont(serifFont);
+    /*
+    QFont cursiveFont;
+    cursiveFont.setFamily("OldEnglish");
+    cursiveFont.setPixelSize(32.);
+    m_cursiveSelector.setFont(cursiveFont);
+    */
+    //
+    //
+    //
+    addControl("size",&m_fontSizeSelector);
+    addControl("colour",&m_colourSelector);
+    addControl("bold",&m_boldSelector);
+    addControl("italic",&m_italicSelector);
+    addControl("underline",&m_underlineSelector);
+    addControl("family",&m_familyGroup);
+    m_familyGroup.addButton("Helvetica",&m_sansSelector);
+    m_familyGroup.addButton("Times",&m_serifSelector);
 }
 
 void FontChooser::paint(QPainter *painter) {
-    CircularMenu::paint(painter);
-    qreal w = width();
-    qreal h = height();
-    QPointF cp(w/2.,h/2.);
-    qreal swatchRadius = w / 4.;
-    QRect outerRect( 0, 0, w, h);
-    QRect innerRect( swatchRadius,swatchRadius, swatchRadius*2, swatchRadius*2);
-    QRect middleRect( swatchRadius / 2., swatchRadius / 2., swatchRadius*3, swatchRadius*3 );
-    QFontMetrics metrics(m_font);
-    QRect textBounds;
-    //
-    //
-    //
     painter->setRenderHint(QPainter::Antialiasing);
     //
-    // draw gradient
     //
-    QBrush brush(m_gradient);
-    painter->setBrush(brush);
-    painter->setPen(Qt::NoPen);
-    QRect gradientRect( 0, 0, w, h );
-    painter->drawPath(m_colourPath);
     //
-    // draw size selector
-    //
-    QFont font = m_font;
-    qreal percent = 1./4;
-    painter->setBrush(Qt::NoBrush);
-    painter->setPen("black");
-    const int sizes[4] = { 48, 32, 24, 16 };
-    const qreal spacing[ 4 ] = {.2,.13,.1,0.066666666666667};
-    for ( int i = 0; i < 4; i++ ) {
-        font.setPixelSize(sizes[i]);
-        painter->setFont(font);
-        QPointF point = m_sizePath.pointAtPercent(percent);
-        qreal angle = m_sizePath.angleAtPercent(percent);   // Clockwise is negative
-        painter->save();
-        // Move the virtual origin to the point on the curve
-        painter->translate(point);
-        // Rotate to match the angle of the curve
-        // Clockwise is positive so we negate the angle from above
-        painter->rotate(-angle);
-        // Draw a line width above the origin to move the text above the line
-        // and let Qt do the transformations
-        metrics = painter->fontMetrics();
-        textBounds = metrics.tightBoundingRect("A");
-        painter->drawText(QPoint(-textBounds.width()/2, textBounds.height()/2),"A");
-        painter->restore();
-        percent += spacing[ i ];
-    }
-    //
-    // draw family selector
-    //
-    font = m_font;
-    font.setPixelSize(48);
-    //QFont::Style style[3] = { QFont::Bold,
-    QStringList families = QFontDatabase().families();
-    for ( auto& family : families ) {
-        //qDebug() << family;
-    }
-    //
-    // draw weight selector
-    //
-    font = m_font;
-    font.setPixelSize(32.);
-    int count = weights.size();
-    qreal percentIncrement = 1./(count + 1);
-    percent = 1./4;
-    for ( int i = 0; i < count; i++ ) {
-        font.setWeight(weights[i]);
-        painter->setFont(font);
-        QPointF point = m_weightPath.pointAtPercent(percent);
-        qreal angle = m_weightPath.angleAtPercent(percent);   // Clockwise is negative
-        painter->save();
-        // Move the virtual origin to the point on the curve
-        painter->translate(point);
-        // Rotate to match the angle of the curve
-        // Clockwise is positive so we negate the angle from above
-        painter->rotate(-angle);
-        // Draw a line width above the origin to move the text above the line
-        // and let Qt do the transformations
-        metrics = painter->fontMetrics();
-        textBounds = metrics.tightBoundingRect("A");
-        painter->drawText(QPoint(-textBounds.width()/2, textBounds.height()/2),"A");
-        painter->restore();
-        percent += percentIncrement;
-    }
+    CircularMenu::paint(painter);
     //
     // draw swatch
     //
+    QPointF cp(width()/2.,height()/2.);
     painter->setFont(m_font);
     painter->setPen(m_colour);
-    metrics = painter->fontMetrics();
-    textBounds = metrics.tightBoundingRect("Aa");
+    QFontMetricsF metrics = painter->fontMetrics();
+    QRectF textBounds = metrics.tightBoundingRect("Aa");
     painter->drawText(cp.x()-textBounds.width()/2.,cp.y()+textBounds.height()/2.,"Aa");
+
     //
     // draw outline
     //
     painter->setPen(Qt::black);
-    painter->drawEllipse(outerRect);
-    painter->drawEllipse(innerRect);
-}
-//
-//
-//
-void FontChooser::setFontFromPoint( QPoint p ) {
-    QPointF cp(width()/2.,height()/2.);
-    QLineF line(cp,p);
-    qreal angle = line.angle();
-    qDebug() << "angle=" << angle;
-    if ( angle < 90. ) { // size segment
-        qreal size = 16 + ( ( angle / 90. ) * ( 48. - 16. ) );
-        m_font.setPixelSize(size);
-    } else if ( angle < 180. ) { // colour
-        qreal h =  1. - (( angle - 90. ) / 90.);
-        qreal minRadius = cp.x() / 2.;
-        qreal l = std::max(0.,std::min(1.,(line.length()-minRadius)/minRadius));
-        qDebug() << "h=" << h << " l=" << l;
-        m_colour.setHslF(h,1.,l);
-    } else if ( angle < 270. ) { // weight
-        qreal f = (angle-180.) / 90.;
-        int index = std::floor(4.*f);
-        m_font.setWeight(weights[index]);
-    } else {
-        qreal f = (angle-270.) / 90.;
-    }
-    emit fontChanged(m_font,m_colour);
-    update();
+    painter->drawPath(m_outerPath);
+    painter->drawPath(m_innerPath);
+
 }
 //
 //
 //
 void FontChooser::mousePressEvent(QMouseEvent *event) {
-    qDebug() << "mouse press [" << event->x() << "," << event->y() << "]";
-}
-
-void FontChooser::mouseMoveEvent(QMouseEvent *event) {
-    qDebug() << "mouse move [" << event->x() << "," << event->y() << "]";
-    setFontFromPoint(QPoint(event->x(),event->y()));
-}
-
-void FontChooser::mouseReleaseEvent(QMouseEvent *event) {
-    qDebug() << "mouse release [" << event->x() << "," << event->y() << "]";
-}
-//
-//
-//
-void FontChooser::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) {
-    CircularMenu::geometryChanged(newGeometry,oldGeometry);
-    if ( newGeometry != oldGeometry ) {
-        buildPaths();
+    QString control = mousePressControls(event);
+    if ( control.length() > 0 ) {
+        updateFont();
+    } else {
+        event->ignore();
     }
 }
 
-//
-//
-//
-void FontChooser::buildPaths() {
-    //
-    //
-    //
-    qreal w = width();
-    qreal h = height();
-    qreal swatchRadius = w / 4.;
-    QRect outerRect( 0, 0, w, h);
-    QRect innerRect( swatchRadius,swatchRadius, swatchRadius*2, swatchRadius*2);
-    QRect middleRect( swatchRadius / 2., swatchRadius / 2., swatchRadius*3, swatchRadius*3 );
-    //
-    // colour selector
-    //
-    m_colourPath = QPainterPath();
-    m_colourPath.arcMoveTo(outerRect,90.);
-    m_colourPath.arcTo(outerRect,90.,90.);
-    m_colourPath.lineTo(innerRect.x(),h/2.);
-    m_colourPath.arcTo(innerRect,180,-90.);
-    m_colourPath.closeSubpath();
-    //
-    // size selector
-    //
-    m_sizePath = QPainterPath();
-    m_sizePath.arcMoveTo(middleRect,90.);
-    m_sizePath.arcTo(middleRect,90.,-90.);
-    //
-    // family selector
-    //
-    m_familyPath = QPainterPath();
-    m_familyPath.arcMoveTo(middleRect,90.);
-    m_familyPath.arcTo(middleRect,0.,-90.);
-    //
-    // weight selector
-    //
-    m_weightPath = QPainterPath();
-    m_weightPath.arcMoveTo(middleRect,270.);
-    m_weightPath.arcTo(middleRect,270.,-90.);
+void FontChooser::mouseMoveEvent(QMouseEvent *event) {
+    QString control = mouseMoveControls(event);
+    if ( control.length() > 0 ) {
+        updateFont();
+    } else {
+        event->ignore();
+    }
 }
 
+void FontChooser::mouseReleaseEvent(QMouseEvent *event) {
+    QString control = mouseReleaseControls(event);
+    if ( control.length() > 0 ) {
+        updateFont();
+    } else {
+        event->ignore();
+    }
+}
+//
+//
+//
+void FontChooser::updateFont() {
+    QColor oldColour = m_colour;
+    QFont oldFont = m_font;
+    m_colour = m_colourSelector.getColour();
+    m_font.setFamily(m_familyGroup.selectedButton());
+    m_font.setPixelSize(m_fontSizeSelector.getSize());
+    m_font.setBold(m_boldSelector.isChecked());
+    m_font.setItalic(m_italicSelector.isChecked());
+    m_font.setUnderline(m_underlineSelector.isChecked());
+    if ( m_colour != oldColour || m_font != oldFont ) {
+        update();
+        emit fontChanged(m_font,m_colour);
+    }
+}
+/*
+ * ".SF NS Text"
+>>  "Regular"
+>>  "Bold"
+"Al Bayan"
+>>  "Plain"
+>>  "Bold"
+"Al Nile"
+>>  "Regular"
+>>  "Bold"
+"Al Tarikh"
+>>  "Regular"
+"American Typewriter"
+>>  "Regular"
+>>  "Light"
+>>  "Semibold"
+>>  "Bold"
+>>  "Condensed"
+>>  "Condensed Light"
+>>  "Condensed Bold"
+"Andale Mono"
+>>  "Regular"
+"Apple Braille"
+>>  "Outline 6 Dot"
+>>  "Outline 8 Dot"
+>>  "Pinpoint 6 Dot"
+>>  "Pinpoint 8 Dot"
+>>  "Regular"
+"Apple Chancery"
+>>  "Chancery"
+"Apple Color Emoji"
+>>  "Regular"
+"Apple SD Gothic Neo"
+>>  "Regular"
+>>  "Thin"
+>>  "UltraLight"
+>>  "Light"
+>>  "Medium"
+>>  "SemiBold"
+>>  "Bold"
+>>  "ExtraBold"
+>>  "Heavy"
+"Apple Symbols"
+>>  "Regular"
+"AppleGothic"
+>>  "Regular"
+"AppleMyungjo"
+>>  "Regular"
+"Arial"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Arial Black"
+>>  "Regular"
+"Arial Hebrew"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"Arial Hebrew Scholar"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"Arial Narrow"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Arial Rounded MT Bold"
+>>  "Regular"
+"Arial Unicode MS"
+>>  "Regular"
+"Athelas"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Avenir"
+>>  "Book"
+>>  "Roman"
+>>  "Book Oblique"
+>>  "Oblique"
+>>  "Light"
+>>  "Light Oblique"
+>>  "Medium"
+>>  "Medium Oblique"
+>>  "Heavy"
+>>  "Heavy Oblique"
+>>  "Black"
+>>  "Black Oblique"
+"Avenir Next"
+>>  "Regular"
+>>  "Italic"
+>>  "Ultra Light"
+>>  "Ultra Light Italic"
+>>  "Medium"
+>>  "Medium Italic"
+>>  "Demi Bold"
+>>  "Demi Bold Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Heavy"
+>>  "Heavy Italic"
+"Avenir Next Condensed"
+>>  "Regular"
+>>  "Italic"
+>>  "Ultra Light"
+>>  "Ultra Light Italic"
+>>  "Medium"
+>>  "Medium Italic"
+>>  "Demi Bold"
+>>  "Demi Bold Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Heavy"
+>>  "Heavy Italic"
+"Ayuthaya"
+>>  "Regular"
+"Baghdad"
+>>  "Regular"
+"Bangla MN"
+>>  "Regular"
+>>  "Bold"
+"Bangla Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Baskerville"
+>>  "Regular"
+>>  "Italic"
+>>  "SemiBold"
+>>  "SemiBold Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Beirut"
+>>  "Regular"
+"Big Caslon"
+>>  "Medium"
+"Bodoni 72"
+>>  "Book"
+>>  "Book Italic"
+>>  "Bold"
+"Bodoni 72 Oldstyle"
+>>  "Book"
+>>  "Book Italic"
+>>  "Bold"
+"Bodoni 72 Smallcaps"
+>>  "Book"
+"Bodoni Ornaments"
+>>  "Regular"
+"Bradley Hand"
+>>  "Bold"
+"Brush Script MT"
+>>  "Italic"
+"Chalkboard"
+>>  "Regular"
+>>  "Bold"
+"Chalkboard SE"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"Chalkduster"
+>>  "Regular"
+"Charter"
+>>  "Roman"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Black"
+>>  "Black Italic"
+"Cochin"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Comic Sans MS"
+>>  "Regular"
+>>  "Bold"
+"Copperplate"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"Corsiva Hebrew"
+>>  "Regular"
+>>  "Bold"
+"Courier"
+>>  "Regular"
+>>  "Oblique"
+>>  "Bold"
+>>  "Bold Oblique"
+"Courier New"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Damascus"
+>>  "Regular"
+>>  "Light"
+>>  "Medium"
+>>  "Semi Bold"
+>>  "Bold"
+"DecoType Naskh"
+>>  "Regular"
+"Devanagari MT"
+>>  "Regular"
+>>  "Bold"
+"Devanagari Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Didot"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+"DIN Alternate"
+>>  "Bold"
+"DIN Condensed"
+>>  "Bold"
+"Diwan Kufi"
+>>  "Regular"
+"Diwan Thuluth"
+>>  "Regular"
+"Euphemia UCAS"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+"Farah"
+>>  "Regular"
+"Farisi"
+>>  "Regular"
+"Futura"
+>>  "Medium"
+>>  "Medium Italic"
+>>  "Bold"
+>>  "Condensed Medium"
+>>  "Condensed ExtraBold"
+"GB18030 Bitmap"
+>>  "Regular"
+"Geeza Pro"
+>>  "Regular"
+>>  "Bold"
+"Geneva"
+>>  "Regular"
+"Georgia"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Gill Sans"
+>>  "Regular"
+>>  "Italic"
+>>  "Light"
+>>  "Light Italic"
+>>  "SemiBold"
+>>  "SemiBold Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "UltraBold"
+"Gujarati MT"
+>>  "Regular"
+>>  "Bold"
+"Gujarati Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Gurmukhi MN"
+>>  "Regular"
+>>  "Bold"
+"Gurmukhi MT"
+>>  "Regular"
+"Gurmukhi Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Heiti SC"
+>>  "Light"
+>>  "Medium"
+"Heiti TC"
+>>  "Light"
+>>  "Medium"
+"Helvetica"
+>>  "Regular"
+>>  "Oblique"
+>>  "Light"
+>>  "Light Oblique"
+>>  "Bold"
+>>  "Bold Oblique"
+"Helvetica Neue"
+>>  "Regular"
+>>  "Italic"
+>>  "UltraLight"
+>>  "UltraLight Italic"
+>>  "Thin"
+>>  "Thin Italic"
+>>  "Light"
+>>  "Light Italic"
+>>  "Medium"
+>>  "Medium Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Condensed Bold"
+>>  "Condensed Black"
+"Herculanum"
+>>  "Regular"
+"Hiragino Kaku Gothic Pro"
+>>  "W3"
+>>  "W6"
+"Hiragino Kaku Gothic ProN"
+>>  "W3"
+>>  "W6"
+"Hiragino Kaku Gothic Std"
+>>  "W8"
+"Hiragino Kaku Gothic StdN"
+>>  "W8"
+"Hiragino Maru Gothic Pro"
+>>  "W4"
+"Hiragino Maru Gothic ProN"
+>>  "W4"
+"Hiragino Mincho Pro"
+>>  "W3"
+>>  "W6"
+"Hiragino Mincho ProN"
+>>  "W3"
+>>  "W6"
+"Hiragino Sans"
+>>  "W0"
+>>  "W1"
+>>  "W2"
+>>  "W3"
+>>  "W4"
+>>  "W5"
+>>  "W6"
+>>  "W7"
+>>  "W8"
+>>  "W9"
+"Hiragino Sans GB"
+>>  "W3"
+>>  "W6"
+"Hoefler Text"
+>>  "Regular"
+>>  "Ornaments"
+>>  "Italic"
+>>  "Black"
+>>  "Black Italic"
+"Impact"
+>>  "Regular"
+"InaiMathi"
+>>  "Regular"
+"Iowan Old Style"
+>>  "Roman"
+>>  "Titling"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Black"
+>>  "Black Italic"
+"ITF Devanagari"
+>>  "Book"
+>>  "Light"
+>>  "Medium"
+>>  "Demi"
+>>  "Bold"
+"ITF Devanagari Marathi"
+>>  "Book"
+>>  "Light"
+>>  "Medium"
+>>  "Demi"
+>>  "Bold"
+"Kailasa"
+>>  "Regular"
+>>  "Bold"
+"Kannada MN"
+>>  "Regular"
+>>  "Bold"
+"Kannada Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Kefa"
+>>  "Regular"
+>>  "Bold"
+"Khmer MN"
+>>  "Regular"
+>>  "Bold"
+"Khmer Sangam MN"
+>>  "Regular"
+"Kohinoor Bangla"
+>>  "Regular"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+>>  "Bold"
+"Kohinoor Devanagari"
+>>  "Regular"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+>>  "Bold"
+"Kohinoor Telugu"
+>>  "Regular"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+>>  "Bold"
+"Kokonor"
+>>  "Regular"
+"Krungthep"
+>>  "Regular"
+"KufiStandardGK"
+>>  "Regular"
+"Lao MN"
+>>  "Regular"
+>>  "Bold"
+"Lao Sangam MN"
+>>  "Regular"
+"Lucida Grande"
+>>  "Regular"
+>>  "Bold"
+"Luminari"
+>>  "Regular"
+"Malayalam MN"
+>>  "Regular"
+>>  "Bold"
+"Malayalam Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Marion"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+"Marker Felt"
+>>  "Thin"
+>>  "Wide"
+"Menlo"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Microsoft Sans Serif"
+>>  "Regular"
+"Mishafi"
+>>  "Regular"
+"Mishafi Gold"
+>>  "Regular"
+"Monaco"
+>>  "Regular"
+"Mshtakan"
+>>  "Regular"
+>>  "Oblique"
+>>  "Bold"
+>>  "BoldOblique"
+"Muna"
+>>  "Regular"
+>>  "Bold"
+>>  "Black"
+"Myanmar MN"
+>>  "Regular"
+>>  "Bold"
+"Myanmar Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Nadeem"
+>>  "Regular"
+"New Peninim MT"
+>>  "Regular"
+>>  "Inclined"
+>>  "Bold"
+>>  "Bold Inclined"
+"Noteworthy"
+>>  "Light"
+>>  "Bold"
+"Optima"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "ExtraBlack"
+"Oriya MN"
+>>  "Regular"
+>>  "Bold"
+"Oriya Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Palatino"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Papyrus"
+>>  "Regular"
+>>  "Condensed"
+"Phosphate"
+>>  "Inline"
+>>  "Solid"
+"PingFang HK"
+>>  "Regular"
+>>  "Ultralight"
+>>  "Thin"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+"PingFang SC"
+>>  "Regular"
+>>  "Ultralight"
+>>  "Thin"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+"PingFang TC"
+>>  "Regular"
+>>  "Ultralight"
+>>  "Thin"
+>>  "Light"
+>>  "Medium"
+>>  "Semibold"
+"Plantagenet Cherokee"
+>>  "Regular"
+"PT Mono"
+>>  "Regular"
+>>  "Bold"
+"PT Sans"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"PT Sans Caption"
+>>  "Regular"
+>>  "Bold"
+"PT Sans Narrow"
+>>  "Regular"
+>>  "Bold"
+"PT Serif"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"PT Serif Caption"
+>>  "Regular"
+>>  "Italic"
+"Raanana"
+>>  "Regular"
+>>  "Bold"
+"Sana"
+>>  "Regular"
+"Sathu"
+>>  "Regular"
+"Savoye LET"
+>>  "Plain"
+"Seravek"
+>>  "Regular"
+>>  "Italic"
+>>  "ExtraLight"
+>>  "ExtraLight Italic"
+>>  "Light"
+>>  "Light Italic"
+>>  "Medium"
+>>  "Medium Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Shree Devanagari 714"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"SignPainter"
+>>  "HouseScript"
+>>  "HouseScript Semibold"
+"Silom"
+>>  "Regular"
+"Sinhala MN"
+>>  "Regular"
+>>  "Bold"
+"Sinhala Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Skia"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+>>  "Black"
+>>  "Extended"
+>>  "Light Extended"
+>>  "Black Extended"
+>>  "Condensed"
+>>  "Light Condensed"
+>>  "Black Condensed"
+"Snell Roundhand"
+>>  "Regular"
+>>  "Bold"
+>>  "Black"
+"Songti SC"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+>>  "Black"
+"Songti TC"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"STIXGeneral"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"STIXIntegralsD"
+>>  "Regular"
+>>  "Bold"
+"STIXIntegralsSm"
+>>  "Regular"
+>>  "Bold"
+"STIXIntegralsUp"
+>>  "Regular"
+>>  "Bold"
+"STIXIntegralsUpD"
+>>  "Regular"
+>>  "Bold"
+"STIXIntegralsUpSm"
+>>  "Regular"
+>>  "Bold"
+"STIXNonUnicode"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"STIXSizeFiveSym"
+>>  "Regular"
+"STIXSizeFourSym"
+>>  "Regular"
+>>  "Bold"
+"STIXSizeOneSym"
+>>  "Regular"
+>>  "Bold"
+"STIXSizeThreeSym"
+>>  "Regular"
+>>  "Bold"
+"STIXSizeTwoSym"
+>>  "Regular"
+>>  "Bold"
+"STIXVariants"
+>>  "Regular"
+>>  "Bold"
+"STSong"
+>>  "Regular"
+"Sukhumvit Set"
+>>  "Text"
+>>  "Light"
+>>  "Medium"
+>>  "Semi Bold"
+>>  "Bold"
+>>  "Thin"
+"Superclarendon"
+>>  "Regular"
+>>  "Italic"
+>>  "Light"
+>>  "Light Italic"
+>>  "Bold"
+>>  "Bold Italic"
+>>  "Black"
+>>  "Black Italic"
+"Symbol"
+>>  "Regular"
+"Tahoma"
+>>  "Normal"
+>>  "Negreta"
+"Tamil MN"
+>>  "Regular"
+>>  "Bold"
+"Tamil Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Telugu MN"
+>>  "Regular"
+>>  "Bold"
+"Telugu Sangam MN"
+>>  "Regular"
+>>  "Bold"
+"Thonburi"
+>>  "Regular"
+>>  "Light"
+>>  "Bold"
+"Times"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Times New Roman"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Trattatello"
+>>  "Regular"
+"Trebuchet MS"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Verdana"
+>>  "Regular"
+>>  "Italic"
+>>  "Bold"
+>>  "Bold Italic"
+"Waseem"
+>>  "Regular"
+>>  "Light"
+"Webdings"
+>>  "Regular"
+"Wingdings"
+>>  "Regular"
+"Wingdings 2"
+>>  "Regular"
+"Wingdings 3"
+>>  "Regular"
+"Zapf Dingbats"
+>>  "Regular"
+"Zapfino"
+>>  "Regular"
+*/

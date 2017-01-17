@@ -4,6 +4,8 @@
 #include <QQuickPaintedItem>
 #include <QPainterPath>
 
+#include "segmentcontrol.h"
+
 class CircularMenu : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -25,7 +27,18 @@ protected:
     QPainterPath m_outerPath;
     QPainterPath m_middlePath;
     QPainterPath m_innerPath;
-
+    //
+    //
+    //
+    QMap<QString,SegmentControl*> m_controls;
+    void addControl(QString name,SegmentControl* control);
+    void removeControl(QString name);
+    //
+    //
+    //
+    QString mousePressControls( QMouseEvent* event );
+    QString mouseMoveControls( QMouseEvent* event );
+    QString mouseReleaseControls( QMouseEvent* event );
 };
 
 #endif // CIRCULARMENU_H

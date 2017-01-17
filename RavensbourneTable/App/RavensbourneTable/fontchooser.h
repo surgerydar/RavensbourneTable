@@ -7,6 +7,10 @@
 #include <QFont>
 
 #include "circularmenu.h"
+#include "hslsegmentcontrol.h"
+#include "fontsizeselector.h"
+#include "segmentbutton.h"
+#include "segmentbuttongroup.h"
 
 class FontChooser : public CircularMenu
 {
@@ -28,29 +32,29 @@ signals:
     void fontChanged( QFont font, QColor colour );
 
 public slots:
-    void setFontFromPoint( QPoint p );
-    QFont getFont() { return m_font; };
+    QFont getFont() { return m_font; }
 
 protected:
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:
-    void buildPaths();
+    void updateFont();
     //
     //
     //
     QFont               m_font;
     QColor              m_colour;
-    QConicalGradient    m_gradient;
-    QPainterPath        m_colourPath;
-    QPainterPath        m_sizePath;
-    QPainterPath        m_familyPath;
-    QPainterPath        m_weightPath;
     //
     //
     //
-
-
+    HslSegmentControl   m_colourSelector;
+    FontSizeSelector    m_fontSizeSelector;
+    SegmentButton       m_boldSelector;
+    SegmentButton       m_italicSelector;
+    SegmentButton       m_underlineSelector;
+    SegmentButtonGroup  m_familyGroup;
+    SegmentButton       m_sansSelector;
+    SegmentButton       m_serifSelector;
+    //SegmentButton       m_cursiveSelector;
 };
 
 #endif // FONTCHOOSER_H

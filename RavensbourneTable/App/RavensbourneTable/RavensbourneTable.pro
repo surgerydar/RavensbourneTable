@@ -9,7 +9,12 @@ SOURCES += main.cpp \
     polyline.cpp \
     colourchooser.cpp \
     fontchooser.cpp \
-    circularmenu.cpp
+    circularmenu.cpp \
+    segmentcontrol.cpp \
+    hslsegmentcontrol.cpp \
+    fontsizeselector.cpp \
+    segmentbutton.cpp \
+    segmentbuttongroup.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,4 +33,9 @@ HEADERS += \
     polyline.h \
     colourchooser.h \
     fontchooser.h \
-    circularmenu.h
+    circularmenu.h \
+    segmentcontrol.h \
+    hslsegmentcontrol.h \
+    fontsizeselector.h \
+    segmentbutton.h \
+    segmentbuttongroup.h
