@@ -4,6 +4,9 @@
 #include <QQuickView>
 #include <QtWebEngine/qtwebengineglobal.h>
 #include "barcodescanner.h"
+#include "drawing.h"
+#include "colourchooser.h"
+#include "fontchooser.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +17,12 @@ int main(int argc, char *argv[])
     //
     QtWebEngine::initialize();
     BarcodeScanner::shared()->connect();
+    //
+    //
+    //
+    qmlRegisterType<Drawing>("SodaControls", 1, 0, "Drawing");
+    qmlRegisterType<ColourChooser>("SodaControls", 1, 0, "ColourChooser");
+    qmlRegisterType<FontChooser>("SodaControls", 1, 0, "FontChooser");
     //
     //
     //

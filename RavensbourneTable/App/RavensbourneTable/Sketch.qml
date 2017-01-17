@@ -1,22 +1,43 @@
 import QtQuick 2.4
+import SodaControls 1.0
 
 SketchForm {
+
     sketch.onPressed: {
         console.log('pressed [' + mouse.x + ',' + mouse.y + ']');
+        if ( tool === "draw" ) {
+            drawing.startLine(Qt.point(mouse.x,mouse.y),drawColour);
+            appWindow.requestUpdate();
+        }
     }
 
     sketch.onReleased: {
         console.log('released [' + mouse.x + ',' + mouse.y + ']');
+        if ( tool === "draw" ) {
+            drawing.endLine(Qt.point(mouse.x,mouse.y));
+            appWindow.requestUpdate();
+        }
     }
 
     sketch.onPositionChanged: {
-        console.log('moved [' + mouse.x + ',' + mouse.y + ']');
+        //console.log('moved [' + mouse.x + ',' + mouse.y + ']');
+        if ( tool === "draw" ) {
+            drawing.addPoint(Qt.point(mouse.x,mouse.y));
+            appWindow.requestUpdate();
+        }
     }
 
     sketch.onClicked: {
-        if ( tool !== "draw" ) {
+        if ( tool === "text" || tool === "image" ) {
             var source = tool === "image" ? "ImageItem.qml" : "TextItem.qml";
             createSketchItem(source, { x: mouse.x, y: mouse.y } );
+        } else {
+            if ( tool === "delete" ) {
+                var index = drawing.pathAt(Qt.point(mouse.x,mouse.y));
+                if ( index >= 0 ) {
+                    drawing.deletePath(index);
+                }
+            }
         }
     }
 
@@ -44,6 +65,46 @@ SketchForm {
             tool = "draw";
         }
     }
+    selectButton.onCheckedChanged: {
+        if ( selectButton.checked ) {
+            tool = "select";
+        }
+    }
+    deleteButton.onCheckedChanged: {
+        if ( deleteButton.checked ) {
+            tool = "delete";
+        }
+    }
+
+    Drawing {
+        id: drawing
+        anchors.fill: parent
+    }
+
+    ColourChooser {
+        id: colourChooser
+        width: 240
+        height: 240
+        anchors.right: parent.right;
+        anchors.top: parent.top;
+        enabled: true;
+        onColourChanged: {
+            drawColour = colour;
+        }
+    }
+
+    FontChooser {
+        id: fontChooser
+        width: 240
+        height: 240
+        anchors.left: parent.left;
+        anchors.top: parent.top;
+        enabled: true;
+        onFontChanged: {
+            textFont = font;
+            textColour = colour;
+        }
+    }
 
     Puck {
         id: puck
@@ -52,55 +113,19 @@ SketchForm {
         }
     }
 
-    /*
-    Canvas {
-        id:canvas
-        anchors.fill: parent;
-        property color strokeStyle:  Qt.darker(fillStyle, 1.4)
-        property color fillStyle: "#b40000" // red
-        property int lineWidth: 2
-        property bool fill: true
-        property bool stroke: true
-        property real alpha: 1.0
-        antialiasing: true
 
-        onPaint: {
-            var ctx = canvas.getContext('2d');
-            var originX = 85
-            var originY = 75
-            ctx.save();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.translate(originX, originX);
-            ctx.globalAlpha = canvas.alpha;
-            ctx.strokeStyle = canvas.strokeStyle;
-            ctx.fillStyle = canvas.fillStyle;
-            ctx.lineWidth = canvas.lineWidth;
-
-            ctx.translate(originX, originY)
-            ctx.scale(canvas.scale, canvas.scale);
-            ctx.rotate(canvas.rotate);
-            ctx.translate(-originX, -originY)
-
-            //! [0]
-            ctx.beginPath();
-            ctx.moveTo(75,40);
-            ctx.bezierCurveTo(75,37,70,25,50,25);
-            ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
-            ctx.bezierCurveTo(20,80,40,102,75,120);
-            ctx.bezierCurveTo(110,102,130,80,130,62.5);
-            ctx.bezierCurveTo(130,62.5,130,25,100,25);
-            ctx.bezierCurveTo(85,25,75,37,75,40);
-            ctx.closePath();
-            //! [0]
-            if (canvas.fill)
-                ctx.fill();
-            if (canvas.stroke)
-                ctx.stroke();
-            ctx.restore();
-        }
-    }
-    */
     property var tool: "draw"
+    //
+    //
+    //
+    property var drawColour: colourChooser.getColour();
+    property var textFont: Qt.font({
+                                       family: "Helvetica",
+                                       bold: 0,
+                                       italic: 0,
+                                       pixelSize: 48
+                                   });
+    property var textColour: "black"
     //
     // item creation
     // TODO: create component registry on load

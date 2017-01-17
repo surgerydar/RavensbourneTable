@@ -9,6 +9,10 @@ Rectangle {
     height: 324
     color: "transparent"
     //
+    // exported properties
+    //
+    property alias menu: menu
+    //
     // methods
     //
     function setModel( model ) {
@@ -58,9 +62,9 @@ Rectangle {
                     for(var i = 0; i < view.children.length; ++i) {
                           if(view.children[i] === parent ){
                             console.log(i + " is current item")
-                              view.children[i].state = "selected";
+                            view.children[i].state = "selected";
                           } else {
-                              view.children[i].state = "";
+                            view.children[i].state = "";
                           }
                     }
                     //
@@ -87,6 +91,7 @@ Rectangle {
             Behavior on radius {
                 animation: bouncebehavior
             }
+
             states: [
                 State {
                     name: "selected"
@@ -148,9 +153,9 @@ Rectangle {
             preventStealing: true
             drag.target: container
             drag.minimumX: 0;
-            drag.maximumX: appWindow.width - container.width;
+            drag.maximumX: container.parent.width - container.width;
             drag.minimumY: 0;
-            drag.maximumY: appWindow.height - container.height;
+            drag.maximumY: container.parent.height - container.height;
             //
             //
             //
@@ -161,18 +166,27 @@ Rectangle {
                 mode = "drag"
                 previousX = mouse.x
                 previousY = mouse.y
+                flickAnimation.stop()
+                previousTime = new Date().getTime()
             }
             onReleased: {
                 if ( mode == "flick" ) {
-
+                    previousTime = new Date().getTime()
+                    flickAnimation.start()
                 }
             }
 
             onPositionChanged: {
-                var dx = mouse.x - previousX
-                var dy = mouse.y - previousY
-                var velocity = Math.sqrt(dx*dx+dy*dy)
-                if ( velocity > 20 ) {
+                var currentTime = new Date().getTime()
+                frameTime = currentTime - previousTime
+                previousTime = currentTime
+                vX = mouse.x - previousX
+                vY = mouse.y - previousY
+                previousX = mouse.x
+                previousY = mouse.y
+                var velocity = Math.sqrt(vX*vX+vY*vY)
+                //console.log( 'velocity=' + velocity )
+                if ( velocity > 5 ) {
                     mode = "flick"
                 } else {
                     mode = "drag"
@@ -180,5 +194,47 @@ Rectangle {
             }
         }
     }
-    Behavior on x { enabled: container.animated; SpringAnimation { spring: 3; damping: 0.3; mass: 1.0 } }
-    Behavior on y { enabled: container.animated; SpringAnimation { spring: 3; damping: 0.3; mass: 1.0 } }}
+    //
+    // flick animation
+    //
+    property real vX: 0
+    property real vY: 0
+    property real friction: 0.9
+    property int previousTime: 0
+    property real frameTime: 0
+    Timer {
+        id: flickAnimation
+        interval: 16
+        repeat: true
+        running: false
+        onTriggered: {
+            var currentTime = new Date().getTime()
+            var elapsed = currentTime - previousTime
+            previousTime = currentTime
+            var factor = elapsed / frameTime
+            parent.x += vX * factor
+            parent.y += vY * factor
+            vX *= friction;
+            vY *= friction;
+            if ( parent.x < 0 ) {
+                parent.x = 0
+                vX *= -1;
+            } else if ( parent.x + parent.width > parent.parent.width ) {
+                parent.x = parent.parent.width - parent.width
+                vX *= -1;
+            }
+            if ( parent.y <= 0 ) {
+                parent.y = 0
+                vY *= -1;
+            } else if ( parent.y + parent.height >= parent.parent.height ) {
+                parent.y = parent.parent.height - parent.height
+                vY *= -1;
+            }
+            var velocity = Math.sqrt(vX*vX+vY*vY)
+            if ( velocity <=  1 ) {
+                stop();
+            }
+            //console.log( 'vX=' + vX + ' vY=' + vY + ' factor=' + factor + ' frameTime=' + frameTime + ' elapsed=' + elapsed )
+        }
+    }
+}

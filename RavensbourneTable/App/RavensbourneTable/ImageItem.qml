@@ -39,6 +39,11 @@ EditableItem {
                 }
             }
         }
+        Rectangle {
+            anchors.fill: parent
+            border.color: "black"
+        }
+
         Image {
             id: editorImage
             anchors.fill: parent

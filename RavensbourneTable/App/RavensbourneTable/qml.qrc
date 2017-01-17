@@ -29,5 +29,9 @@
         <file>Puck.qml</file>
         <file>AddMenuModel.qml</file>
         <file>CircularListView.qml</file>
+        <file>icons/rotate-black.png</file>
+        <file>icons/scale-black.png</file>
+        <file>icons/move-black.png</file>
+        <file>icons/puck-black.png</file>
     </qresource>
 </RCC>

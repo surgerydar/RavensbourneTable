@@ -10,26 +10,12 @@ EditableItem {
         id: editor
         anchors.fill: parent
         anchors.margins: 46
-        ToolBar {
-            id: toolbar
-            height: 46
-            anchors.bottom: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            background : Rectangle {
-                anchors.fill: parent;
-                color: "#800000FF"
-            }
-            ToolButton {
-                id: bold
-                height: parent.height
-                anchors.left: parent.left
-                text: qsTr("Font")
-                onClicked: {
-                    chooseFont.visible = true
-                }
-            }
+
+        Rectangle {
+            anchors.fill: parent
+            border.color: 'black'
         }
+
         TextEdit {
             id: editorText
             anchors.fill: parent
@@ -37,8 +23,8 @@ EditableItem {
             padding: 8
             text: qsTr( "hello")
             textFormat: TextEdit.RichText
-            font.italic: italic.checked
             font.bold: bold.checked
+
         }
     }
     TextEdit {
@@ -62,6 +48,15 @@ EditableItem {
         onCurrentFontChanged: {
             editorText.font = font
             content.font = font
+        }
+    }
+    Component.onCompleted: {
+        if ( parent.parent.textFont ) {
+            console.log( "setting font");
+            editorText.font = parent.parent.textFont;
+            editorText.color = parent.parent.textColour;
+            content.font = parent.parent.textFont;
+            content.color = parent.parent.textColour;
         }
     }
 }

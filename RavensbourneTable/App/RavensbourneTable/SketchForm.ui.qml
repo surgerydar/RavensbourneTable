@@ -6,12 +6,14 @@ Item {
     property alias textButton: textButton
     property alias imageButton: imageButton
     property alias drawButton: drawButton
+    property alias selectButton: selectButton
+    property alias deleteButton: deleteButton
 
     MouseArea {
         id: sketch
         anchors.fill: parent
         ButtonGroup {
-            id : toolbuttons
+            id: toolbuttons
         }
         ToolBar {
             id: toolbar
@@ -55,6 +57,32 @@ Item {
                 text: qsTr("Draw")
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: imageButton.right
+                anchors.leftMargin: 4
+                checkable: true
+                ButtonGroup.group: toolbuttons
+            }
+
+            ToolButton {
+                id: selectButton
+                x: 254
+                y: 0
+                width: 80
+                text: qsTr("Select")
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: drawButton.right
+                anchors.leftMargin: 4
+                checkable: true
+                ButtonGroup.group: toolbuttons
+            }
+
+            ToolButton {
+                id: deleteButton
+                x: 340
+                y: 0
+                width: 80
+                text: qsTr("Delete")
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: selectButton.right
                 anchors.leftMargin: 4
                 checkable: true
                 ButtonGroup.group: toolbuttons

@@ -11,16 +11,20 @@ Item {
     Item {
         id: controls
         anchors.fill: parent
-        Item {
+        Image {
             id: move
             width: 46
             height: 46
             anchors.top: parent.top
             anchors.left: parent.left
+            source: "../icons/move-black.png"
+            fillMode: Image.PreserveAspectFit
+            /*
             Rectangle {
                 anchors.fill: parent
                 border.color: 'green'
             }
+            */
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
@@ -31,18 +35,20 @@ Item {
             }
         }
 
-        Item {
+        Image {
             id: rotate
             width: 46
             height: 46
-            anchors.top: parent.top
-            anchors.right: parent.right
-
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            source: "../icons/rotate-black.png"
+            fillMode: Image.PreserveAspectFit
+            /*
             Rectangle {
                 anchors.fill: parent
                 border.color: 'blue'
             }
-
+            */
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
@@ -77,18 +83,20 @@ Item {
 
         }
 
-        Item {
+        Image {
             id: scale
             width: 46
             height: 46
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-
+            source: "../icons/scale-black.png"
+            fillMode: Image.PreserveAspectFit
+            /*
             Rectangle {
                 anchors.fill: parent
                 border.color: 'red'
             }
-
+            */
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
@@ -109,22 +117,28 @@ Item {
 
         }
 
-        Item {
+        Image {
             id: close
             width: 46
             height: 46
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.right: parent.right
+            source: "../icons/puck-black.png"
+            fillMode: Image.PreserveAspectFit
+            /*
             Rectangle {
                 anchors.fill: parent
                 border.color: 'green'
             }
+            */
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
+                /*
                 onClicked: {
                     container.state = "display"
                 }
+                */
             }
         }
     }
