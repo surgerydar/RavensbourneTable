@@ -22,7 +22,7 @@ signals:
     void newCode(QString portname, QString barcode);
 
 public slots:
-
+    quint32 count();
 };
 
 #endif // BARCODESCANNER_H

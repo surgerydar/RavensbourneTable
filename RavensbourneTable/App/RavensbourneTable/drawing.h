@@ -15,6 +15,12 @@ public slots:
     //
     //
     //
+    void clear();
+    QVariant save();
+    void load( const QVariant& drawing );
+    //
+    //
+    //
     void startLine(QPoint p, QColor color);
     void endLine(QPoint p);
     void addPoint(QPoint p);

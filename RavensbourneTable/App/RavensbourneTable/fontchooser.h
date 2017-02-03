@@ -28,6 +28,10 @@ public:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    //
+    //
+    //
+    //void touchEvent(QTouchEvent* event) override;
 signals:
     void fontChanged( QFont font, QColor colour );
 

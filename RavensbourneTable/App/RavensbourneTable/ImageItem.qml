@@ -10,44 +10,22 @@ EditableItem {
         id: editor
         anchors.fill: parent
         anchors.margins: 46
-        ToolBar {
-            id: toolbar
-            height: 46
-            anchors.bottom: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            background : Rectangle {
-                anchors.fill: parent;
-                color: "#800000FF"
-            }
-            ToolButton {
-                id: selectImage
-                height: parent.height
-                anchors.left: parent.left
-                text: qsTr("Local Image")
-                onClicked: {
-                    selectImageDialog.visible = true;
-                }
-            }
-            ToolButton {
-                id: enterUrl
-                height: parent.height
-                anchors.left: selectImage.right
-                text: qsTr("Online Image")
-                onClicked: {
-                    selectImageDialog.visible = true;
-                }
-            }
-        }
+
         Rectangle {
             anchors.fill: parent
-            border.color: "black"
+            radius: 8
+            border.color: 'black'
+            border.width: 4
         }
 
         Image {
             id: editorImage
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
+            onStatusChanged: {
+                console.log( 'image item status changed : ' + status );
+                busyIndicator.visible = !(status === Image.Ready)
+            }
         }
     }
     Image {
@@ -59,21 +37,41 @@ EditableItem {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                container.state = "edit";
+                //container.state = "edit";
+                setActiveEditor(container);
             }
         }
     }
 
-    FileDialog {
-        id: selectImageDialog
-        title: "Choose an image"
-        folder: shortcuts.pictures
-        nameFilters: [ "Image files (*.jpg *.jpeg *.png *.gif)" ]
-        onAccepted: {
-            //
-            // TODO: need to import image, this would mean uploading to assets on server
-            //
-            editorImage.source = fileUrl
-        }
+    AnimatedImage {
+        id: busyIndicator
+        width: 48
+        height: 48
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: false
+        source:"icons/spinner.gif"
+    }
+
+    function setContent( source ) {
+        editorImage.source = source;
+    }
+
+    function save() {
+        var object = container.getGeometry();
+        object.type = "image";
+        object.source = editorImage.source;
+        return object;
+    }
+
+    function setup(param) {
+        container.setGeometry(param);
+        editorImage.source = param.source;
+    }
+
+    function hasContent() {
+        console.log( 'image source : ' + editorImage.source );
+
+        return editorImage.source.length !== "";
     }
 }

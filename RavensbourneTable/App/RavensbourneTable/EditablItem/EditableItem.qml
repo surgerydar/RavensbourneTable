@@ -118,7 +118,7 @@ Item {
         }
 
         Image {
-            id: close
+            id: propertyToggle
             width: 46
             height: 46
             anchors.top: parent.top
@@ -134,11 +134,14 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 preventStealing: true
-                /*
+
                 onClicked: {
-                    container.state = "display"
+                    if ( propertyEditor ) {
+                        propertyEditor.visible = !propertyEditor.visible
+                        propertyToggle.source = !propertyEditor.visible ? "../icons/puck-black.png" : "../icons/hide-puck-black.png"
+                    }
                 }
-                */
+
             }
         }
     }
@@ -247,4 +250,21 @@ Item {
         container.y = container.scalingParams.y + ( -1 * ( dHeight / 2 ) );
     }
 
+    function getGeometry() {
+        return {
+            x: container.x,
+            y: container.y,
+            width: container.width,
+            height: container.height,
+            rotation: container.rotation
+        };
+    }
+
+    function setGeometry(param) {
+        container.x = param.x;
+        container.y = param.y;
+        container.width = param.width;
+        container.height = param.height;
+        container.rotation = param.rotation;
+    }
 }

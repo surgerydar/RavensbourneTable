@@ -6,35 +6,28 @@ ListModel {
         icon: "icons/rotate.png"
     }
     ListElement {
-        name: "docs"
-        icon: "icons/docs.png"
-        type: "action"
-        action: "browsedocuments"
-    }
-    ListElement {
-        name: "add"
-        icon: "icons/add.png"
-        type: "submenu"
-        model: "AddItem.qml"
-    }
-    ListElement {
-        name: "user"
-        icon: "icons/user.png"
-    }
-    ListElement {
-        name: "search"
-        icon: "icons/search.png"
-    }
-    ListElement {
-        name: "create"
+        name: "draw"
         icon: "icons/create.png"
+        action: "draw"
     }
     ListElement {
         name: "image"
         icon: "icons/image.png"
+        action: "image"
     }
     ListElement {
         name: "text"
         icon: "icons/text.png"
+        action: "text"
+    }
+    ListElement {
+        name: "delete"
+        icon: "icons/delete-white.png"
+        action: "delete"
+    }
+    ListElement {
+        name: "back"
+        icon: "icons/down_arrow-white.png"
+        action: "back"
     }
 }

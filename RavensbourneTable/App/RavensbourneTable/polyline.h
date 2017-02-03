@@ -21,18 +21,18 @@ public:
     //
     //
     //
-    QVector<QVector2D>& points() { return m_points; };
+    QVector<QVector2D>& points() { return m_points; }
     QPolygonF& polygon();
     //
     //
     //
-    void setColour(const QColor& colour) { m_colour = colour; };
-    QColor getColour() const { return m_colour; };
+    void setColour(const QColor& colour) { m_colour = colour; }
+    QColor getColour() const { return m_colour; }
     //
     //
     //
-    void setLineWidth( int width ) { m_lineWidth = width; };
-    int getLineWidth() const { return m_lineWidth; };
+    void setLineWidth( int width ) { m_lineWidth = width; }
+    int getLineWidth() const { return m_lineWidth; }
     //
     //
     //
@@ -55,6 +55,8 @@ public:
     std::vector<QVector2D>::reverse_iterator rend();
     std::vector<QVector2D>::const_reverse_iterator rend() const;
     */
+    QVariant save();
+    void load( const QVariant& line );
 private:
     QVector<QVector2D>      m_points;
     QColor                  m_colour;

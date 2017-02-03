@@ -30,19 +30,20 @@ Rectangle {
         width: 240
         height: 240
         radius: 120
-        color: "gray" // export
+        color: colourTurquoise
     }
     //
     // menu item delegate
     //
     Component {
         id: delegate
+        //property string action: action
         Rectangle {
             id: wrapper
             width: 64;
             height: 64;
             radius: 32;
-            color: "gray"
+            color: colourTurquoise
             rotation: PathView.itemRotation
             Image {
                 anchors.fill: parent
@@ -67,6 +68,8 @@ Rectangle {
                             view.children[i].state = "";
                           }
                     }
+                    console.log( 'puck action : ' + action );
+                    container.action(action);
                     //
                     // TODO: interpret action
                     //
@@ -237,4 +240,23 @@ Rectangle {
             //console.log( 'vX=' + vX + ' vY=' + vY + ' factor=' + factor + ' frameTime=' + frameTime + ' elapsed=' + elapsed )
         }
     }
+    //
+    //
+    //
+    function reset() {
+        var view = menu;
+        if ( view ) {
+            var count = view.children.length;
+            for(var i = 0; i < count; ++i) {
+                view.children[i].state = "";
+            }
+        } else {
+            console.log('unable to reset puck, no view');
+        }
+    }
+
+    //
+    // signals
+    //
+    signal action( string action );
 }

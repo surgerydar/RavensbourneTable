@@ -53,6 +53,10 @@ void ColourChooser::paint(QPainter *painter) {
 //
 void ColourChooser::setColour( QColor colour ) {
     m_colour = colour;
+    //
+    // request redraw
+    //
+    update();
 }
 
 void ColourChooser::setColourFromPoint( QPoint p ) {

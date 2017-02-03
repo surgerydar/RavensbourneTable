@@ -3,15 +3,17 @@ import QtQuick.Controls 2.0
 
 Item {
     property alias sketch: sketch
+    /*
     property alias textButton: textButton
     property alias imageButton: imageButton
     property alias drawButton: drawButton
     property alias selectButton: selectButton
     property alias deleteButton: deleteButton
-
+    */
     MouseArea {
         id: sketch
         anchors.fill: parent
+        /*
         ButtonGroup {
             id: toolbuttons
         }
@@ -88,5 +90,6 @@ Item {
                 ButtonGroup.group: toolbuttons
             }
         }
+        */
     }
 }

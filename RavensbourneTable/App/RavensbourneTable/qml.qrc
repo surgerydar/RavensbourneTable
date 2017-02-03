@@ -1,17 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Page1.qml</file>
-        <file>Page1Form.ui.qml</file>
         <file>Sketch.qml</file>
         <file>SketchForm.ui.qml</file>
         <file>Sketch.js</file>
         <file>TextItem.qml</file>
         <file>GeometryUtils.js</file>
         <file>EditablItem/EditableItem.qml</file>
-        <file>barcodescanner.cpp</file>
-        <file>barcodescanner.h</file>
-        <file>main.cpp</file>
         <file>ImageItem.qml</file>
         <file>MenuTest.qml</file>
         <file>MenuTestForm.ui.qml</file>
@@ -33,5 +28,39 @@
         <file>icons/scale-black.png</file>
         <file>icons/move-black.png</file>
         <file>icons/puck-black.png</file>
+        <file>icons/hide-puck-black.png</file>
+        <file>Fingerprint.qml</file>
+        <file>Barcode.qml</file>
+        <file>Attractor.qml</file>
+        <file>Blob.qml</file>
+        <file>EnrollFingerprint.qml</file>
+        <file>Home.qml</file>
+        <file>RotatableDialog.qml</file>
+        <file>fonts/RavensbourneSans-Bold.otf</file>
+        <file>fonts/RavensbourneSans-ExtraBold.otf</file>
+        <file>fonts/RavensbourneSans-Regular.otf</file>
+        <file>Browser.qml</file>
+        <file>MaterialBrowser.qml</file>
+        <file>icons/add-black.png</file>
+        <file>icons/back_arrow-black.png</file>
+        <file>icons/spinner.gif</file>
+        <file>icons/back_arrow-white.png</file>
+        <file>icons/delete-black.png</file>
+        <file>icons/delete-white.png</file>
+        <file>icons/down_arrow-black.png</file>
+        <file>icons/forward_arrow-black.png</file>
+        <file>icons/up_arrow-black.png</file>
+        <file>icons/down_arrow-white.png</file>
+        <file>SketchIcon.qml</file>
+        <file>icons/fingerprint-black.png</file>
+        <file>icons/fingerprint-white.png</file>
+        <file>ImageBrowser.qml</file>
+        <file>DemoMaterialBrowser.qml</file>
+        <file>icons/rectangular-frame.svg</file>
+        <file>UserIcon.qml</file>
+        <file>Utils.js</file>
+        <file>icons/open-black.png</file>
+        <file>icons/open-white.png</file>
+        <file>icons/forward_arrow-white.png</file>
     </qresource>
 </RCC>

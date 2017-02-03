@@ -28,27 +28,32 @@ void BarcodeScanner::connect() {
     const std::string query_firmware( "$+$!\r" );
     for ( QList<QSerialPortInfo>::iterator it = info_list.begin(); it != info_list.end(); ++it ) {
         QString port_name = it->portName();
-        const QString pattern("cu.");
+        qDebug() << "port:" << port_name;
+        const QString pattern("COM");
         if ( port_name.startsWith(pattern) ) { // filtering for macos TODO
             qDebug() << port_name;
             QSerialPort* port = new QSerialPort();
             port->setPort(*it);
             port->setBaudRate(QSerialPort::Baud115200);
             bool retain_port = false;
+            QByteArray data;
             if ( port->open(QIODevice::ReadWrite) ) {
                 qDebug() << "port open";
                 port->write(query_firmware.c_str(),query_firmware.length());
-                if ( port->waitForReadyRead(1000) ) {
+
+                if ( port->waitForReadyRead(10000) ) {
                     qDebug() << "port has data";
-                    // expected : Gryphon-GFS4470 SOFTWARE RELEASE 610015505 BUILD 0.0.0.015 17 Dec, 2013
-                    QByteArray data;
+                    // expected : Gryphon-GFS4470 SOFTWARE RELEASE 610015505 BUILD 0.0.0.015 17 Dec, 2013\r
+                    // TODO: read until we get the \r ?
                     while (!port->atEnd()) {
                         data.append(port->read(100));
                     }
                     if ( data.size() > 0 ) {
                         qDebug() << data;
                         QByteArray signature("Gryphon");
-                        retain_port = data.startsWith(signature);
+                        retain_port = data.contains(signature);
+                        const std::string query_trigger( "$+$!\r" );
+                        //retain_port = data.startsWith(signature);
                     } else {
                         qDebug() << "no data from port";
                     }
@@ -59,6 +64,7 @@ void BarcodeScanner::connect() {
                 qDebug() << "unable to open port";
             }
             if ( !retain_port ) {
+                qDebug() << "discarding port : " << port_name << " : response : " << data;
                 delete port;
             } else {
 
@@ -89,6 +95,10 @@ void BarcodeScanner::readData( const QString& port_name ) {
     if ( data.size() > 0 ) {
         qDebug() << port_name << " : " << data;
         QString barcode = QString::fromLatin1(data.data()).trimmed();
+        //
+        // TODO: filter barcodes, specifically ignore incomplete firmware response
+        //
+        //if ( barcode)
         emit newCode( port_name, barcode );
     }
 }
@@ -99,3 +109,11 @@ BarcodeScanner* BarcodeScanner::shared() {
     }
     return s_shared;
 }
+
+//
+// slots
+//
+quint32 BarcodeScanner::count() {
+    return m_ports.size();
+}
+

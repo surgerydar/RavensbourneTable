@@ -89,7 +89,6 @@ void FontChooser::paint(QPainter *painter) {
     QFontMetricsF metrics = painter->fontMetrics();
     QRectF textBounds = metrics.tightBoundingRect("Aa");
     painter->drawText(cp.x()-textBounds.width()/2.,cp.y()+textBounds.height()/2.,"Aa");
-
     //
     // draw outline
     //
@@ -127,6 +126,12 @@ void FontChooser::mouseReleaseEvent(QMouseEvent *event) {
         event->ignore();
     }
 }
+
+/*
+void FontChooser::touchEvent(QTouchEvent* event) {
+
+}
+*/
 //
 //
 //

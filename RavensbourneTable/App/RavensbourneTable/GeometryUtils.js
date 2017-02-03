@@ -65,6 +65,10 @@ function distance( a, b ) {
     return Math.sqrt( d.x * d.x + d.y * d.y )
 }
 
+function length( a ) {
+    return Math.sqrt( a.x * a.x + a.y * a.y )
+}
+
 function distanceSquared( a, b ) {
     var d = subtract( a, b );
     return d.x * d.x + d.y * d.y

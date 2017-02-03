@@ -1,4 +1,8 @@
+#include <QVariant>
+#include <QVariantList>
+#include <QVariantMap>
 #include <QPainter>
+#include <QDebug>
 #include "drawing.h"
 
 const float lengthThreshold = 8.;
@@ -20,6 +24,30 @@ void Drawing::paint(QPainter *painter) {
 //
 //
 //
+void Drawing::clear() {
+    m_lines.clear();
+    update();
+}
+QVariant Drawing::save() {
+    QVariantList lines;
+    for ( auto& line : m_lines ) {
+        lines.append(line.save());
+    }
+    return QVariant::fromValue(lines);
+}
+
+void Drawing::load( const QVariant& drawing ) {
+    QVariantList lines = drawing.toList();
+    clear();
+    int count = lines.size();
+    qDebug() << "Drawing::load : " << count << " lines";
+    m_lines.resize(count);
+    for ( int i = 0; i < count; i++ ) {
+        m_lines[i].load(lines[i]);
+    }
+    update();
+}
+
 void Drawing::startLine(QPoint p, QColor colour) {
     m_lines.push_back(PolyLine());
     m_lines.back().setColour(colour);
@@ -38,7 +66,7 @@ void Drawing::endLine(QPoint p) {
 
 void Drawing::addPoint(QPoint p) {
     QVector2D v(p.x(),p.y());
-    if ( (v - m_lastPoint ).length() < lengthThreshold ) return;
+    if ( (v - m_lastPoint ).length() < lengthThreshold ) return; // TODO: move threshol into Polyline
     m_lines.back().curveto(v);
     m_lastPoint = v;
     update();
