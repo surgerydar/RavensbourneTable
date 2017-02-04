@@ -44,6 +44,7 @@ Rectangle {
             height: 64;
             radius: 32;
             color: colourTurquoise
+            border.color: "transparent"
             rotation: PathView.itemRotation
             Image {
                 anchors.fill: parent
@@ -70,15 +71,10 @@ Rectangle {
                     }
                     console.log( 'puck action : ' + action );
                     container.action(action);
-                    //
-                    // TODO: interpret action
-                    //
-                    /*
-                    if ( action ) {
-                        container.performAction(action);
-                    }
-                    */
                 }
+            }
+            function getAction() {
+                return action;
             }
 
             Behavior on width {
@@ -109,6 +105,11 @@ Rectangle {
                     PropertyChanges {
                         target: wrapper;
                         radius: 42
+                    }
+                    PropertyChanges {
+                        target: wrapper;
+                        border.color: "white"
+                        border.width: 4
                     }
                 }
              ]
@@ -254,7 +255,22 @@ Rectangle {
             console.log('unable to reset puck, no view');
         }
     }
+    function selectTool( tool ) {
+        var view = menu;
+        if ( view ) {
+            console.log( 'setting puck tool' );
+            var count = view.children.length;
+            for(var i = 0; i < count; ++i) {
+                console.log( 'puck tool : ' + view.children[i].getAction );
+                if ( view.children[i].getAction ) {
+                    view.children[i].state = view.children[i].getAction() === tool ? "selected" : "";
+                }
+            }
+        } else {
+            console.log('unable to set puck tool, no view');
+        }
 
+    }
     //
     // signals
     //

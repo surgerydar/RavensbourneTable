@@ -1,4 +1,4 @@
-#include <QDebug>>
+#include <QDebug>
 #include "segmentbuttongroup.h"
 
 SegmentButtonGroup::SegmentButtonGroup(qreal startAngle, qreal sweep) : SegmentControl(startAngle,sweep) {

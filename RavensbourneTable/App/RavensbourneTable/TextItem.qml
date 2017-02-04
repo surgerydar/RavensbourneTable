@@ -8,6 +8,7 @@ import QtQuick.VirtualKeyboard 2.1
 
 EditableItem {
     id: container
+    property string type: "text"
     Item {
         id: editor
         anchors.fill: parent
@@ -24,11 +25,14 @@ EditableItem {
             id: editorText
             anchors.fill: parent
             padding: 8
-            text: qsTr( "Enter Text")
             textFormat: TextEdit.PlainText
             wrapMode: TextEdit.Wrap
             clip: true
+            /*
             onFocusChanged: {
+                //
+                // TODO: shift this to global focus hook
+                //
                 if( editorText.focus ) {
                     if ( container.rotation > 90 && container.rotation < 270 ) {
                         inputPanel.y        = inputPanel.parent.y;
@@ -42,6 +46,7 @@ EditableItem {
                     inputPanel.rotation = 0;
                 }
             }
+            */
         }
 
         FontChooser {
@@ -80,10 +85,25 @@ EditableItem {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                setActiveEditor(container);
+                setActiveEditor(container,"text");
             }
         }
     }
+    Text {
+        visible: editorText.text.length <= 0
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.verticalCenter: parent.verticalCenter
+        color: "#EEEDEB"
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: 32
+        text: "Enter Text"
+        clip: true
+    }
+
     function setContent( text ) {
         editorText.text = text;
     }

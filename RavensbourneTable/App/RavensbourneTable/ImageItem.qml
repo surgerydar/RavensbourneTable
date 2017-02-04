@@ -38,7 +38,7 @@ EditableItem {
             anchors.fill: parent
             onClicked: {
                 //container.state = "edit";
-                setActiveEditor(container);
+                setActiveEditor(container,"image");
             }
         }
     }

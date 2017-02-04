@@ -17,6 +17,11 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: colourTurquoise
+        MouseArea {
+            onClicked: {
+
+            }
+        }
     }
 
     RowLayout {
@@ -58,9 +63,6 @@ Item {
                     onClicked: {
                         webBrowser.goForward();
                     }
-                    onHoveredChanged: {
-                        console.log( 'height=' + this.height );
-                    }
                 }
             }
         }
@@ -89,6 +91,7 @@ Item {
                 }
                 webBrowser.url = url;
             }
+            /*
             onFocusChanged: {
                 if( urlBar.focus ) {
                     if ( parent.rotation > 0 ) {
@@ -103,6 +106,7 @@ Item {
                     inputPanel.rotation = 0;
                 }
             }
+            */
         }
     }
     WebEngineView {
@@ -250,5 +254,7 @@ Item {
 
     function hide() {
         me.x = -(me.width+24);
+        webBrowser.url = "";
+
     }
 }

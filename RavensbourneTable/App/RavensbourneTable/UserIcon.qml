@@ -104,7 +104,6 @@ Item {
     //
     //
     function showPopup() {
-        console.log( 'container.parent = ' + container.parent );
         var count = container.parent.children.length;
         for ( var i = 0; i < count; i++ ) {
             console.log('hiding popup : ' + i);

@@ -18,7 +18,9 @@ SOURCES += main.cpp \
     segmentbuttongroup.cpp \
     fingerprintscanner.cpp \
     database.cpp \
-    timeout.cpp
+    timeout.cpp \
+    keyboardfocuslistener.cpp \
+    googleimagelistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,19 +32,19 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-LIBS += -L$$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfj
+LIBS += -L'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfj
 
-INCLUDEPATH += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Include'
-DEPENDPATH += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Include'
+INCLUDEPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+DEPENDPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
 
-PRE_TARGETDEPS += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfj.lib'
+PRE_TARGETDEPS += 'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfj.lib'
 
-LIBS += -L$$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfpdd
+LIBS += -L'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfpdd
 
-INCLUDEPATH += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Include'
-DEPENDPATH += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Include'
+INCLUDEPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+DEPENDPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
 
-PRE_TARGETDEPS += $$PWD/'../../../Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfpdd.lib'
+PRE_TARGETDEPS += 'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfpdd.lib'
 
 HEADERS += \
     barcodescanner.h \
@@ -59,6 +61,9 @@ HEADERS += \
     segmentbuttongroup.h \
     fingerprintscanner.h \
     database.h \
-    timeout.h
+    timeout.h \
+    keyboardfocuslistener.h \
+    googleimagelistmodel.h
 
-DISTFILES +=
+DISTFILES += \
+    Request.js

@@ -129,7 +129,7 @@ Item {
                     item.sketch = param.sketch;
                     item.user = param.user;
                     item.app = param.app;
-                    item.home = param.home;
+                    item.home = appWindow.sceneId('Home');
                     item.name.text = param.sketch.material.name || param.sketch.icon;
                 }
             }

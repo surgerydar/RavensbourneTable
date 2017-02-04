@@ -11,6 +11,7 @@
 #include "fingerprintscanner.h"
 #include "database.h"
 #include "timeout.h"
+#include "keyboardfocuslistener.h"
 
 void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
     QString txt;
@@ -49,6 +50,7 @@ int main(int argc, char *argv[]) {
     //
     //
     app.installEventFilter(Timeout::shared());
+    app.installEventFilter(KeyboardFocusListener::shared());
     //
     //
     //
@@ -74,6 +76,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("FingerprintScanner", FingerprintScanner::shared());
     engine.rootContext()->setContextProperty("Database", Database::shared());
     engine.rootContext()->setContextProperty("Timeout", Timeout::shared());
+    engine.rootContext()->setContextProperty("KeyboardFocusListener", KeyboardFocusListener::shared());
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();

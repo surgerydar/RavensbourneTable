@@ -107,6 +107,7 @@ RotatableDialog {
                 border.color: "transparent"
             }
             font.pixelSize: textFieldFontsize
+            /*
             onFocusChanged: {
                 if( username.focus ) {
                     if ( parent.parent.parent.rotation > 0 ) {
@@ -121,6 +122,7 @@ RotatableDialog {
                     inputPanel.rotation = 0;
                 }
             }
+            */
         }
         TextField {
             id: email
@@ -137,6 +139,7 @@ RotatableDialog {
                 border.color: "transparent"
             }
             font.pixelSize: textFieldFontsize
+            /*
             onFocusChanged: {
                 if( email.focus ) {
                     if ( parent.parent.parent.rotation > 0 ) {
@@ -151,6 +154,7 @@ RotatableDialog {
                     inputPanel.rotation = 0;
                 }
             }
+            */
         }
     }
 

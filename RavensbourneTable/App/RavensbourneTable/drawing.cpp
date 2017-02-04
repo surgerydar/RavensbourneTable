@@ -75,7 +75,6 @@ void Drawing::addPoint(QPoint p) {
 //
 //
 int Drawing::pathAt( QPoint p ) {
-    qint32 index = -1;
     float minDistance = std::numeric_limits<float>::max();
     int currentNearest = -1;
     int count = m_lines.size();

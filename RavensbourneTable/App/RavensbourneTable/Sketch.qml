@@ -188,6 +188,7 @@ SketchForm {
         }
         onAction: {
             console.log( "action from puck : " + action )
+            setActiveEditor(null)
             setTool(action);
         }
     }
@@ -262,9 +263,9 @@ SketchForm {
         }
     }
 
-    function setActiveEditor( item ) {
+    function setActiveEditor( item, itemTool ) {
         if ( activeEditor ) {
-            if ( !activeEditor.hasContent() ) {
+            if ( !activeEditor.hasContent() ) { // Remove empty items
                 activeEditor.destroy();
             }
             activeEditor.state = "display"
@@ -277,11 +278,15 @@ SketchForm {
                 activeEditor.state = "edit"
             }
         }
+        if ( itemTool ) {
+            setTool( itemTool );
+            puck.selectTool(itemTool); // only set puck if tool is specified
+        }
     }
 
     function setTool( newTool ) {
         tool = newTool;
-        setActiveEditor(null);
+        //setActiveEditor(null);
         colourChooserTop.visible = false;
         colourChooserBottom.visible = false;
         enableSketchItems();

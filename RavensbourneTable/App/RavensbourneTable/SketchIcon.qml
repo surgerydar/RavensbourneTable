@@ -1,6 +1,13 @@
 import QtQuick 2.0
 
 Blob {
+    //
+    //
+    //
+    color: "#00D2C2"
+    //
+    //
+    //
     property var user: null
     property var sketch: null
     property Image icon: icon

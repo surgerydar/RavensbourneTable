@@ -109,6 +109,10 @@ ApplicationWindow {
             rotation: 0
             z: 4
     }
+
+    TimeoutDialog {
+        id: timeoutDialog
+    }
     /*
     //
     // TODO: loose this in production
@@ -260,10 +264,46 @@ ApplicationWindow {
     Connections {
         target: Timeout
         onTimeout: {
-            enrollFingerprint.cancel();
-            materialBrowser.hide();
-            imageBrowser.hide();
-            go( 'Attractor' );
+            if ( currentScene !== attractor ) {
+                timeoutDialog.show( function() {
+                    enrollFingerprint.cancel();
+                    materialBrowser.hide();
+                    imageBrowser.hide();
+                    go( 'Attractor' );
+                });
+                /*
+                enrollFingerprint.cancel();
+                materialBrowser.hide();
+                imageBrowser.hide();
+                go( 'Attractor' );
+                */
+            }
         }
     }
+    //
+    //
+    //
+    Connections {
+        target: KeyboardFocusListener
+        onFocusChanged: {
+            //
+            // TODO: prevent keyboard from overlapping focus item
+            //
+            console.log( 'KeyboardFocusListener.onFocusChange : ' + hasFocus );
+            if ( hasFocus ) {
+                if ( itemOrientation > 0 ) {
+                    inputPanel.y           = inputPanel.parent.y;
+                    inputPanel.rotation    = 180;
+                } else {
+                    inputPanel.y           = inputPanel.parent.height - inputPanel.height;
+                    inputPanel.rotation    = 0;
+                }
+            } else {
+                // TODO: check nothing else has focus
+                inputPanel.y = inputPanel.parent.height;
+                inputPanel.rotation = 0;
+            }
+        }
+    }
+
 }

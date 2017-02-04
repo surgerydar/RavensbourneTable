@@ -32,6 +32,7 @@ Item {
             // product name "ctl00_phMain_lblProductName" / "ctl00_phMain_lblProductName"
             // product manufacturer "ctl00_phMain_lblManufacturerName" /
             // product code "ctl00_phMain_lblMCNumber" library code
+            // product description "ctl00_phMain_lblDesc"
             //
             switch( loadRequest.status ) {
             case WebEngineView.LoadStartedStatus :
