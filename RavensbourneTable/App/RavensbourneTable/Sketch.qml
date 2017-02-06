@@ -80,38 +80,43 @@ SketchForm {
             var position = { x: drop.x, y: drop.y };
             if ( drop.hasUrls ) { // TODO: derive drop type from extension ???
                 var count = drop.urls.length;
-                for ( var i = 0; i < count; i++ ) {
-                    console.log("url:" + drop.urls[ 0 ]);
+                /*
+                  https://www.google.com/imgres?imgurl=https%3A%2F%2Fstatic.pexels.com%2Fphotos%2F139306%2Fpexels-photo-139306.jpeg&imgrefurl=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fwood%2F&docid=ObSyaY-oy3jODM&tbnid=0mF206UesQ2xoM%3A&vet=1&w=4256&h=2832&bih=1000&biw=928&q=wood&ved=0ahUKEwiUxsr9jvTRAhXJKMAKHRveCqQQMwhaKAEwAQ&iact=mrc&uact=8
+                  */
+                var imageLink = drop.urls[ 0 ];
+                var imgUrlStartIndex = imageLink.indexOf('imgurl=');
+                if ( imgUrlStartIndex > 0 ) {
+                    imgUrlStartIndex += 'imgurl='.length;
+                    var imageUrlEndIndex = imageLink.indexOf('&',imgUrlStartIndex);
+                    imageLink = decodeURIComponent(imageLink.substring( imgUrlStartIndex, imageUrlEndIndex ));
+                    console.log("full link:" + imageLink);
                 }
-                source = tool === "image" ? "ImageItem.qml" : "TextItem.qml";
-                createSketchItem(source, position, function(item) {
-                    /*
-                      https://www.google.com/imgres?imgurl=https%3A%2F%2Fstatic.pexels.com%2Fphotos%2F139306%2Fpexels-photo-139306.jpeg&imgrefurl=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fwood%2F&docid=ObSyaY-oy3jODM&tbnid=0mF206UesQ2xoM%3A&vet=1&w=4256&h=2832&bih=1000&biw=928&q=wood&ved=0ahUKEwiUxsr9jvTRAhXJKMAKHRveCqQQMwhaKAEwAQ&iact=mrc&uact=8
-                      */
-                    var fullLink = drop.urls[ 0 ];
-                    var imgUrlStartIndex = fullLink.indexOf('imgurl=');
-                    if ( imgUrlStartIndex > 0 ) {
-                        imgUrlStartIndex += 'imgurl='.length;
-                        var imageUrlEndIndex = fullLink.indexOf('&',imgUrlStartIndex);
-                        fullLink = decodeURIComponent(fullLink.substring( imgUrlStartIndex, imageUrlEndIndex ));
-                        console.log("full link:" + fullLink);
-                    }
+                if ( activeEditor && activeEditor.type === "image" ) {
+                    activeEditor.setContent(imageLink)
+                } else {
+                    source = tool === "image" ? "ImageItem.qml" : "TextItem.qml";
+                    createSketchItem(source, position, function(item) {
 
-                    //console.log("url:" + drop.urls[ 0 ]);
-                    //var url = Qt.resolvedUrl(fullLink);
-                    //console.log("resolved url:" + url);
-                    item.setContent(fullLink);
-                    setActiveEditor(item);
-                });
+                        //console.log("url:" + drop.urls[ 0 ]);
+                        //var url = Qt.resolvedUrl(fullLink);
+                        //console.log("resolved url:" + url);
+                        item.setContent(imageLink);
+                        setActiveEditor(item);
+                    });
+                }
                 drop.accept();
             } else if ( drop.hasText ) {
-                console.log( "drop : " + drop.text )
-                source = "TextItem.qml";
-                tool = "text";
-                createSketchItem(source, position, function(item) {
-                    item.setContent( drop.text );
-                    setActiveEditor(item);
-                });
+                console.log( "drop : " + drop.text );
+                if ( activeEditor && activeEditor.type === "text" ) {
+                    activeEditor.setContent( drop.text );
+                } else {
+                    source = "TextItem.qml";
+                    tool = "text";
+                    createSketchItem(source, position, function(item) {
+                        item.setContent( drop.text );
+                        setActiveEditor(item);
+                    });
+                }
                 drop.accept();
             }
 
@@ -263,7 +268,7 @@ SketchForm {
         }
     }
 
-    function setActiveEditor( item, itemTool ) {
+    function setActiveEditor( item, itemTool, param ) {
         if ( activeEditor ) {
             if ( !activeEditor.hasContent() ) { // Remove empty items
                 activeEditor.destroy();
@@ -279,12 +284,12 @@ SketchForm {
             }
         }
         if ( itemTool ) {
-            setTool( itemTool );
+            setTool( itemTool, param );
             puck.selectTool(itemTool); // only set puck if tool is specified
         }
     }
 
-    function setTool( newTool ) {
+    function setTool( newTool, param ) {
         tool = newTool;
         //setActiveEditor(null);
         colourChooserTop.visible = false;
@@ -293,7 +298,7 @@ SketchForm {
         drawingLine = false;
         switch( tool ) {
         case "image" :
-            imageBrowser.show();
+            if ( !param || !param.no_options ) imageBrowser.show();
             break;
         case "text" :
             break;
@@ -304,10 +309,10 @@ SketchForm {
             break;
         case "back" :
             save();
-            var param = {
+            var homeParams = {
                 user: user
             };
-            appWindow.go("Home",param);
+            appWindow.go("Home",homeParams);
             break;
         case "delete" :
             break;
@@ -350,7 +355,6 @@ SketchForm {
         //
         // process params
         //
-        console.log('setup : ' + JSON.stringify(param));
         if ( param ) {
             //
             // store user

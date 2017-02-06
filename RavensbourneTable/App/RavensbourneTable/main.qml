@@ -94,6 +94,11 @@ ApplicationWindow {
         id: imageBrowser
     }
 
+    /*
+    GoogleImageBrowser {
+        id: imageBrowser
+    }
+    */
     EnrollFingerprint {
         id: enrollFingerprint
         z: 2

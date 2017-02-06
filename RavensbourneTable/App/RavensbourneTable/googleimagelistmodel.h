@@ -1,9 +1,10 @@
 #ifndef GOOGLEIMAGELISTMODEL_H
 #define GOOGLEIMAGELISTMODEL_H
 
-#include <QAbstractListModel>
+#include <QStringListModel>
+#include <QNetworkAccessManager>
 
-class GoogleImageListModel : public QAbstractListModel
+class GoogleImageListModel : public QStringListModel
 {
     Q_OBJECT
 
@@ -18,7 +19,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    static GoogleImageListModel* shared();
+public slots:
+    void search( QString term );
+private slots:
+    void replyFinished(QNetworkReply* reply);
 private:
+    static GoogleImageListModel*    s_shared;
+    QNetworkAccessManager*          m_net;
+    QStringList                     m_results;
 };
 
 #endif // GOOGLEIMAGELISTMODEL_H

@@ -124,6 +124,10 @@ EditableItem {
     function hasContent() {
         return editorText.text.length > 0;
     }
+    function showPropertyEditor() {
+        propertyEditor.visible = !propertyEditor.visible
+        propertyToggle.source = !propertyEditor.visible ? "../icons/puck-black.png" : "../icons/hide-puck-black.png"
+    }
 
     Component.onCompleted: {
         if ( parent.parent.textFont ) {

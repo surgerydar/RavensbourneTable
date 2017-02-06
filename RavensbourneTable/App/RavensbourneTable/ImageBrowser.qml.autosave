@@ -238,7 +238,7 @@ Item {
     //
     //
     Component.onCompleted: {
-        me = this;
+        me = this; // JONS: do I need this ? I think all properties are in scope 
     }
     //
     //
@@ -248,7 +248,6 @@ Item {
     //
     //
     function show() {
-        //webBrowser.url = "https://images.google.com";
         me.x = 0;
     }
 

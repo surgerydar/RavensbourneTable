@@ -32,6 +32,7 @@ Item {
         anchors.rightMargin: parent.rotation === 0 ? 32 : 8
         anchors.top: parent.top
         anchors.topMargin: 8
+        /*
         Rectangle {
             width: 48
             height: 48
@@ -66,13 +67,13 @@ Item {
                 }
             }
         }
-
+        */
         TextField {
             id: urlBar
             height: textFieldHeight
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            placeholderText: "enter search or url"
+            placeholderText: "search for images of ..."
             background: Rectangle {
                 radius: height / 2
                 color: "white"
@@ -83,79 +84,38 @@ Item {
             //
             //
             onAccepted: {
-                var url = this.text;
-                if ( url.indexOf( 'http://' ) !== 0 ||  url.indexOf( 'https://' ) !== 0 ) {
-                    //
-                    //
-                    url = 'http://google.com/search?tbm=isch&q=' + url.replace( ' ', '+' );
-                }
-                webBrowser.url = url;
+                var term = encodeURIComponent(text);
+                console.log( 'image search : ' + term )
+                GoogleImageListModel.search(term);
             }
-            /*
-            onFocusChanged: {
-                if( urlBar.focus ) {
-                    if ( parent.rotation > 0 ) {
-                        inputPanel.y        = inputPanel.parent.y;
-                        inputPanel.rotation = 180;
-                    } else {
-                        inputPanel.y        = inputPanel.parent.height - inputPanel.height;
-                        inputPanel.rotation = 0;
-                    }
-                } else {
-                    inputPanel.y = inputPanel.parent.height;
-                    inputPanel.rotation = 0;
-                }
-            }
-            */
+
         }
     }
-    WebEngineView {
-        id: webBrowser
+
+    GridView {
+        id: imageList
         anchors.fill: parent
         anchors.rightMargin: parent.rotation === 0 ? 32 : 0
         anchors.leftMargin: parent.rotation === 0 ? 0 : 32
         anchors.topMargin: 80
-        backgroundColor: colourTurquoise
-        onNewViewRequested: function(request) { // open all
-            request.openIn(webBrowser);
-        }
-        onLoadingChanged: {
-            switch( loadRequest.status ) {
-            case WebEngineView.LoadStartedStatus :
-                busyIndicator.visible = true;
-                break;
-            case WebEngineView.LoadSucceededStatus :
-                // "rshdr" - google images nav bar ???
-                // "sfbgg" - google images search bar
-                webBrowser.runJavaScript("var _nav_bar = document.querySelector('#rshdr'); if ( _nav_bar ) _nav_bar.style.display='none';");
-                webBrowser.runJavaScript("var _search_bar = document.querySelector('#qbc'); if ( _search_bar ) _search_bar.style.display='none';");
-                //urlBar.text = this.url;
-                busyIndicator.visible = false;
-                break;
-            default:
-                busyIndicator.visible = false;
+        //
+        //
+        //
+        cellWidth: 136
+        cellHeight: 136
+        //
+        //
+        //
+        model: GoogleImageListModel
+        delegate: Rectangle {
+            height: 128
+            width: 128
+            Image {
+                anchors.fill: parent
+                source: display
+                fillMode: Image.PreserveAspectFit
             }
         }
-
-        Behavior on anchors.rightMargin {
-            NumberAnimation {
-                duration: 500
-            }
-        }
-        Behavior on anchors.leftMargin {
-            NumberAnimation {
-                duration: 500
-            }
-        }
-    }
-    AnimatedImage {
-        id: busyIndicator
-        width: 48
-        height: 48
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        visible: false
-        source:"icons/spinner.gif"
     }
 
     Rectangle {
@@ -248,14 +208,10 @@ Item {
     //
     //
     function show() {
-        //webBrowser.url = "https://images.google.com";
         me.x = 0;
     }
 
     function hide() {
         me.x = -(me.width+24);
-        webBrowser.url = "";
-        webBrowser.focus = false;
-        urlBar.focus = false;
     }
 }

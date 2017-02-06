@@ -63,5 +63,6 @@
         <file>icons/open-white.png</file>
         <file>icons/forward_arrow-white.png</file>
         <file>TimeoutDialog.qml</file>
+        <file>GoogleImageBrowser.qml</file>
     </qresource>
 </RCC>

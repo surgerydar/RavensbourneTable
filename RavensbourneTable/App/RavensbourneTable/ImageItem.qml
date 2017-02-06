@@ -38,7 +38,7 @@ EditableItem {
             anchors.fill: parent
             onClicked: {
                 //container.state = "edit";
-                setActiveEditor(container,"image");
+                setActiveEditor(container,"image", { no_options: true } );
             }
         }
     }
@@ -73,5 +73,9 @@ EditableItem {
         console.log( 'image source : ' + editorImage.source );
 
         return editorImage.source.length !== "";
+    }
+
+    function showPropertyEditor() {
+        imageBrowser.show();
     }
 }

@@ -8,6 +8,13 @@ Item {
     height: 240
     transformOrigin: Item.Center
     antialiasing: true
+    //
+    //
+    //
+    property Image propertyToggle: propertyToggle
+    //
+    //
+    //
     Item {
         id: controls
         anchors.fill: parent
@@ -136,10 +143,7 @@ Item {
                 preventStealing: true
 
                 onClicked: {
-                    if ( propertyEditor ) {
-                        propertyEditor.visible = !propertyEditor.visible
-                        propertyToggle.source = !propertyEditor.visible ? "../icons/puck-black.png" : "../icons/hide-puck-black.png"
-                    }
+                    if( showPropertyEditor ) showPropertyEditor(); // defined in subcalsses
                 }
 
             }
