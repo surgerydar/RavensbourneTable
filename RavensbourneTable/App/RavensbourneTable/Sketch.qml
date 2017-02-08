@@ -311,12 +311,14 @@ SketchForm {
             disableSketchItems();
             break;
         case "back" :
-            // save(); // JONS: Causing double save, have to rely on close
+            save();
+            /*
             var homeParams = {
                 user: user
             };
             appWindow.go("Home",homeParams);
             break;
+            */
         case "delete" :
             break;
         }
@@ -346,6 +348,7 @@ SketchForm {
     //
     //
     function setup(param) {
+        console.log( 'Sketch.setup : params : ' + JSON.stringify(param) );
         //
         // reset UI
         //
@@ -414,7 +417,7 @@ SketchForm {
     }
 
     function close() {
-        save();
+        //save();
         user        = null;
         group       = [];
         sketchId    = '';
@@ -451,11 +454,16 @@ SketchForm {
         if ( sketchId.length > 0 ) {
             console.log('updating sketch : ' + sketchId );
             object.id = sketchId;
-            Database.updateSketch(object);
+            //Database.updateSketch(object);
+            WebDatabase.updateSketch(object);
         } else {
             console.log('putting new sketch' );
+            /*
             sketchId = Database.putSketch(object);
             console.log('sketch sketch saved as : ' + sketchId );
+            */
+            console.log( 'Sketch.save : saving sketch for user : ' + JSON.stringify(user) );
+            WebDatabase.putSketch(object);
         }
     }
 
@@ -647,4 +655,23 @@ SketchForm {
         id: undoManager
     }
     */
+    function webDatabaseSuccess( command, result ) {
+        if ( command.indexOf('/sketch') === 0 ) {
+            var params = {
+                user: user
+            };
+            appWindow.go("Home",params);
+        }
+    }
+    function webDatabaseError( command, error ) {
+        //
+        // TODO: handle error
+        //
+        if ( command.indexOf('/sketch') === 0 ) {
+            var params = {
+                user: user
+            };
+            appWindow.go("Home",params);
+        }
+    }
 }

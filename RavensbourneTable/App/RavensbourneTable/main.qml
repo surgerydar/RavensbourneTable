@@ -325,6 +325,9 @@ ApplicationWindow {
     //
     //
     Connections {
+        //
+        //
+        //
         target: WebDatabase
         //
         //
@@ -334,11 +337,15 @@ ApplicationWindow {
             if ( result ) {
                 console.log( 'WebDatabase : result : ' + JSON.stringify( result ) );
             }
+            if (currentScene.webDatabaseSuccess) currentScene.webDatabaseSuccess( command, result );
         }
         onError: {
             console.log( 'WebDatabase : error : ' + command + ':' + error );
+            if (currentScene.webDatabaseError) currentScene.webDatabaseSuccess( command, error );
         }
 
     }
-
+    //
+    //
+    //
 }

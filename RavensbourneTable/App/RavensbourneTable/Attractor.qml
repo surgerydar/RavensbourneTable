@@ -191,12 +191,15 @@ Item {
         // go to user home
         //
         if ( !enrollFingerprint.visible ) { // no enrollment in progress
+            /*
             var user = Database.getUser(id);
             console.log( 'Validated user : ' + JSON.stringify(user) );
             var param = {
                 user: user
             };
             appWindow.go("Home", param);
+            */
+            WebDatabase.getUser(id);
         }
     }
     function fingerPrintValidationFailed(device,error) {
@@ -224,8 +227,32 @@ Item {
         }
         start();
     }
-
     function close() {
         stop();
+    }
+    //
+    // WebDatabase
+    //
+    function webDatabaseSuccess( command, result ) {
+        if ( enrollFingerprint.visible ) {
+            enrollFingerprint.webDatabaseSuccess( command, result );
+        }
+        if ( command.indexOf('/user/') === 0 ) {
+            var user = {
+                id: result.fingerprint,
+                username: result.username,
+                email: result.email
+            };
+            console.log( 'Validated user : ' + JSON.stringify(user) );
+            var param = {
+                user: user
+            };
+            appWindow.go("Home", param);
+        }
+    }
+    function webDatabaseError( command, error ) {
+        if ( enrollFingerprint.visible ) {
+            enrollFingerprint.webDatabaseError( command, error );
+        }
     }
 }

@@ -66,9 +66,10 @@ void WebDatabase::deleteUser( QString id ) {
 
 void WebDatabase::putSketch( const QVariant& sketch ) {
     QVariantMap sketchMap = sketch.toMap();
-    if ( !sketchMap["id"].isNull() || sketchMap["id"].type() == QVariant::String ) {
-        qDebug() << "WebDatabase::putSketch : sketch has id : " << sketchMap["id"].toString();
+    if ( !sketchMap["guid"].isNull() || sketchMap["guid"].type() == QVariant::String ) {
+        qDebug() << "WebDatabase::putSketch : sketch has id : " << sketchMap["guid"].toString();
     }
+    sketchMap["id"] = QUuid::createUuid();
     const QString command = "sketch";
     QStringList parameters;
     post(command,parameters,sketchMap);

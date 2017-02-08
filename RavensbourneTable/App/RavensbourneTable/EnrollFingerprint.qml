@@ -143,11 +143,12 @@ RotatableDialog {
                     //
                     // go to user home
                     //
-                    var user = {
+                    user = {
                         id: userId,
                         username: username.text,
                         email: email.text
                     }
+                    /*
                     console.log( 'registering user : ' + JSON.stringify(user) );
                     if ( Database.putUser( user ) ) {
                         parent.visible = false;
@@ -158,6 +159,8 @@ RotatableDialog {
                     } else {
                         prompt.text = "username or email already registered";
                     }
+                    */
+                    WebDatabase.putUser(user);
                 } else {
                      prompt.text = "you must fill in both fields";
                 }
@@ -191,55 +194,6 @@ RotatableDialog {
         }
 
     }
-    /*
-    Connections {
-        target: FingerprintScanner
-
-        onEnrollmentStage: {
-            console.log( 'enrollment stage : ' + stage );
-            switch( stage ) {
-            case 0 :
-                prompt.text = 'place your middle finger on the scanner';
-                break;
-            default :
-                prompt.text = 'and again...';
-                printIndicators.children[ stage - 1 ].children[0].visible = true;
-                break;
-            }
-            if ( stage >= 4 ) {
-                prompt.text = 'one more time';
-            }
-        }
-
-        onEnrolled: {
-            //
-            //
-            //
-            userId = id;
-            enrolled = true;
-            //
-            // show registration
-            //
-            enrollmentGroup.visible = false;
-            registrationGroup.visible = true;
-            prompt.text = "We need some more information to complete your registration";
-            action.text = "Register";
-        }
-
-        onEnrollmentFailed: {
-            console.log( 'enrollment failed' );
-            prompt.text = 'I have had trouble scanning your fingerprint, please try again';
-            var count = printIndicators.children.length;
-            for ( var i = 0; i < count; i++ ) {
-                printIndicators.children[ i ].children[0].visible = false;
-            }
-            FingerprintScanner.enroll(device);
-        }
-
-    }
-    */
-    //
-    //
     //
     //
     // fingerprint handling
@@ -285,9 +239,33 @@ RotatableDialog {
     //
     //
     //
+    function webDatabaseSuccess( command, result ) {
+        console.log( 'EnrollFingerprint.WebDatabase : success : ' + command );
+        if ( result ) {
+            console.log( 'EnrollFingerprint.WebDatabase : result : ' + JSON.stringify( result ) );
+        }
+        if ( command === '/user' ) {
+            visible = false;
+            var param = {
+                user : user
+            };
+            appWindow.go('Home',param);
+        }
+    }
+    function webDatabaseError( command, error ) {
+        console.log( 'EnrollFingerprint.WebDatabase : error : ' + command + ':' + error );
+        if ( command === '/user' ) {
+            user = null;
+            prompt.text = message;
+        }
+    }
+    //
+    //
+    //
     property bool enrolled: false
     property bool registered: false
     property string userId: ''
+    property var user: null
     //
     //
     //
@@ -299,6 +277,7 @@ RotatableDialog {
         enrolled = false;
         registered = false;
         userId = '';
+        user = null;
         parent.rotation = 0
         prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
         var count = printIndicators.children.length;

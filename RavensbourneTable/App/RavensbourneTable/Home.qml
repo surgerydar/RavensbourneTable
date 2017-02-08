@@ -84,10 +84,7 @@ Item {
             //
             // build prompt text
             //
-            var welcomeText = "Hi\n" + param.user.username;
-            var sketchText = userSketches.length > 0 ? '\nor\nselect one of your previous sketches' : ''
-            var promptText = welcomeText + "\nPlace a material under a scanner to create a new sketch" + sketchText;
-            prompt.text = promptText;
+            setPromptText();
             //
             //
             //
@@ -118,6 +115,7 @@ Item {
         //
         //
         //
+        /*
         userSketches = Database.getUserSketches(userId);
         var count = userSketches.length;
         console.log( 'user sketches : ' + count );
@@ -144,6 +142,14 @@ Item {
             Utils.loadQML(param);
             //console.log( 'loading user sketch : ' + userSketches[i].id );
         }
+        */
+        WebDatabase.getUserSketches(userId);
+    }
+    function setPromptText() {
+        var welcomeText = "Hi" + user.username + '\n';
+        var sketchText = userSketches && userSketches.length > 0 ? '\nor\nselect one of your previous sketches' : ''
+        var promptText = welcomeText + "\nPlace a material under a scanner to create a new sketch" + sketchText;
+        prompt.text = promptText;
     }
 
     function deleteSketch(sketchId) {
@@ -229,6 +235,52 @@ Item {
                     }
                 }
             }
+        }
+    }
+    //
+    //
+    // WebDatabase
+    //
+    function webDatabaseSuccess( command, result ) {
+        console.log( 'Home.WebDatabase : success : ' + command );
+        if ( result ) {
+            console.log( 'Home.WebDatabase : result : ' + JSON.stringify( result ) );
+        }
+        if ( command.indexOf('/usersketches/') >= 0 && result ) {
+            userSketches = result;
+            var count = userSketches.length;
+            console.log( 'user sketches : ' + count );
+            for ( var i = 0; i < count; i++ ) {
+                var param = {
+                    source: "SketchIcon.qml",
+                    container: sketches,
+                    sketch : userSketches[i],
+                    user : user,
+                    dim : 128,
+                    x : width / 2,
+                    y : height / 2,
+                    app: appWindow,
+                    home: this,
+                    callback : function( item, param ) {
+                        item.icon.source = param.sketch.icon;
+                        item.sketch = param.sketch;
+                        item.user = param.user;
+                        item.app = param.app;
+                        item.home = appWindow.sceneId('Home');
+                        item.name.text = param.sketch.material.name || param.sketch.icon;
+                    }
+                }
+                Utils.loadQML(param);
+                //console.log( 'loading user sketch : ' + userSketches[i].id );
+            }
+            setPromptText();
+        }
+    }
+    function webDatabaseError( command, error ) {
+        console.log( 'Home.WebDatabase : error : ' + command + ':' + error );
+        if ( command.indexOf('/usersketches/') >= 0 ) {
+            //user = null;
+            //prompt.text = message;
         }
     }
     //
