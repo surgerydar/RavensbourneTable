@@ -63,7 +63,7 @@ ApplicationWindow {
         Attractor {
             id: attractor
             anchors.fill: parent
-            visible: true
+            visible: false
         }
 
         Home {
@@ -105,14 +105,37 @@ ApplicationWindow {
     }
 
     InputPanel {
-            id: inputPanel
-            y: parent.height;//Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
-            anchors.left: parent.left
-            anchors.leftMargin: parent.width / 3
-            anchors.right: parent.right
-            anchors.rightMargin: parent.width / 3
-            rotation: 0
-            z: 4
+        id: inputPanel
+        y: parent.height;//Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width / 3
+        anchors.right: parent.right
+        anchors.rightMargin: parent.width / 3
+        rotation: 0
+        z: 4
+        //
+        //
+        //
+        function show( itemBounds, itemOrientation ) {
+            //
+            // TODO: shift keyboard to avoid itemBounds
+            //
+            if ( itemOrientation > 0 ) {
+                y           = parent.y;
+                rotation    = 180;
+            } else {
+                y           = parent.height - height;
+                rotation    = 0;
+            }
+
+        }
+        function hide() {
+            //
+            // TODO: check nothing else has focus
+            //
+            y = parent.height;
+            rotation = 0;
+        }
     }
 
     TimeoutDialog {
@@ -143,6 +166,7 @@ ApplicationWindow {
     Component.onCompleted: {
         appWindow.showFullScreen();
         Timeout.registerEvent();
+        go('Attractor');
     }
 
     Component.onDestruction: {
@@ -174,7 +198,7 @@ ApplicationWindow {
         return null;
     }
 
-    function go( sceneName, param, tabSelected ) {
+    function go( sceneName, param ) {
         console.log( 'going to scene : ' + sceneName );
         //
         // NOTE: perhaps load from disk?
@@ -186,18 +210,19 @@ ApplicationWindow {
                 scenes[i].id.visible = scenes[i].id === id;
                 if ( scenes[i].id.visible ) {
                     scene = scenes[i].id;
-                    /*
-                    if ( !tabSelected ) { // prevent recursion
-                        tabbar.currentIndex = i;
-                    }
-                    */
                 }
             }
-            if ( scene !== currentScene && scene.close ) {
-                scene.close();
+            if ( scene !== currentScene && currentScene.close ) {
+                //
+                // clean up current scene
+                //
+                currentScene.close();
             }
 
             if ( scene && scene.setup ) {
+                //
+                // setup new scene
+                //
                 scene.setup(param);
             }
             currentScene = scene;
@@ -274,14 +299,9 @@ ApplicationWindow {
                     enrollFingerprint.cancel();
                     materialBrowser.hide();
                     imageBrowser.hide();
+                    inputPanel.hide();
                     go( 'Attractor' );
                 });
-                /*
-                enrollFingerprint.cancel();
-                materialBrowser.hide();
-                imageBrowser.hide();
-                go( 'Attractor' );
-                */
             }
         }
     }
@@ -294,21 +314,31 @@ ApplicationWindow {
             //
             // TODO: prevent keyboard from overlapping focus item
             //
-            console.log( 'KeyboardFocusListener.onFocusChange : ' + hasFocus );
             if ( hasFocus ) {
-                if ( itemOrientation > 0 ) {
-                    inputPanel.y           = inputPanel.parent.y;
-                    inputPanel.rotation    = 180;
-                } else {
-                    inputPanel.y           = inputPanel.parent.height - inputPanel.height;
-                    inputPanel.rotation    = 0;
-                }
+                inputPanel.show(itemBounds,itemOrientation);
             } else {
-                // TODO: check nothing else has focus
-                inputPanel.y = inputPanel.parent.height;
-                inputPanel.rotation = 0;
+                inputPanel.hide();
             }
         }
+    }
+    //
+    //
+    //
+    Connections {
+        target: WebDatabase
+        //
+        //
+        //
+        onSuccess: {
+            console.log( 'WebDatabase : success : ' + command );
+            if ( result ) {
+                console.log( 'WebDatabase : result : ' + JSON.stringify( result ) );
+            }
+        }
+        onError: {
+            console.log( 'WebDatabase : error : ' + command + ':' + error );
+        }
+
     }
 
 }

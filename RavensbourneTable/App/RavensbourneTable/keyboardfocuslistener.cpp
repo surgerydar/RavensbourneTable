@@ -22,31 +22,34 @@ bool KeyboardFocusListener::eventFilter(QObject *obj, QEvent *event) {
     bool process = false;
     switch ( event->type() ) {
     case QEvent::FocusIn :
-        qDebug() << "KeyboardFocusListener : FocusIn";
+        //qDebug() << "KeyboardFocusListener : FocusIn";
         process = true;
         break;
     case QEvent::FocusOut :
-        qDebug() << "KeyboardFocusListener : FocusOut";
+        //qDebug() << "KeyboardFocusListener : FocusOut";
         process = true;
         break;
     case QEvent::FocusAboutToChange :
-        qDebug() << "KeyboardFocusListener : FocusAboutToChange";
+        //qDebug() << "KeyboardFocusListener : FocusAboutToChange";
         process = true;
         break;
     }
     if ( process ) {
          if ( obj ) {
              QString className = obj->metaObject()->className();
-             qDebug() << "Focus object class : " << className;
+             //qDebug() << "Focus object class : " << className;
              QFocusEvent *focusEvent = static_cast<QFocusEvent *>(event);
              if ( className == "QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick" ) {
                  //
                  // check focus item is a
                  //
-                 //QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick* browser = static_cast<QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick *>(obj);
-                 //if ( browser && browser->hasKeyboardFocus() ) {
+                 /*
+                 QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick* browser = static_cast<QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick *>(obj);
+                 if ( browser && browser->hasKeyboardFocus() ) {
                     signalFocusChanged(static_cast<QQuickItem *>(obj),focusEvent->gotFocus());
-                 //}
+                 }
+                 */
+                 signalFocusChanged(static_cast<QQuickItem *>(obj),focusEvent->gotFocus());
              } else if ( className == "QQuickTextField" || className == "QQuickTextEdit" ) {
                  signalFocusChanged(static_cast<QQuickItem *>(obj),focusEvent->gotFocus());
              }

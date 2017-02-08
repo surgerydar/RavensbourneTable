@@ -7,7 +7,7 @@ Item {
     //
     // geometry
     //
-    x: -(width+24)
+    x: -( parent.width / 2 + 24 )
     width: parent.width / 2
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -238,7 +238,7 @@ Item {
     //
     //
     Component.onCompleted: {
-        me = this;
+        me = this; // JONS: do I need this ? I think all properties are in scope
     }
     //
     //
@@ -248,7 +248,6 @@ Item {
     //
     //
     function show() {
-        //webBrowser.url = "https://images.google.com";
         me.x = 0;
     }
 

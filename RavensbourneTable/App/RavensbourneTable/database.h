@@ -22,7 +22,7 @@ public slots:
     QVariant getUser( QString id );
     QVariant findUser( const QVariant& filter );
     void deleteUser( QString id );
-    bool putSketch( const QVariant& sketch );
+    QString putSketch( const QVariant& sketch );
     bool updateSketch( const QVariant& sketch );
     QVariant getSketch( QString id );
     QVariant getUserSketches(QString userId);

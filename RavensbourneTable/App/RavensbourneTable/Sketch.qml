@@ -220,6 +220,9 @@ SketchForm {
     property var componentPosition: null
     property var activeEditor: null
     property var componentCallback: null
+    //
+    // TODO: replace this with Utils.loadQML
+    //
     function createSketchItem(source,posn,callback) {
         console.log( 'loading component' );
         component = Qt.createComponent(source);
@@ -308,7 +311,7 @@ SketchForm {
             disableSketchItems();
             break;
         case "back" :
-            save();
+            // save(); // JONS: Causing double save, have to rely on close
             var homeParams = {
                 user: user
             };
@@ -369,10 +372,10 @@ SketchForm {
                 //
                 //
                 //
-                console.log( 'material : ' + param.material );
+                //console.log( 'material : ' + param.material );
                 material = param.material;
                 if ( material.image ) {
-                    console.log( 'Sketch image : ' + material.image);
+                    //console.log( 'Sketch image : ' + material.image);
                     if (  param.new_sketch ) {
                         var source = "ImageItem.qml";
                         var position = {
@@ -380,13 +383,14 @@ SketchForm {
                             y: sketchContainer.height / 2
                         };
                         createSketchItem(source, position, function(item) {
-                            console.log("url:" + material.image);
+                            //console.log("url:" + material.image);
                             item.setContent(material.image);
                         });
                     }
                 }
             }
             if ( param.sketch ) {
+                console.log( 'loading sketch : ' + param.sketch.id );
                 //
                 // store id for save
                 //
@@ -398,9 +402,11 @@ SketchForm {
                 //
                 load(param.sketch);
             } else {
+                console.log( 'creating new sketch' );
                 //
                 // add sketch creator to group
                 //
+                sketchId = '';
                 group.push(user.id);
             }
             resetGroupIndicators();
@@ -409,11 +415,14 @@ SketchForm {
 
     function close() {
         save();
+        user        = null;
+        group       = [];
+        sketchId    = '';
+        material    = null;
     }
 
     function save() {
         if ( material === null ) return;
-        console.log( 'saving sketch' );
         //
         // save items
         //
@@ -429,13 +438,8 @@ SketchForm {
         //
         var lines = drawing.save();
         //
+        // TODO: other sketch metadata
         //
-        //
-        console.log( 'saving group' );
-        for ( i = 0; i < group.length; i++ ) {
-            console.log( 'user : ' + group[ i ] );
-        }
-
         var object = {
             user_id: user.id,
             group: group,
@@ -444,13 +448,14 @@ SketchForm {
             items: items,
             drawing: lines
         };
-        //console.log( 'saving sketch : ' + JSON.stringify(object) );
-        if ( sketchId ) {
+        if ( sketchId.length > 0 ) {
+            console.log('updating sketch : ' + sketchId );
             object.id = sketchId;
             Database.updateSketch(object);
         } else {
-
-            Database.putSketch(object);
+            console.log('putting new sketch' );
+            sketchId = Database.putSketch(object);
+            console.log('sketch sketch saved as : ' + sketchId );
         }
     }
 
@@ -483,7 +488,7 @@ SketchForm {
         }
     }
     //
-    // TODO: integrate this into createSketchItem
+    // TODO: integrate this into createSketchItem and replace with generic Utils.loadQML
     //
     function loadItem(source,param) {
         //
@@ -550,7 +555,6 @@ SketchForm {
                 y: sketchContainer.height / 2
             };
             createSketchItem(source, position, function(item) {
-                console.log("url:" + material.image);
                 item.setContent(material.image);
             });
         }
@@ -559,7 +563,6 @@ SketchForm {
     // fingerprint handling
     //
     function fingerPrintValidated(device,id) {
-        console.log( 'Valid finger : ' + id );
         //
         // go to user home
         //
@@ -571,7 +574,6 @@ SketchForm {
         //
         // show enrollment dialog
         //
-        console.log( 'validation failed : ' + error );
         if ( !enrollFingerprint.visible ) { // no enrollment in progress
             var param = {
                 device: device
@@ -608,7 +610,6 @@ SketchForm {
         var count = topUserList.children.length;
         for ( var i = 0; i < count; i++ ) {
             if ( topUserList.children[ i ].user && topUserList.children[ i ].user.id === id ) {
-                console.log('removing user ' + id + ' from topUserList');
                 topUserList.children[ i ].destroy();
                 break;
             }
@@ -640,4 +641,10 @@ SketchForm {
             addUserToGroup(id);
         });
     }
+
+    /* TODO: integrate undo
+    UndoManager {
+        id: undoManager
+    }
+    */
 }

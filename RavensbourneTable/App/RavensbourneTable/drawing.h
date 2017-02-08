@@ -21,9 +21,9 @@ public slots:
     //
     //
     //
-    void startLine(QPoint p, QColor color);
-    void endLine(QPoint p);
-    void addPoint(QPoint p);
+    int startLine(QPoint p, QColor color);
+    int endLine(QPoint p);
+    int addPoint(QPoint p);
     //
     //
     //

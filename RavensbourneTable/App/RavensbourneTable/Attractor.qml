@@ -164,13 +164,6 @@ Item {
             }
         }
     }
-
-    Component.onCompleted: {
-        //
-        // start animation
-        //
-        start();
-    }
     //
     //
     //
@@ -180,16 +173,18 @@ Item {
     function stop() {
         blobAnimation.stop();
     }
-    onVisibleChanged: {
-        if ( visible ) {
-            start();
-        } else {
-            stop();
-        }
-    }
     //
     // fingerprint handling
     //
+    function fingerPrintEnrollmentStage(device,stage) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrollmentStage( device, stage );
+    }
+    function fingerPrintEnrolled(device,id) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrolled( device, id );
+    }
+    function fingerPrintEnrollmentFailed(device) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrollmentFailed( device );
+    }
     function fingerPrintValidated(device,id) {
         console.log( 'Valid finger : ' + id );
         //
@@ -216,5 +211,21 @@ Item {
             enrollFingerprint.setup(param);
             enrollFingerprint.visible = true;
         }
+    }
+    //
+    //
+    //
+    function setup( param ) {
+        var count = blobs.children.length;
+        for ( var i = 0; i < count; i++ ) {
+            if ( blobs.children[i].type && blobs.children[i].type === 'blob' ) {
+                blobs.children[i].setup(param);
+            }
+        }
+        start();
+    }
+
+    function close() {
+        stop();
     }
 }

@@ -63,7 +63,6 @@ Rectangle {
                     var view = parent.PathView.view;
                     for(var i = 0; i < view.children.length; ++i) {
                           if(view.children[i] === parent ){
-                            console.log(i + " is current item")
                             view.children[i].state = "selected";
                           } else {
                             view.children[i].state = "";
@@ -189,7 +188,6 @@ Rectangle {
                 previousX = mouse.x
                 previousY = mouse.y
                 var velocity = Math.sqrt(vX*vX+vY*vY)
-                //console.log( 'velocity=' + velocity )
                 if ( velocity > 5 ) {
                     mode = "flick"
                 } else {
@@ -238,7 +236,6 @@ Rectangle {
             if ( velocity <=  1 ) {
                 stop();
             }
-            //console.log( 'vX=' + vX + ' vY=' + vY + ' factor=' + factor + ' frameTime=' + frameTime + ' elapsed=' + elapsed )
         }
     }
     //
@@ -258,10 +255,8 @@ Rectangle {
     function selectTool( tool ) {
         var view = menu;
         if ( view ) {
-            console.log( 'setting puck tool' );
             var count = view.children.length;
             for(var i = 0; i < count; ++i) {
-                console.log( 'puck tool : ' + view.children[i].getAction );
                 if ( view.children[i].getAction ) {
                     view.children[i].state = view.children[i].getAction() === tool ? "selected" : "";
                 }
@@ -271,6 +266,7 @@ Rectangle {
         }
 
     }
+
     //
     // signals
     //

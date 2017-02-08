@@ -7,7 +7,7 @@
 #include <QUuid>
 #include <QDebug>
 #include "database.h"
-
+#include "webdatabase.h"
 /*
  * user : {
  *  id: fingerprint_id,
@@ -73,6 +73,10 @@ bool Database::putUser(  const QVariant& user ) {
     QVariantMap userMap = user.toMap();
     if ( findUser(user).isNull() ) {
         qDebug() << "saving user id:" << userMap["id"] << " username:" << userMap["username"] << " email:" << userMap["email"];
+        //
+        // JONS: just testing
+        //
+        WebDatabase::shared()->putUser(user);
         m_users.append(userMap);
         return true;
     } else {
@@ -87,6 +91,7 @@ QVariant Database::getUser( QString id ) {
     for ( ; it != m_users.end(); ++it ) {
         QVariantMap user = it->toMap();
         if ( user["id"].toString() == id ) {
+            WebDatabase::shared()->getUser(id);
             return QVariant::fromValue(user);
         }
     }
@@ -118,16 +123,24 @@ void Database::deleteUser( QString id ) {
         QVariantMap sketchMap = it->toMap();
         if ( id == sketchMap["id"].toString() ) {
             m_users.erase(it);
+            WebDatabase::shared()->deleteUser(id);
             return;
         }
     }
 }
 
-bool Database::putSketch( const QVariant& sketch ) {
+QString Database::putSketch( const QVariant& sketch ) {
+    //
+    // TODO: should check for sketch with id
+    //
     QVariantMap sketchMap = sketch.toMap();
+    if ( !sketchMap["id"].isNull() || sketchMap["id"].type() == QVariant::String ) {
+        qDebug() << "Database::putSketch : sketch has id : " << sketchMap["id"].toString();
+    }
     sketchMap["id"] = QUuid::createUuid();
     m_sketches.append(sketchMap);
-    return true;
+    WebDatabase::shared()->putSketch(sketchMap);
+    return sketchMap["id"].toString();
 }
 
 bool Database::updateSketch( const QVariant& sketch ) {
@@ -137,6 +150,7 @@ bool Database::updateSketch( const QVariant& sketch ) {
         QVariantMap current =  m_sketches[i].toMap();
         if ( current["id"] == sketchMap["id"] ) {
             m_sketches.replace(i,sketchMap);
+            WebDatabase::shared()->updateSketch(sketchMap);
             return true;
         }
     }
@@ -148,6 +162,7 @@ QVariant Database::getSketch( QString id ) {
     for ( int i = 0; i < count; i++ ) {
         QVariantMap current =  m_sketches[i].toMap();
         if ( current["id"].toString() == id ) {
+            WebDatabase::shared()->getSketch(id);
             return QVariant::fromValue(current);
         }
     }
@@ -163,6 +178,7 @@ QVariant Database::getUserSketches(QString userId) {
             sketches.append(m_sketches[i]);
         }
     }
+    WebDatabase::shared()->getUserSketches(userId);
     return QVariant::fromValue(sketches);
 }
 
@@ -176,6 +192,7 @@ void Database::deleteSketch( QString id ) {
         QVariantMap sketchMap = it->toMap();
         if ( id == sketchMap["id"].toString() ) {
             m_sketches.erase(it);
+            WebDatabase::shared()->deleteSketch(id);
             return;
         }
     }

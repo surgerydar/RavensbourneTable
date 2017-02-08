@@ -18,7 +18,6 @@ void Drawing::paint(QPainter *painter) {
         pen.setWidth(line.getLineWidth());
         painter->setPen(pen);
         painter->drawPolyline(line.polygon());
-        //painter->drawLines(line.points());
     }
 }
 //
@@ -48,28 +47,33 @@ void Drawing::load( const QVariant& drawing ) {
     update();
 }
 
-void Drawing::startLine(QPoint p, QColor colour) {
+int Drawing::startLine(QPoint p, QColor colour) {
     m_lines.push_back(PolyLine());
     m_lines.back().setColour(colour);
     QVector2D v(p.x(),p.y());
     m_lines.back().curveto(v);
     m_lines.back().curveto(v);
     m_lastPoint = v;
+    return (int)m_lines.size() - 1; // return line index
 }
 
-void Drawing::endLine(QPoint p) {
+int Drawing::endLine(QPoint p) {
     QVector2D v(p.x(),p.y());
     m_lines.back().curveto(v);
     m_lines.back().curveto(v);
+    m_lines.back().simplify();
     update();
+    return (int)m_lines.size() - 1; // return line index
 }
 
-void Drawing::addPoint(QPoint p) {
+int Drawing::addPoint(QPoint p) {
     QVector2D v(p.x(),p.y());
-    if ( (v - m_lastPoint ).length() < lengthThreshold ) return; // TODO: move threshol into Polyline
-    m_lines.back().curveto(v);
-    m_lastPoint = v;
-    update();
+    if ( (v - m_lastPoint ).length() >= lengthThreshold ) {
+        m_lines.back().curveto(v);
+        m_lastPoint = v;
+        update();
+    }
+    return (int)m_lines.size() - 1; // return line index
 }
 //
 //
@@ -77,7 +81,7 @@ void Drawing::addPoint(QPoint p) {
 int Drawing::pathAt( QPoint p ) {
     float minDistance = std::numeric_limits<float>::max();
     int currentNearest = -1;
-    int count = m_lines.size();
+    int count = (int)m_lines.size();
     QVector2D target( p.x(), p.y() );
     for ( int i = 0; i < count; i++ ) {
         float distance = ( m_lines[ i ].nearestPoint(target) - target ).length();
@@ -90,7 +94,10 @@ int Drawing::pathAt( QPoint p ) {
 }
 
 void Drawing::movePath( int index, QPoint by ) {
-
+    if ( index >= 0 && index < m_lines.size() ) {
+        QVector2D v( by.x(), by.y() );
+        m_lines[ index ].move( v );
+    }
 }
 
 void Drawing::deletePath( int index ) {

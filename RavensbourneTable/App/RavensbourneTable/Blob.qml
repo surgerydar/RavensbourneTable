@@ -22,16 +22,22 @@ Rectangle {
         if ( param && param.x ) {
             x = param.x;
         } else {
-            x = ( width / 2 ) + Math.random() * ( parent.width - width );
+            x = Math.random() * ( parent.width - width );
         }
 
         if ( param && param.y ) {
             y = param.y
         } else {
-            y = ( height / 2 ) + Math.random() * ( parent.height - height );
+            y = Math.random() * ( parent.height - height );
         }
         vX = -1 + Math.random() * 2.;
         vY = -1 + Math.random() * 2.;
+
+        if ( width !== height ) {
+            var err = new Error();
+            console.log('Blob [x:' + x + ', y:' + y + ', width:' + width + ', height:' + height + ']');
+            console.log( err.stack );
+        }
     }
 
     function applyForces( other, t ) {
@@ -43,6 +49,11 @@ Rectangle {
         var distance = GeometryUtils.length(d);
         var threshold = r_a + r_b;
         if ( distance < threshold ) {
+            if ( distance <= 0.0 ) {
+                distance = 0.001;
+                d.x = -0.001 + Math.random() * 0.002;
+                d.y = -0.001 + Math.random() * 0.002;
+            }
             var v = { x: vX, y: vY };
             var factor = 1. - ( distance / threshold );
             d.x /= distance; // normalise
@@ -78,10 +89,10 @@ Rectangle {
         vY += -.25 + Math.random() * .5;
     }
 
-    Component.onCompleted: {
-        setup();
+    function stop() {
+        vX = vY = 0.;
     }
-
+    /*
     Behavior on width {
         NumberAnimation {
             id: bouncebehavior
@@ -95,4 +106,5 @@ Rectangle {
     Behavior on radius {
         animation: bouncebehavior
     }
+    */
 }

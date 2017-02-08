@@ -83,6 +83,7 @@ EditableItem {
         readOnly: true
         clip: true
         MouseArea {
+            id: activateEditor
             anchors.fill: parent
             onClicked: {
                 setActiveEditor(container,"text");
@@ -139,6 +140,13 @@ EditableItem {
             content.color = parent.parent.textColour;
             */
         }
+    }
+    function enableEditing() {
+        activateEditor.enabled = true;
+    }
+
+    function diableEditing() {
+        activateEditor.enabled = false;
     }
 
 }

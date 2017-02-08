@@ -28,7 +28,7 @@ Item {
             height: Math.sqrt( (parent.width*parent.width) / 2. ) - 48
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            text: "place a material on the scanner to create a new sketch\nor\nselect one of your previous sketches"
+            text: "Place a material on the scanner to create a new sketch\nor\nselect one of your previous sketches"
             font.family: ravensbourneBold.name
             font.pixelSize: 32
             fontSizeMode: Text.Fit
@@ -47,7 +47,9 @@ Item {
             }
         }
     }
-
+    //
+    //
+    //
     UserIcon {
         id: userIconTop
         anchors.top: parent.top
@@ -60,8 +62,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.margins: 8
-     }
-
+    }
     //
     //
     //
@@ -96,10 +97,16 @@ Item {
             };
             userIconTop.setup(userIconParams);
             userIconBottom.setup(userIconParams);
+            start();
         } else {
-            console.log( "no user" );
+            console.log( "Home.setup : no user" );
         }
     }
+
+    function close() {
+        stop();
+    }
+
     function clearSketches() {
         var count = sketches.children.length;
         for ( var i = 0; i < count; i++ ) {
@@ -114,7 +121,6 @@ Item {
         userSketches = Database.getUserSketches(userId);
         var count = userSketches.length;
         console.log( 'user sketches : ' + count );
-        console.log('this : ' + this );
         for ( var i = 0; i < count; i++ ) {
             var param = {
                 source: "SketchIcon.qml",
@@ -122,6 +128,8 @@ Item {
                 sketch : userSketches[i],
                 user : user,
                 dim : 128,
+                x : width / 2,
+                y : height / 2,
                 app: appWindow,
                 home: this,
                 callback : function( item, param ) {
@@ -134,6 +142,7 @@ Item {
                 }
             }
             Utils.loadQML(param);
+            //console.log( 'loading user sketch : ' + userSketches[i].id );
         }
     }
 
@@ -166,6 +175,7 @@ Item {
     }
 
     function barcodeNewCode(port,barcode) {
+        console.log( 'Home.barcodeNewCode(' + barcode + ')');
         materialBrowser.show(barcode);
     }
 
@@ -194,6 +204,7 @@ Item {
             previousTime = currentTime;
             var factor = elapsed / frameTime;
             var count = sketches.children.length;
+            var energy = 0;
             for ( var i = 0; i < count; i++ ) {
                 if ( sketches.children[i].type && sketches.children[i].type === 'blob' ) {
                     //
@@ -208,7 +219,14 @@ Item {
                     //
                     // update
                     //
-                    sketches.children[i].update(factor);
+                    energy += sketches.children[i].update(factor);
+                }
+            }
+            if ( energy < count * 0.25 ) {
+                for ( i = 0; i < count; i++ ) {
+                    if ( sketches.children[i].type && sketches.children[i].type === 'blob' ) {
+                        sketches.children[i].nudge();
+                    }
                 }
             }
         }
@@ -221,12 +239,5 @@ Item {
     }
     function stop() {
         iconAnimation.stop();
-    }
-    onVisibleChanged: {
-        if ( visible ) {
-            start();
-        } else {
-            stop();
-        }
     }
 }

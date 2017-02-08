@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     database.cpp \
     timeout.cpp \
     keyboardfocuslistener.cpp \
-    googleimagelistmodel.cpp
+    googleimagelistmodel.cpp \
+    webdatabase.cpp
 
 RESOURCES += qml.qrc
 
@@ -63,7 +64,9 @@ HEADERS += \
     database.h \
     timeout.h \
     keyboardfocuslistener.h \
-    googleimagelistmodel.h
+    googleimagelistmodel.h \
+    webdatabase.h
 
 DISTFILES += \
-    Request.js
+    Request.js \
+    UndoManager.qml

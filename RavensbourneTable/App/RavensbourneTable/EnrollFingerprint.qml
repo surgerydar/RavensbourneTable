@@ -11,15 +11,18 @@ RotatableDialog {
     visible: false
 
     Text {
-        id: prompt;
+        id: prompt
+        width: Math.sqrt( (parent.width*parent.width) / 2. )
+        height: Math.sqrt( (parent.width*parent.width) / 2. ) / 2
+        /*
         height: parent.height / 6
         width: parent.width - 16
+        */
         anchors.bottom: parent.verticalCenter
-        anchors.bottomMargin: ( parent.height / 12  ) + 16
+        anchors.bottomMargin: ( parent.height / 12 ) + 16
         anchors.horizontalCenter: parent.horizontalCenter
-        text: "place your index finger on the scanner"
+        text: "Place your middle finger on the scanner"
         font.pixelSize: 24
-        fontSizeMode: Text.Fit
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignBottom
         wrapMode: Text.WordWrap
@@ -32,8 +35,7 @@ RotatableDialog {
         RowLayout {
             id: printIndicators
             height: parent.height / 6
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.centerIn: parent
             //
             //
             //
@@ -107,22 +109,6 @@ RotatableDialog {
                 border.color: "transparent"
             }
             font.pixelSize: textFieldFontsize
-            /*
-            onFocusChanged: {
-                if( username.focus ) {
-                    if ( parent.parent.parent.rotation > 0 ) {
-                        inputPanel.y        = inputPanel.parent.y;
-                        inputPanel.rotation = 180;
-                    } else {
-                        inputPanel.y        = inputPanel.parent.height - inputPanel.height;
-                        inputPanel.rotation = 0;
-                    }
-                } else if ( !email.focus ){
-                    inputPanel.y = inputPanel.parent.height;
-                    inputPanel.rotation = 0;
-                }
-            }
-            */
         }
         TextField {
             id: email
@@ -139,22 +125,6 @@ RotatableDialog {
                 border.color: "transparent"
             }
             font.pixelSize: textFieldFontsize
-            /*
-            onFocusChanged: {
-                if( email.focus ) {
-                    if ( parent.parent.parent.rotation > 0 ) {
-                        inputPanel.y        = inputPanel.parent.y;
-                        inputPanel.rotation = 180;
-                    } else {
-                        inputPanel.y        = inputPanel.parent.height - inputPanel.height;
-                        inputPanel.rotation = 0;
-                    }
-                } else if ( !username.focus ){
-                    inputPanel.y = inputPanel.parent.height;
-                    inputPanel.rotation = 0;
-                }
-            }
-            */
         }
     }
 
@@ -203,18 +173,9 @@ RotatableDialog {
             }
         }
     }
-
     //
-    // reset interface
     //
-    property bool enrolled: false
-    property bool registered: false
-    property string userId: ''
-    onVisibleChanged: {
-        //
-        // TODO : consider moving this to setup
-        //
-    }
+    //    
     onRotationChanged: {
         if( registrationGroup.visible && ( user.focus || email.focus ) ) {
             if ( rotation > 0 ) {
@@ -230,7 +191,7 @@ RotatableDialog {
         }
 
     }
-
+    /*
     Connections {
         target: FingerprintScanner
 
@@ -261,7 +222,7 @@ RotatableDialog {
             //
             enrollmentGroup.visible = false;
             registrationGroup.visible = true;
-            prompt.text = "we need some more information to complete your registration";
+            prompt.text = "We need some more information to complete your registration";
             action.text = "Register";
         }
 
@@ -276,6 +237,7 @@ RotatableDialog {
         }
 
     }
+    */
     //
     //
     //
@@ -286,7 +248,7 @@ RotatableDialog {
         console.log( 'enrollment stage : ' + stage );
         switch( stage ) {
         case 0 :
-            prompt.text = 'place your middle finger on the scanner';
+            prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
             break;
         default :
             prompt.text = 'and again...';
@@ -308,7 +270,7 @@ RotatableDialog {
         //
         enrollmentGroup.visible = false;
         registrationGroup.visible = true;
-        prompt.text = "we need some more information to complete your registration";
+        prompt.text = "We need some more information to complete your registration";
         action.text = "Register";
     }
     function fingerPrintEnrollmentFailed(device) {
@@ -320,6 +282,15 @@ RotatableDialog {
         }
         FingerprintScanner.enroll();
     }
+    //
+    //
+    //
+    property bool enrolled: false
+    property bool registered: false
+    property string userId: ''
+    //
+    //
+    //
     function setup( param ) {
         username.text = '';
         email.text = '';
@@ -329,6 +300,7 @@ RotatableDialog {
         registered = false;
         userId = '';
         parent.rotation = 0
+        prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
         var count = printIndicators.children.length;
         for ( var i = 0; i < count; i++ ) {
             printIndicators.children[ i ].children[0].visible = false;

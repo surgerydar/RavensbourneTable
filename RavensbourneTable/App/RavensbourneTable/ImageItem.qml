@@ -35,6 +35,7 @@ EditableItem {
         source: editorImage.source
         fillMode: Image.PreserveAspectFit
         MouseArea {
+            id: activateEditor
             anchors.fill: parent
             onClicked: {
                 //container.state = "edit";
@@ -77,5 +78,13 @@ EditableItem {
 
     function showPropertyEditor() {
         imageBrowser.show();
+    }
+
+    function enableEditing() {
+        activateEditor.enabled = true;
+    }
+
+    function diableEditing() {
+        activateEditor.enabled = false;
     }
 }

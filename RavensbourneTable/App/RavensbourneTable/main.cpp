@@ -13,6 +13,7 @@
 #include "timeout.h"
 #include "keyboardfocuslistener.h"
 #include "googleimagelistmodel.h"
+#include "webdatabase.h"
 
 void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
     QString txt;
@@ -79,6 +80,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("Timeout", Timeout::shared());
     engine.rootContext()->setContextProperty("KeyboardFocusListener", KeyboardFocusListener::shared());
     engine.rootContext()->setContextProperty("GoogleImageListModel", GoogleImageListModel::shared());
+    engine.rootContext()->setContextProperty("WebDatabase", WebDatabase::shared());
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();

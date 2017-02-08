@@ -16,8 +16,7 @@ GoogleImageListModel::GoogleImageListModel(QObject *parent)
     : QStringListModel(parent)
 {
     m_net = new QNetworkAccessManager(this);
-    connect(m_net, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(replyFinished(QNetworkReply*)));
+    connect(m_net, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
 
 QVariant GoogleImageListModel::headerData(int section, Qt::Orientation orientation, int role) const

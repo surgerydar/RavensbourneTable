@@ -6,14 +6,12 @@ Item {
         anchors.fill: parent
         radius: width / 2
         color: colourTurquoise
-        opacity: .75
     }
     Rectangle {
         width: 48
         height: 48
         radius: width / 2
         color: colourTurquoise
-        opacity: .75
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.top
         Image {
@@ -32,7 +30,6 @@ Item {
         height: 48
         radius: width / 2
         color: colourTurquoise
-        opacity: .75
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.bottom
         Image {

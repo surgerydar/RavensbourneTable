@@ -24,6 +24,7 @@ Blob {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         fillMode: Image.PreserveAspectFit
+        asynchronous: true
         onStatusChanged: {
             busyIndicator.visible = !(status === Image.Ready)
         }
@@ -37,6 +38,39 @@ Blob {
         visible: false
         source:"icons/spinner.gif"
     }
+    //
+    //
+    //
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            /*
+            var param = {
+                user: user,
+                sketch: sketch
+            }
+            if ( app ) {
+                app.go('Sketch',param);
+            } else {
+                appWindow.go('Sketch',param);
+            }
+            */
+            popup.visible = !popup.visible;
+            if ( popup.visible ) {
+                stop();
+                //
+                // ensure popup is on screen
+                //
+                if ( popup.x < 0 ) parent.x += -popup.x;
+                if ( popup.x + popup.width > parent.parent.width ) parent.x -= (popup.x + popup.width)-parent.parent.width;
+                if ( popup.y < 0 ) parent.y += -popup.y;
+                if ( popup.y + popup.height > parent.parent.height ) parent.y -= (popup.y + popup.height)-parent.parent.height;
+            }
+        }
+    }
+    //
+    //
+    //
     Rectangle {
         id: popup
         height: 128
@@ -65,7 +99,7 @@ Blob {
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             anchors.margins: 16
-            color: "transparent"
+            color: "#00D2C2"
             Image {
                 anchors.fill: parent
                 source: "icons/delete-white.png"
@@ -83,13 +117,35 @@ Blob {
             }
         }
         Rectangle {
+            id: rotateIcon
+            width: 48
+            height: 48
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 16
+            color: "#00D2C2"
+            Image {
+                anchors.fill: parent
+                source: "icons/rotate-white.png"
+            }
+            MouseArea {
+                anchors.fill: parent
+                //
+                //
+                //
+                onClicked: {
+                    popup.rotation = popup.rotation > 0 ? popup.rotation = 0 : popup.rotation = 180;
+                }
+            }
+        }
+        Rectangle {
             id: editSketch
             width: 48
             height: 48
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.margins: 16
-            color: "transparent"
+            color: "#00D2C2"
             Image {
                 anchors.fill: parent
                 source: "icons/forward_arrow-white.png"
@@ -112,25 +168,10 @@ Blob {
                 }
             }
         }
-    }
-    //
-    //
-    //
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            /*
-            var param = {
-                user: user,
-                sketch: sketch
+        Behavior on rotation {
+            NumberAnimation {
+                duration: 500
             }
-            if ( app ) {
-                app.go('Sketch',param);
-            } else {
-                appWindow.go('Sketch',param);
-            }
-            */
-            popup.visible = !popup.visible;
         }
     }
     onWidthChanged: {

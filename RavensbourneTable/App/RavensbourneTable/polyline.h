@@ -21,6 +21,10 @@ public:
     //
     //
     //
+    void move(const QVector2D& by );
+    //
+    //
+    //
     QVector<QVector2D>& points() { return m_points; }
     QPolygonF& polygon();
     //
@@ -42,6 +46,10 @@ public:
     //
     QVector2D nearestPoint( const QVector2D& target ) const;
     //QVector2D getClosestPoint(const QVector2D& target, unsigned int* nearestIndex) const;
+    //
+    //
+    //
+    void simplify(float tolerance=0.3f);
     //
     //
     //

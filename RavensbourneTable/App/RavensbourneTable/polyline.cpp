@@ -2,6 +2,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 #include <QPointF>
+#include <QLine>
 #include <QDebug>
 #include <cmath>
 #include "polyline.h"
@@ -68,6 +69,12 @@ void PolyLine::curveto( QVector2D& p ) {
         m_curveVertices.pop_front();
     }
     m_hasChanged = true;
+}
+
+void PolyLine::move(const QVector2D& by ) {
+    for ( auto& point : m_points ) {
+        point += by;
+    }
 }
 
 QPolygonF& PolyLine::polygon() {
@@ -280,9 +287,9 @@ void PolyLine::load( const QVariant& line ) {
     }
     m_hasChanged = true;
 }
-/*
+
 // dot product (3D) which allows vector operations in arguments
-#define dot(u,v)   ((u).x * (v).x + (u).y * (v).y + (u).z * (v).z)
+#define dot(u,v)   ((u).x() * (v).x() + (u).y() * (v).y() )
 #define norm2(v)   dot(v,v)        // norm2 = squared length of vector
 #define norm(v)    sqrt(norm2(v))  // norm = length of vector
 #define d2(u,v)    norm2(u-v)      // distance squared = norm2 of difference
@@ -297,27 +304,27 @@ static void simplifyDP(float tol, QVector2D* v, int j, int k, int* mk ){
     int     maxi	= j;          // index of vertex farthest from S
     float   maxd2	= 0;         // distance squared of farthest vertex
     float   tol2	= tol * tol;  // tolerance squared
-    Segment S		= {v[j], v[k]};  // segment from v[j] to v[k]
-    ofPoint u;
-    u				= S.P1 - S.P0;   // segment direction vector
+    QVector2D p0    = v[j];
+    QVector2D p1    = v[k];  // segment from v[j] to v[k]
+    QVector2D u     = p1 - p0;   // segment direction vector
     double  cu		= dot(u,u);     // segment length squared
 
     // test each vertex v[i] for max distance from S
     // compute using the Feb 2001 Algorithm's dist_ofPoint_to_Segment()
     // Note: this works in any dimension (2D, 3D, ...)
-    ofPoint  w;
-    ofPoint   Pb;                // base of perpendicular from v[i] to S
+    QVector2D  w;
+    QVector2D  Pb;                // base of perpendicular from v[i] to S
     float  b, cw, dv2;        // dv2 = distance v[i] to S squared
 
     for (int i=j+1; i<k; i++){
         // compute distance squared
-        w = v[i] - S.P0;
+        w = v[i] - p0;
         cw = dot(w,u);
-        if ( cw <= 0 ) dv2 = d2(v[i], S.P0);
-        else if ( cu <= cw ) dv2 = d2(v[i], S.P1);
+        if ( cw <= 0 ) dv2 = d2(v[i], p0);
+        else if ( cu <= cw ) dv2 = d2(v[i], p1);
         else {
             b = (float)(cw / cu);
-            Pb = S.P0 + u*b;
+            Pb = p0 + u*b;
             dv2 = d2(v[i], Pb);
         }
         // test with current max distance squared
@@ -340,31 +347,31 @@ static void simplifyDP(float tol, QVector2D* v, int j, int k, int* mk ){
 }
 
 //--------------------------------------------------
-void Polyline::simplify(float tol){
+void PolyLine::simplify(float tol){
     if(m_points.size() < 2) return;
 
     int n = m_points.size();
+    qDebug() << "PolyLine::simplify : before : " << n;
 
-    vector <QVector2D> sV;
+    QVector<QVector2D> sV;
     sV.resize(n);
 
     int    i, k, m, pv;            // misc counters
     float  tol2 = tol * tol;       // tolerance squared
-    vector<QVector2D> vt;
-    vector<int> mk;
+    QVector<QVector2D> vt;
+    QVector<int> mk;
     vt.resize(n);
-    mk.resize(n,0);
-
+    mk.fill(0,n);
 
     // STAGE 1.  Vertex Reduction within tolerance of prior vertex cluster
-    vt[0] = points[0];              // start at the beginning
+    vt[0] = m_points[0];              // start at the beginning
     for (i=k=1, pv=0; i<n; i++) {
-        if (d2(points[i], points[pv]) < tol2) continue;
+        if (d2(m_points[i], m_points[pv]) < tol2) continue;
 
-        vt[k++] = points[i];
+        vt[k++] = m_points[i];
         pv = i;
     }
-    if (pv < n-1) vt[k++] = points[n-1];      // finish at the end
+    if (pv < n-1) vt[k++] = m_points[n-1];      // finish at the end
 
     // STAGE 2.  Douglas-Peucker polyline simplification
     mk[0] = mk[k-1] = 1;       // mark the first and last vertices
@@ -375,15 +382,14 @@ void Polyline::simplify(float tol){
         if (mk[i]) sV[m++] = vt[i];
     }
 
-    //get rid of the unused points
-    if( m < (int)sV.size() ){
-        points.assign( sV.begin(),sV.begin()+m );
-    }else{
-        points = sV;
+    m_points = sV;
+    if( m < (int)m_points.size() ) {
+        //get rid of the unused points
+        m_points.resize(m);
     }
-
+    qDebug() << "PolyLine::simplify : after : " << m;
 }
-*/
+
 
 
 

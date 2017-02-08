@@ -6,7 +6,7 @@ Item {
     //
     // geometry
     //
-    x: -(width+24)
+    x: -( parent.width / 2 + 24 )
     width: parent.width / 2
     anchors.top: parent.top
     anchors.bottom: parent.bottom
