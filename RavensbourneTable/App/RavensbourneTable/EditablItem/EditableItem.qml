@@ -12,6 +12,7 @@ Item {
     //
     //
     property Image propertyToggle: propertyToggle
+    property string itemId: ""
     //
     //
     //
@@ -149,6 +150,17 @@ Item {
             }
         }
     }
+
+    Rectangle {
+        id: lockIndicator
+        anchors.fill: parent
+        radius: 8
+        color: "transparent"
+        border.width: 4
+        border.color: "red"
+        visible: false
+    }
+
     //
     //
     //
@@ -191,7 +203,15 @@ Item {
                 target: container
                 z: 0
             }
+        },
+        State {
+            name: "locked"
+            PropertyChanges {
+                target: lockIndicator
+                visible: true
+            }
         }
+
     ]
     //
     // TODO: move all this into rotating params
@@ -270,5 +290,6 @@ Item {
         container.width = param.width;
         container.height = param.height;
         container.rotation = param.rotation;
+        container.itemId = param.itemid || GUIDGenerator.generate();
     }
 }

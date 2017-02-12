@@ -21,7 +21,16 @@ SketchForm {
     sketch.onReleased: {
         if ( tool === "draw" ) {
             drawingLine = false;
-            drawing.endLine(Qt.point(mouse.x,mouse.y));
+            var lineId = drawing.endLine(Qt.point(mouse.x,mouse.y));
+            var sessionCommand = {
+                command: 'addline',
+                sketchid: sketchId,
+                userid: user.id,
+                lineid: lineId,
+                data: drawing.getLine(lineId)
+            };
+            SessionClient.sendMessage(JSON.stringify(sessionCommand));
+
             appWindow.requestUpdate();
         }
     }
@@ -30,7 +39,7 @@ SketchForm {
         if ( tool === "draw" ) {
             if ( !drawingLine ) {
                 drawingLine = true;
-                drawing.startLine(Qt.point(mouse.x,mouse.y),drawColour);
+                drawing.startLine(Qt.point(mouse.x,mouse.y),drawLineWidth,drawColour);
             } else {
                 drawing.addPoint(Qt.point(mouse.x,mouse.y));
                 appWindow.requestUpdate();
@@ -51,7 +60,14 @@ SketchForm {
             if ( tool === "delete" ) {
                 var index = drawing.pathAt(Qt.point(mouse.x,mouse.y));
                 if ( index >= 0 ) {
-                    drawing.deletePath(index);
+                    var lineId = drawing.deletePath(index);
+                    var sessionCommand = {
+                        command: 'deleteline',
+                        sketchid: sketchId,
+                        userid: user.id,
+                        lineid: lineId
+                    };
+                    SessionClient.sendMessage(JSON.stringify(sessionCommand));
                 }
             }
         }
@@ -183,6 +199,40 @@ SketchForm {
         }
     }
     //
+    // line style chooser
+    //
+    LineStyleChooser {
+        id: lineStyleChooserTop
+        width: 240
+        height: 240
+        anchors.left: parent.left;
+        anchors.top: parent.top;
+        anchors.margins: 8
+        enabled: true;
+        visible: false
+        onStyleChanged: {
+            drawColour = colour;
+            drawLineWidth = lineWidth;
+            lineStyleChooserBottom.setStyle(lineWidth,colour);
+        }
+    }
+
+    LineStyleChooser {
+        id: lineStyleChooserBottom
+        width: 240
+        height: 240
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        anchors.margins: 8
+        enabled: true;
+        visible: false
+        onStyleChanged: {
+            drawColour = colour;
+            drawLineWidth = lineWidth;
+            lineStyleChooserTop.setStyle(lineWidth,colour);
+        }
+    }
+    //
     // Puck
     //
     Puck {
@@ -204,7 +254,8 @@ SketchForm {
     //
     //
     //
-    property var drawColour: colourChooserTop.getColour();
+    property var drawColour: lineStyleChooserTop.getColour()
+    property var drawLineWidth: lineStyleChooserTop.getWidth()
     property var textFont: Qt.font({
                                        family: "Helvetica",
                                        bold: 0,
@@ -255,12 +306,25 @@ SketchForm {
                 item.y = componentPosition.y - ( item.height / 2 );
                 item.x = Math.max( 0,Math.min(item.x,sketch.width-item.width));
                 item.y = Math.max( 0,Math.min(item.y,sketch.height-item.height));
+                item.itemId = GUIDGenerator.generate();
+
                 //item.state = "edit"
                 setActiveEditor(item);
                 if ( componentCallback ) {
                     componentCallback( item );
                     componentCallback = null;
                 }
+                //
+                //
+                //
+                var sessionCommand = {
+                    command: 'additem',
+                    sketchid: sketchId,
+                    userid: user.id,
+                    itemid: item.itemId,
+                    data: item.save()
+                }
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
             } else {
                 // Error Handling
                 console.log("Error creating object");
@@ -272,11 +336,25 @@ SketchForm {
     }
 
     function setActiveEditor( item, itemTool, param ) {
+        var sessionCommand = {
+            sketchid : sketchId,
+            userid : user.id,
+        };
         if ( activeEditor ) {
+            sessionCommand.itemid = activeEditor.itemId;
             if ( !activeEditor.hasContent() ) { // Remove empty items
                 activeEditor.destroy();
+                sessionCommand.command = 'deleteitem';
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
+            } else {
+                activeEditor.state = "display"
+                sessionCommand.command = 'updateitem';
+                sessionCommand.data = activeEditor.save();
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
+                sessionCommand.command = 'unlock';
+                sessionCommand.data = '';
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
             }
-            activeEditor.state = "display"
         }
         if ( tool === "delete" ) {
             if ( item ) item.destroy();
@@ -284,6 +362,10 @@ SketchForm {
             activeEditor = item;
             if ( activeEditor ) {
                 activeEditor.state = "edit"
+                sessionCommand.itemid = activeEditor.itemId;
+                sessionCommand.command = 'lock';
+                sessionCommand.data = null;
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
             }
         }
         if ( itemTool ) {
@@ -294,9 +376,12 @@ SketchForm {
 
     function setTool( newTool, param ) {
         tool = newTool;
-        //setActiveEditor(null);
+        /*
         colourChooserTop.visible = false;
         colourChooserBottom.visible = false;
+        */
+        lineStyleChooserTop.visible = false;
+        lineStyleChooserBottom.visible = false;
         enableSketchItems();
         drawingLine = false;
         switch( tool ) {
@@ -306,8 +391,12 @@ SketchForm {
         case "text" :
             break;
         case "draw" :
+            /*
             colourChooserTop.visible = true;
             colourChooserBottom.visible = true;
+            */
+            lineStyleChooserTop.visible = true;
+            lineStyleChooserBottom.visible = true;
             disableSketchItems();
             break;
         case "back" :
@@ -413,10 +502,30 @@ SketchForm {
                 group.push(user.id);
             }
             resetGroupIndicators();
+            //
+            //
+            //
+            var serssionCommand = {
+                command: 'join',
+                sketchid: sketchId,
+                userid: user.id
+            }
+            SessionClient.sendMessage( JSON.stringify(serssionCommand) );
         }
     }
 
     function close() {
+        //
+        //
+        //
+        if ( user && sketchId ) {
+            var serssionCommand = {
+                command: 'leave',
+                sketchid: sketchId,
+                userid: user.id
+            }
+            SessionClient.sendMessage( JSON.stringify(serssionCommand) );
+        }
         //save();
         user        = null;
         group       = [];
@@ -454,15 +563,10 @@ SketchForm {
         if ( sketchId.length > 0 ) {
             console.log('updating sketch : ' + sketchId );
             object.id = sketchId;
-            //Database.updateSketch(object);
             WebDatabase.updateSketch(object);
         } else {
             console.log('putting new sketch' );
-            /*
-            sketchId = Database.putSketch(object);
-            console.log('sketch sketch saved as : ' + sketchId );
-            */
-            console.log( 'Sketch.save : saving sketch for user : ' + JSON.stringify(user) );
+            object.id = GUIDGenerator.generate();
             WebDatabase.putSketch(object);
         }
     }
@@ -536,7 +640,39 @@ SketchForm {
             component.statusChanged.connect(initialiseItem);
         }
     }
+    function findItem( itemId ) {
+        var count = sketch.children.length;
+        for ( var i = 0; i < count; i++ ) {
+            if ( sketch.children[ i ].itemId === itemId ) {
+                return sketch.children[ i ];
+            }
+        }
+    }
+    function addItem( data ) {
+        var source;
+        if ( data.type === "image" ) {
+            source = 'ImageItem.qml';
+        } else {
+            source = 'TextItem.qml';
+        }
+        loadItem(source,data);
+    }
 
+    function deleteItem( itemId ) {
+        var item = findItem( itemId );
+        if ( item ) item.destroy();
+    }
+    function lockItem( itemId ) {
+        var item = findItem( itemId );
+        if ( item ) item.state = "locked";
+    }
+    function unlockItem( itemId ) {
+        var item = findItem( itemId );
+        if ( item ) item.state = "";
+    }
+    //
+    //
+    //
     function clear() {
         //
         // clear current sketch
@@ -570,18 +706,30 @@ SketchForm {
     //
     // fingerprint handling
     //
+    function fingerPrintEnrollmentStage(device,stage) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrollmentStage( device, stage );
+    }
+    function fingerPrintEnrolled(device,id) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrolled( device, id );
+    }
+    function fingerPrintEnrollmentFailed(device) {
+        if ( enrollFingerprint.visible ) enrollFingerprint.fingerPrintEnrollmentFailed( device );
+    }
     function fingerPrintValidated(device,id) {
+        console.log( 'Sketch.Valid finger : ' + id );
         //
         // go to user home
         //
         if ( !enrollFingerprint.visible ) { // no enrollment in progress
-            if ( id !== user.id ) addUserToGroup(id)
+            if ( user === null || user.id !== id ) // not current user
+                WebDatabase.getUser(id);
         }
     }
     function fingerPrintValidationFailed(device,error) {
         //
         // show enrollment dialog
         //
+        console.log( 'validation failed : ' + error );
         if ( !enrollFingerprint.visible ) { // no enrollment in progress
             var param = {
                 device: device
@@ -590,17 +738,16 @@ SketchForm {
             enrollFingerprint.visible = true;
         }
     }
-    function fingerPrintEnrolled(device,id) {
-        addUserToGroup(id);
-    }
-
-    function addUserToGroup(id) {
-        if ( group.indexOf(id) < 0 ) {
-            group.push(id);
+    //
+    //
+    //
+    function addUserToGroup(newUser) {
+        if ( group.indexOf(newUser.id) < 0 ) {
+            group.push(newUser.id);
         }
         var param = {
-            user_id: id,
-            creator: id === user.id,
+            user: newUser,
+            creator: newUser.id === user.id,
             container: topUserList,
             source: "UserIcon.qml",
             delete_callback: removeUserFromGroup
@@ -643,10 +790,10 @@ SketchForm {
             bottomUserList.children[ i ].destroy();
         }
         //
-        // add users from group
+        // queue getUser requests
         //
         group.forEach(function(id){
-            addUserToGroup(id);
+            WebDatabase.getUser(id);
         });
     }
 
@@ -656,11 +803,24 @@ SketchForm {
     }
     */
     function webDatabaseSuccess( command, result ) {
+        var params;
         if ( command.indexOf('/sketch') === 0 ) {
-            var params = {
+            params = {
                 user: user
             };
             appWindow.go("Home",params);
+        } else if (command.indexOf('/user/') === 0 && result ) {
+            var newUser = {
+                id: result.fingerprint,
+                username: result.username,
+                email: result.email
+            };
+            addUserToGroup(newUser)
+        } else if (command.indexOf('/user') === 0 && enrollFingerprint.visible) {
+            if ( enrollFingerprint.user ) {
+                addUserToGroup(enrollFingerprint.user)
+            }
+            enrollFingerprint.visible = false;
         }
     }
     function webDatabaseError( command, error ) {
@@ -673,5 +833,82 @@ SketchForm {
             };
             appWindow.go("Home",params);
         }
+        enrollFingerprint.visible = false;
     }
-}
+    Connections {
+        target: SessionClient
+        //
+        //
+        //
+        onClosed : {
+            console.log( 'SessionClient : closed' );
+        }
+        onMessageReceived : {
+            console.log( 'SessionClient : MessageReceived : ' + message );
+            var command = JSON.parse(message);
+            if ( command && command.sketchid === sketchId ) {
+                switch( command.command ) {
+                case 'join' :
+                    if ( command.userid === user.id ) {
+                        // me, update userlist
+                    } else {
+                        // someone else, add to userlist
+                    }
+                break;
+                case 'leave' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // someone else, add to userlist
+                    }
+                break;
+                case 'lock' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // lock item
+                        lockItem(command.itemid)
+                    }
+                break;
+                case 'unlock' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // lock item
+                        unlockItem(command.itemid)
+                    }
+                break;
+                case 'additem' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        addItem(command.data);
+                    }
+                break;
+                case 'deleteitem' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // lock item
+                        deleteItem(command.itemid)
+                    }
+                break;
+                case 'addline' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                    }
+                break;
+                case 'deleteline' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // delete line
+
+                    }
+                break;
+                }
+            }
+        }
+    }
+ }

@@ -16,6 +16,7 @@ void Drawing::paint(QPainter *painter) {
     for ( auto& line : m_lines ) {
         QPen pen(line.getColour());
         pen.setWidth(line.getLineWidth());
+        pen.setCapStyle(Qt::RoundCap);
         painter->setPen(pen);
         painter->drawPolyline(line.polygon());
     }
@@ -47,34 +48,50 @@ void Drawing::load( const QVariant& drawing ) {
     update();
 }
 
-int Drawing::startLine(QPoint p, QColor colour) {
+QString Drawing::startLine(QPoint p, qreal width, QColor colour) {
     m_lines.push_back(PolyLine());
+    m_lines.back().setLineWidth(width);
     m_lines.back().setColour(colour);
     QVector2D v(p.x(),p.y());
     m_lines.back().curveto(v);
     m_lines.back().curveto(v);
     m_lastPoint = v;
-    return (int)m_lines.size() - 1; // return line index
+    return m_lines.back().getId();
 }
 
-int Drawing::endLine(QPoint p) {
+QString Drawing::endLine(QPoint p) {
     QVector2D v(p.x(),p.y());
     m_lines.back().curveto(v);
     m_lines.back().curveto(v);
     m_lines.back().simplify();
     update();
-    return (int)m_lines.size() - 1; // return line index
+    return m_lines.back().getId();
 }
 
-int Drawing::addPoint(QPoint p) {
+QString Drawing::addPoint(QPoint p) {
     QVector2D v(p.x(),p.y());
     if ( (v - m_lastPoint ).length() >= lengthThreshold ) {
         m_lines.back().curveto(v);
         m_lastPoint = v;
         update();
     }
-    return (int)m_lines.size() - 1; // return line index
+    return m_lines.back().getId();
 }
+//
+//
+//
+//
+//
+//
+QVariant Drawing::getLine( QString id ) {
+    for ( auto& line : m_lines ) {
+        if ( line.getId() == id ) {
+            return line.save();
+        }
+    }
+    return QVariant();
+}
+
 //
 //
 //
@@ -100,11 +117,14 @@ void Drawing::movePath( int index, QPoint by ) {
     }
 }
 
-void Drawing::deletePath( int index ) {
+QString Drawing::deletePath( int index ) {
     if ( index >= 0 && index < m_lines.size() ) {
+        QString lineId = m_lines[index].getId();
         m_lines.erase(m_lines.begin()+index);
         update();
+        return lineId;
     }
+    return "";
 }
 
 

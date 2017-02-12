@@ -13,7 +13,8 @@ void CircularMenu::paint(QPainter *painter) {
     //
     //
     //
-    painter->setBrush(Qt::NoBrush);
+    painter->save();
+    painter->setBrush(QBrush(Qt::white));
     painter->setPen(Qt::black);
     painter->drawPath(m_outerPath);
     painter->drawPath(m_innerPath);
@@ -23,6 +24,7 @@ void CircularMenu::paint(QPainter *painter) {
     for ( auto control : m_controls ) {
         control->paint(painter);
     }
+    painter->restore();
 }
 
 void CircularMenu::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) {

@@ -3,6 +3,7 @@
 #include <QVariantMap>
 #include <QPointF>
 #include <QLine>
+#include <QUuid>
 #include <QDebug>
 #include <cmath>
 #include "polyline.h"
@@ -13,7 +14,7 @@ const float distanceThreshold = 20.;
 PolyLine::PolyLine() :
     m_hasChanged(false),
     m_lineWidth(4) {
-
+    m_id = QUuid::createUuid().toString();
 }
 
 void PolyLine::start( QVector2D& p ) {
@@ -90,43 +91,6 @@ QPolygonF& PolyLine::polygon() {
     }
     return m_polygon;
 }
-
-//
-// iterators
-//
-/*
-std::vector<QVector2D>::iterator PolyLine::begin() {
-    return m_points.begin();
-}
-
-std::vector<QVector2D>::const_iterator PolyLine::begin() const {
-    return m_points.begin();
-}
-
-std::vector<QVector2D>::reverse_iterator PolyLine::rbegin() {
-    return m_points.rbegin();
-}
-
-std::vector<QVector2D>::const_reverse_iterator PolyLine::rbegin() const {
-    return m_points.rbegin();
-}
-
-std::vector<QVector2D>::iterator PolyLine::end() {
-    return m_points.end();
-}
-
-std::vector<QVector2D>::const_iterator PolyLine::end() const {
-    return m_points.end();
-}
-
-std::vector<QVector2D>::reverse_iterator PolyLine::rend() {
-    return m_points.rend();
-}
-
-std::vector<QVector2D>::const_reverse_iterator PolyLine::rend() const {
-    return m_points.rend();
-}
-*/
 //
 //
 //
@@ -139,89 +103,8 @@ bool PolyLine::hasChanged() {
     }
 }
 //
-// TODO: shift all of this into subclass of QVector2D
 //
-/*
-static float trueLength( const QVector2D& p ) {
-    return std::sqrt( std::pow(p.x,2) + std::pow(p.y,2));
-}
-static float interpolated( const QVector2D& from, const QVector2D& to, const float u ) {
-    QVector2D d = to - from;
-    return from + ( d * u );
-}
-
-static QVector2D getClosestPointUtil(const QVector2D& p1, const QVector2D& p2, const QVector2D& p3, float* normalizedPosition) {
-    // if p1 is coincident with p2, there is no line
-    if(p1 == p2) {
-        if(normalizedPosition != nullptr) {
-            *normalizedPosition = 0;
-        }
-        return p1;
-    }
-
-    float u = (p3.x - p1.x) * (p2.x - p1.x);
-    u += (p3.y - p1.y) * (p2.y - p1.y);
-    // perfect place for fast inverse sqrt...
-    QVector2D d = p2 - p1;
-    float len = trueLength(d);
-    u /= (len * len);
-
-    // clamp u
-    if(u > 1) {
-        u = 1;
-    } else if(u < 0) {
-        u = 0;
-    }
-    if(normalizedPosition != nullptr) {
-        *normalizedPosition = u;
-    }
-    return interpolated(p1, p2, u);
-}
-
-QVector2D PolyLine::getClosestPoint(const QVector2D& target, unsigned int* nearestIndex) const {
-
-    if(m_points.size() < 2) {
-        if(nearestIndex != nullptr) {
-            nearestIndex = 0;
-        }
-        return target;
-    }
-
-    float distance = 0;
-    QVector2D nearestPoint;
-    unsigned int nearest = 0;
-    float normalizedPosition = 0;
-    unsigned int lastPosition = m_points.size() - 1;
-    for(int i = 0; i < (int) lastPosition; i++) {
-        bool repeatNext = i == (int) (m_points.size() - 1);
-
-        const QVector2D& cur = polyline[i];
-        const QVector2D& next = repeatNext ? polyline[0] : polyline[i + 1];
-
-        float curNormalizedPosition = 0;
-        QVector2D curNearestPoint = getClosestPointUtil(cur, next, target, &curNormalizedPosition);
-        float curDistance = curNearestPoint.distance(target);
-        if(i == 0 || curDistance < distance) {
-            distance = curDistance;
-            nearest = i;
-            nearestPoint = curNearestPoint;
-            normalizedPosition = curNormalizedPosition;
-        }
-    }
-
-    if(nearestIndex != nullptr) {
-        if(normalizedPosition > .5) {
-            nearest++;
-            if(nearest == polyline.size()) {
-                nearest = 0;
-            }
-        }
-        *nearestIndex = nearest;
-    }
-
-    return nearestPoint;
-}
-*/
+//
 static QVector2D nearestPointOnLine( const QVector2D& p1, const QVector2D& p2, const QVector2D& p3 ) {
     if ( p1 == p2 ) {
         return p1;
@@ -266,6 +149,7 @@ QVariant PolyLine::save() {
         points.append(QVariant::fromValue(point));
     }
     QVariantMap object;
+    object["id"] = QVariant(m_id);
     object["colour"] = QVariant(m_colour);
     object["linewidth"] = QVariant(m_lineWidth);
     object["points"] = QVariant::fromValue(points);
@@ -274,6 +158,7 @@ QVariant PolyLine::save() {
 
 void PolyLine::load( const QVariant& line ) {
     QVariantMap lineMap = line.toMap();
+    m_id = lineMap.contains("id") ? lineMap["id"].value<QString>() : QUuid::createUuid().toString();
     m_colour = lineMap.contains("colour") ? lineMap["colour"].value<QColor>() : m_colour;
     m_lineWidth = lineMap.contains("linewidth") ? lineMap["linewidth"].value<int>() : m_lineWidth;
     QVariantList points = lineMap["points"].toList();

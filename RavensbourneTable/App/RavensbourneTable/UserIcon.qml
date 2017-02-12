@@ -93,7 +93,7 @@ Item {
     //
     //
     function setup(param) {
-        user = Database.getUser(param.user_id);
+        user = param.user;
         if ( user ) {
             username.text = user.username
         }

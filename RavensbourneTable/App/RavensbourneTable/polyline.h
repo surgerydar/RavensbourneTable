@@ -15,6 +15,10 @@ public:
     //
     //
     //
+    QString getId() { return m_id; }
+    //
+    //
+    //
     void start( QVector2D& p );
     void lineto( QVector2D& p );
     void curveto( QVector2D& p );
@@ -53,16 +57,6 @@ public:
     //
     //
     //
-    /*
-    std::vector<QVector2D>::iterator begin();
-    std::vector<QVector2D>::const_iterator begin() const;
-    std::vector<QVector2D>::reverse_iterator rbegin();
-    std::vector<QVector2D>::const_reverse_iterator rbegin() const;
-    std::vector<QVector2D>::iterator end();
-    std::vector<QVector2D>::const_iterator end() const;
-    std::vector<QVector2D>::reverse_iterator rend();
-    std::vector<QVector2D>::const_reverse_iterator rend() const;
-    */
     QVariant save();
     void load( const QVariant& line );
 private:
@@ -72,6 +66,7 @@ private:
     std::deque<QVector2D>   m_curveVertices;
     bool                    m_hasChanged;
     QPolygonF               m_polygon;
+    QString                 m_id;
 };
 
 #endif // POLYLINE_H

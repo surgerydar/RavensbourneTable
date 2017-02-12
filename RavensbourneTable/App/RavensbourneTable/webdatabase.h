@@ -17,7 +17,7 @@ signals:
     void error( QString command, QString error );
 public slots:
     void putUser( const QVariant& user );
-    void getUser( QString id );
+    void getUser( QString id, QString identifier = "byid" );
     void findUser( const QVariant& filter );
     void deleteUser( QString id );
     void putSketch( const QVariant& sketch );

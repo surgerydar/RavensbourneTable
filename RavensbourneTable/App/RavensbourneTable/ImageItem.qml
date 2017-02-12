@@ -61,18 +61,20 @@ EditableItem {
     function save() {
         var object = container.getGeometry();
         object.type = "image";
-        object.source = editorImage.source;
+        object.source = editorImage.source.toString();
         return object;
     }
 
     function setup(param) {
         container.setGeometry(param);
-        editorImage.source = param.source;
+        var source = param.source.toString().replace('qrc:/','');
+        source = source.replace(/%22/g,'');
+        console.log( source );
+        editorImage.source = source;
     }
 
     function hasContent() {
         console.log( 'image source : ' + editorImage.source );
-
         return editorImage.source.length !== "";
     }
 

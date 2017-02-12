@@ -43,9 +43,9 @@ void WebDatabase::putUser( const QVariant& user ) {
     post(command,parameters,userMap);
 }
 
-void WebDatabase::getUser( QString id ) {
+void WebDatabase::getUser( QString id, QString identifier ) {
     const QString command = "user";
-    QStringList parameters = {"byid",id};
+    QStringList parameters = {identifier,id};
     get(command,parameters);
 }
 
@@ -66,10 +66,6 @@ void WebDatabase::deleteUser( QString id ) {
 
 void WebDatabase::putSketch( const QVariant& sketch ) {
     QVariantMap sketchMap = sketch.toMap();
-    if ( !sketchMap["guid"].isNull() || sketchMap["guid"].type() == QVariant::String ) {
-        qDebug() << "WebDatabase::putSketch : sketch has id : " << sketchMap["guid"].toString();
-    }
-    sketchMap["id"] = QUuid::createUuid();
     const QString command = "sketch";
     QStringList parameters;
     post(command,parameters,sketchMap);
@@ -195,7 +191,7 @@ void WebDatabase::send( const HTTPMethod method, const QString& command, const Q
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     if ( data.length() > 0 ) {
         request.setHeader(QNetworkRequest::ContentLengthHeader,(int)data.length());
-        qDebug() << "WebDatabase::send : data : " << data.toUtf8();
+        //qDebug() << "WebDatabase::send : data : " << data.toUtf8();
     }
     switch ( method ) {
     case HTTP_GET :

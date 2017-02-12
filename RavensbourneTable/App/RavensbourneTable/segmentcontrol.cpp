@@ -49,10 +49,22 @@ void SegmentControl::createOutline() {
 
 }
 qreal SegmentControl::valueAtAngle( qreal angle ) {
-    qreal localAngle = angle - m_startAngle;
-    if ( localAngle >= 0 && localAngle < m_sweep ) { // TODO: wrap angle
-        return localAngle / m_sweep;
+    qreal wrappedAngle = angle < m_startAngle ? 360. + angle : angle;
+    qreal localAngle = wrappedAngle - m_startAngle;
+    if ( localAngle < 0 ) {
+        return 0.;
+    } else if ( localAngle > m_sweep ) {
+        return 1.;
     }
-    return -1;
+    return localAngle / m_sweep;
+}
+qreal SegmentControl::wrapInterpolation(qreal u) {
+    qreal wrappedU = u;
+    if ( u < 0. ) {
+        wrappedU = 1. + u;
+    } else if ( u > 1. ) {
+        wrappedU = u - 1.;
+    }
+    return wrappedU;
 }
 

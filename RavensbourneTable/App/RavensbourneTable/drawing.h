@@ -21,15 +21,19 @@ public slots:
     //
     //
     //
-    int startLine(QPoint p, QColor color);
-    int endLine(QPoint p);
-    int addPoint(QPoint p);
+    QString startLine(QPoint p, qreal width, QColor color);
+    QString endLine(QPoint p);
+    QString addPoint(QPoint p);
+    //
+    //
+    //
+    QVariant getLine( QString id );
     //
     //
     //
     int pathAt( QPoint p );
     void movePath( int index, QPoint by );
-    void deletePath( int index );
+    QString deletePath( int index );
 private slots:
 
 private:

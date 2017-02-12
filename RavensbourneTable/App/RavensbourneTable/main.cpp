@@ -8,12 +8,15 @@
 #include "drawing.h"
 #include "colourchooser.h"
 #include "fontchooser.h"
+#include "linestylechooser.h"
 #include "fingerprintscanner.h"
 #include "database.h"
 #include "timeout.h"
 #include "keyboardfocuslistener.h"
 #include "googleimagelistmodel.h"
 #include "webdatabase.h"
+#include "sessionclient.h"
+#include "guidgenerator.h"
 
 void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
     QString txt;
@@ -70,6 +73,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<Drawing>("SodaControls", 1, 0, "Drawing");
     qmlRegisterType<ColourChooser>("SodaControls", 1, 0, "ColourChooser");
     qmlRegisterType<FontChooser>("SodaControls", 1, 0, "FontChooser");
+    qmlRegisterType<LineStyleChooser>("SodaControls", 1, 0, "LineStyleChooser");
     //
     //
     //
@@ -81,6 +85,9 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("KeyboardFocusListener", KeyboardFocusListener::shared());
     engine.rootContext()->setContextProperty("GoogleImageListModel", GoogleImageListModel::shared());
     engine.rootContext()->setContextProperty("WebDatabase", WebDatabase::shared());
+    engine.rootContext()->setContextProperty("SessionClient", SessionClient::shared());
+    engine.rootContext()->setContextProperty("GUIDGenerator", GUIDGenerator::shared());
+
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();

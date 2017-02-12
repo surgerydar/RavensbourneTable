@@ -335,7 +335,7 @@ ApplicationWindow {
         onSuccess: {
             console.log( 'WebDatabase : success : ' + command );
             if ( result ) {
-                console.log( 'WebDatabase : result : ' + JSON.stringify( result ) );
+                //console.log( 'WebDatabase : result : ' + JSON.stringify( result ) );
             }
             if (currentScene.webDatabaseSuccess) currentScene.webDatabaseSuccess( command, result );
         }
@@ -348,4 +348,17 @@ ApplicationWindow {
     //
     //
     //
+    Connections {
+        target: SessionClient
+        //
+        //
+        //
+        onClosed : {
+            //
+            // reconnect
+            //
+            console.log( 'session disconnected' );
+            SessionClient.open();
+        }
+    }
 }

@@ -89,7 +89,7 @@ Item {
             //
             //
             var userIconParams = {
-                user_id: user.id,
+                user: user,
                 creator: true
             };
             userIconTop.setup(userIconParams);
@@ -146,8 +146,8 @@ Item {
         WebDatabase.getUserSketches(userId);
     }
     function setPromptText() {
-        var welcomeText = "Hi" + user.username + '\n';
-        var sketchText = userSketches && userSketches.length > 0 ? '\nor\nselect one of your previous sketches' : ''
+        var welcomeText = "Hi " + user.username + '\n';
+        var sketchText = userSketches && userSketches.length > 0 ? '\nor select one of your previous sketches' : ''
         var promptText = welcomeText + "\nPlace a material under a scanner to create a new sketch" + sketchText;
         prompt.text = promptText;
     }
@@ -177,7 +177,7 @@ Item {
         //
         // remove from database
         //
-        Database.deleteSketch(sketchId);
+        WebDatabase.deleteSketch(sketchId);
     }
 
     function barcodeNewCode(port,barcode) {
@@ -244,7 +244,7 @@ Item {
     function webDatabaseSuccess( command, result ) {
         console.log( 'Home.WebDatabase : success : ' + command );
         if ( result ) {
-            console.log( 'Home.WebDatabase : result : ' + JSON.stringify( result ) );
+            //console.log( 'Home.WebDatabase : result : ' + JSON.stringify( result ) );
         }
         if ( command.indexOf('/usersketches/') >= 0 && result ) {
             userSketches = result;

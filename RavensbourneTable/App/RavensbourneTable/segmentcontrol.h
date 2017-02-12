@@ -21,6 +21,7 @@ public:
 protected:
     void createOutline();
     qreal valueAtAngle( qreal angle );
+    qreal wrapInterpolation(qreal u);
     qreal   m_startAngle;
     qreal   m_sweep;
     QRectF  m_outerRect;

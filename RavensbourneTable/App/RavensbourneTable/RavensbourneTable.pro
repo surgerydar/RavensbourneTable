@@ -1,4 +1,4 @@
-QT += qml quick serialport webengine
+QT += qml quick serialport webengine websockets
 QTPLUGIN += qtvirtualkeyboardplugin
 
 CONFIG += c++11
@@ -21,7 +21,11 @@ SOURCES += main.cpp \
     timeout.cpp \
     keyboardfocuslistener.cpp \
     googleimagelistmodel.cpp \
-    webdatabase.cpp
+    webdatabase.cpp \
+    linewidthsegmentcontrol.cpp \
+    linestylechooser.cpp \
+    sessionclient.cpp \
+    guidgenerator.cpp
 
 RESOURCES += qml.qrc
 
@@ -65,7 +69,11 @@ HEADERS += \
     timeout.h \
     keyboardfocuslistener.h \
     googleimagelistmodel.h \
-    webdatabase.h
+    webdatabase.h \
+    linewidthsegmentcontrol.h \
+    linestylechooser.h \
+    sessionclient.h \
+    guidgenerator.h
 
 DISTFILES += \
     Request.js \

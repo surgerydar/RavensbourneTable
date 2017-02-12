@@ -20,7 +20,7 @@ static void listFonts() {
 
 FontChooser::FontChooser(QQuickItem *parent) :
     CircularMenu(parent),
-    m_fontSizeSelector(0.,90.,16.,48.),
+    m_fontSizeSelector(0.,90.,16.,72.),
     m_colourSelector(90.,90.),
     m_boldSelector(180.,30.,"b",true),
     m_italicSelector(210.,30.,"i",true),
