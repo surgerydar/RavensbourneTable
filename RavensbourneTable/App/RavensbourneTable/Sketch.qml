@@ -60,7 +60,7 @@ SketchForm {
             if ( tool === "delete" ) {
                 var index = drawing.pathAt(Qt.point(mouse.x,mouse.y));
                 if ( index >= 0 ) {
-                    var lineId = drawing.deletePath(index);
+                    var lineId = drawing.deletePathAtIndex(index);
                     var sessionCommand = {
                         command: 'deleteline',
                         sketchid: sketchId,
@@ -437,7 +437,7 @@ SketchForm {
     //
     //
     function setup(param) {
-        console.log( 'Sketch.setup : params : ' + JSON.stringify(param) );
+        //console.log( 'Sketch.setup : params : ' + JSON.stringify(param) );
         //
         // reset UI
         //
@@ -641,12 +641,17 @@ SketchForm {
         }
     }
     function findItem( itemId ) {
+        console.log('finding item : ' + itemId );
         var count = sketch.children.length;
         for ( var i = 0; i < count; i++ ) {
             if ( sketch.children[ i ].itemId === itemId ) {
+                console.log('found item : ' + itemId );
                 return sketch.children[ i ];
+            } else {
+                console.log( 'item id:' + sketch.children[ i ].itemId );
             }
         }
+        return undefined;
     }
     function addItem( data ) {
         var source;
@@ -658,17 +663,26 @@ SketchForm {
         loadItem(source,data);
     }
 
+    function updateItem( itemId, data ) {
+        console.log('updating item : ' + itemId );
+        var item = findItem( itemId );
+        if ( item ) item.setup(data);
+    }
+
     function deleteItem( itemId ) {
+        console.log('deleting item : ' + itemId );
         var item = findItem( itemId );
         if ( item ) item.destroy();
     }
     function lockItem( itemId ) {
+        console.log('locking item : ' + itemId );
         var item = findItem( itemId );
         if ( item ) item.state = "locked";
     }
     function unlockItem( itemId ) {
+        console.log('unlocking item : ' + itemId );
         var item = findItem( itemId );
-        if ( item ) item.state = "";
+        if ( item ) item.state = "display";
     }
     //
     //
@@ -865,6 +879,7 @@ SketchForm {
                 case 'lock' :
                     if ( command.userid === user.id ) {
                         // me, do nothing
+                        console.log('received invalid lock');
                     } else {
                         // lock item
                         lockItem(command.itemid)
@@ -873,6 +888,7 @@ SketchForm {
                 case 'unlock' :
                     if ( command.userid === user.id ) {
                         // me, do nothing
+                        console.log('received invalid unlock');
                     } else {
                         // lock item
                         unlockItem(command.itemid)
@@ -897,6 +913,7 @@ SketchForm {
                     if ( command.userid === user.id ) {
                         // me, do nothing
                     } else {
+                        drawing.addPath(command.data);
                     }
                 break;
                 case 'deleteline' :
@@ -904,9 +921,16 @@ SketchForm {
                         // me, do nothing
                     } else {
                         // delete line
-
+                        drawing.deletePath(command.lineid);
                     }
                 break;
+                case 'updateitem' :
+                    if ( command.userid === user.id ) {
+                        // me, do nothing
+                    } else {
+                        // delete line
+                        updateItem( command.itemid, command.data );
+                    }
                 }
             }
         }

@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Drawing_t {
-    QByteArrayData data[19];
-    char stringdata0[121];
+    QByteArrayData data[24];
+    char stringdata0[178];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,16 +46,22 @@ QT_MOC_LITERAL(11, 65, 8), // "addPoint"
 QT_MOC_LITERAL(12, 74, 7), // "getLine"
 QT_MOC_LITERAL(13, 82, 2), // "id"
 QT_MOC_LITERAL(14, 85, 6), // "pathAt"
-QT_MOC_LITERAL(15, 92, 8), // "movePath"
-QT_MOC_LITERAL(16, 101, 5), // "index"
-QT_MOC_LITERAL(17, 107, 2), // "by"
-QT_MOC_LITERAL(18, 110, 10) // "deletePath"
+QT_MOC_LITERAL(15, 92, 15), // "movePathAtIndex"
+QT_MOC_LITERAL(16, 108, 5), // "index"
+QT_MOC_LITERAL(17, 114, 2), // "by"
+QT_MOC_LITERAL(18, 117, 17), // "deletePathAtIndex"
+QT_MOC_LITERAL(19, 135, 8), // "movePath"
+QT_MOC_LITERAL(20, 144, 10), // "deletePath"
+QT_MOC_LITERAL(21, 155, 7), // "addPath"
+QT_MOC_LITERAL(22, 163, 4), // "data"
+QT_MOC_LITERAL(23, 168, 9) // "getBounds"
 
     },
     "Drawing\0clear\0\0save\0load\0drawing\0"
     "startLine\0p\0width\0color\0endLine\0"
-    "addPoint\0getLine\0id\0pathAt\0movePath\0"
-    "index\0by\0deletePath"
+    "addPoint\0getLine\0id\0pathAt\0movePathAtIndex\0"
+    "index\0by\0deletePathAtIndex\0movePath\0"
+    "deletePath\0addPath\0data\0getBounds"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,7 +71,7 @@ static const uint qt_meta_data_Drawing[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -73,16 +79,20 @@ static const uint qt_meta_data_Drawing[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x0a /* Public */,
-       3,    0,   65,    2, 0x0a /* Public */,
-       4,    1,   66,    2, 0x0a /* Public */,
-       6,    3,   69,    2, 0x0a /* Public */,
-      10,    1,   76,    2, 0x0a /* Public */,
-      11,    1,   79,    2, 0x0a /* Public */,
-      12,    1,   82,    2, 0x0a /* Public */,
-      14,    1,   85,    2, 0x0a /* Public */,
-      15,    2,   88,    2, 0x0a /* Public */,
-      18,    1,   93,    2, 0x0a /* Public */,
+       1,    0,   84,    2, 0x0a /* Public */,
+       3,    0,   85,    2, 0x0a /* Public */,
+       4,    1,   86,    2, 0x0a /* Public */,
+       6,    3,   89,    2, 0x0a /* Public */,
+      10,    1,   96,    2, 0x0a /* Public */,
+      11,    1,   99,    2, 0x0a /* Public */,
+      12,    1,  102,    2, 0x0a /* Public */,
+      14,    1,  105,    2, 0x0a /* Public */,
+      15,    2,  108,    2, 0x0a /* Public */,
+      18,    1,  113,    2, 0x0a /* Public */,
+      19,    2,  116,    2, 0x0a /* Public */,
+      20,    1,  121,    2, 0x0a /* Public */,
+      21,    1,  124,    2, 0x0a /* Public */,
+      23,    0,  127,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -95,6 +105,10 @@ static const uint qt_meta_data_Drawing[] = {
     QMetaType::Int, QMetaType::QPoint,    7,
     QMetaType::Void, QMetaType::Int, QMetaType::QPoint,   16,   17,
     QMetaType::QString, QMetaType::Int,   16,
+    QMetaType::Void, QMetaType::QString, QMetaType::QPoint,   13,   17,
+    QMetaType::Void, QMetaType::QString,   13,
+    QMetaType::Void, QMetaType::QVariant,   22,
+    QMetaType::QVariant,
 
        0        // eod
 };
@@ -119,9 +133,14 @@ void Drawing::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
             if (_a[0]) *reinterpret_cast< QVariant*>(_a[0]) = _r; }  break;
         case 7: { int _r = _t->pathAt((*reinterpret_cast< QPoint(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 8: _t->movePath((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPoint(*)>(_a[2]))); break;
-        case 9: { QString _r = _t->deletePath((*reinterpret_cast< int(*)>(_a[1])));
+        case 8: _t->movePathAtIndex((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QPoint(*)>(_a[2]))); break;
+        case 9: { QString _r = _t->deletePathAtIndex((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 10: _t->movePath((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QPoint(*)>(_a[2]))); break;
+        case 11: _t->deletePath((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 12: _t->addPath((*reinterpret_cast< QVariant(*)>(_a[1]))); break;
+        case 13: { QVariant _r = _t->getBounds();
+            if (_a[0]) *reinterpret_cast< QVariant*>(_a[0]) = _r; }  break;
         default: ;
         }
     }
@@ -152,13 +171,13 @@ int Drawing::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 14;
     }
     return _id;
 }

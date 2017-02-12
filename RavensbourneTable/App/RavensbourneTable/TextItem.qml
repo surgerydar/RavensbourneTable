@@ -86,7 +86,9 @@ EditableItem {
             id: activateEditor
             anchors.fill: parent
             onClicked: {
-                setActiveEditor(container,"text");
+                if ( container.state !== "locked" ) {
+                    setActiveEditor(container,"text");
+                }
             }
         }
     }
@@ -119,8 +121,20 @@ EditableItem {
     function setup(param) {
         container.setGeometry(param);
         editorText.text = param.text;
-        editorText.color = param.colour;
-        editorText.font = param.font;
+        try { // JONS: to get over the JSON re-encoding problem from update item
+            editorText.color = param.colour;
+        } catch( err ) {
+            editorText.color = Qt.rgba( param.colour.r, param.colour.g, param.colour.b, 1. );
+        }
+        try {
+            editorText.font = param.font;
+        } catch( err ) {
+            editorText.font.family = param.font.family;
+            editorText.font.pixelSize = param.font.pixelSize;
+            editorText.font.bold = param.font.bold;
+            editorText.font.italic = param.font.italic;
+            editorText.font.underline = param.font.underline;
+        }
     }
     function hasContent() {
         return editorText.text.length > 0;

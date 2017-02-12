@@ -48,6 +48,10 @@ public:
     //
     //
     //
+    QRectF getBounds();
+    //
+    //
+    //
     QVector2D nearestPoint( const QVector2D& target ) const;
     //QVector2D getClosestPoint(const QVector2D& target, unsigned int* nearestIndex) const;
     //

@@ -38,8 +38,9 @@ EditableItem {
             id: activateEditor
             anchors.fill: parent
             onClicked: {
-                //container.state = "edit";
-                setActiveEditor(container,"image", { no_options: true } );
+                if ( container.state !== "locked" ) {
+                    setActiveEditor(container,"image", { no_options: true } );
+                }
             }
         }
     }

@@ -32,8 +32,18 @@ public slots:
     //
     //
     int pathAt( QPoint p );
-    void movePath( int index, QPoint by );
-    QString deletePath( int index );
+    void movePathAtIndex( int index, QPoint by );
+    QString deletePathAtIndex( int index );
+    void movePath( QString id, QPoint by );
+    void deletePath( QString id );
+    void addPath( QVariant data );
+    //
+    //
+    //
+    QVariant getBounds();
+    //
+    //
+    //
 private slots:
 
 private:

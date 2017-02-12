@@ -110,14 +110,14 @@ int Drawing::pathAt( QPoint p ) {
     return minDistance < 10. ? currentNearest : -1;
 }
 
-void Drawing::movePath( int index, QPoint by ) {
+void Drawing::movePathAtIndex( int index, QPoint by ) {
     if ( index >= 0 && index < m_lines.size() ) {
         QVector2D v( by.x(), by.y() );
         m_lines[ index ].move( v );
     }
 }
 
-QString Drawing::deletePath( int index ) {
+QString Drawing::deletePathAtIndex( int index ) {
     if ( index >= 0 && index < m_lines.size() ) {
         QString lineId = m_lines[index].getId();
         m_lines.erase(m_lines.begin()+index);
@@ -125,6 +125,38 @@ QString Drawing::deletePath( int index ) {
         return lineId;
     }
     return "";
+}
+
+void Drawing::movePath( QString id, QPoint by ) {
+
+}
+
+void Drawing::deletePath( QString id ) {
+    for ( int i = 0; i < m_lines.size(); i++ ) {
+        if ( m_lines[i].getId() == id ) {
+            m_lines.erase(m_lines.begin()+i);
+            break;
+        }
+    }
+}
+
+void Drawing::addPath( QVariant path ) {
+    m_lines.resize(m_lines.size()+1);
+    m_lines.back().load(path);
+    update();
+}
+
+QVariant Drawing::getBounds() {
+    QRectF bounds;
+    for ( auto& line : m_lines ) {
+        QRectF lineBounds = line.getBounds();
+        if ( bounds.width() <= 0. && bounds.height() <= 0 ) {
+            bounds = lineBounds;
+        } else {
+            bounds = bounds.united(lineBounds);
+        }
+    }
+    return bounds;
 }
 
 

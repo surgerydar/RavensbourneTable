@@ -105,6 +105,23 @@ bool PolyLine::hasChanged() {
 //
 //
 //
+QRectF PolyLine::getBounds() {
+    if ( m_points.size() == 0 ) return QRect();
+    qreal min_x = std::numeric_limits<qreal>::max();
+    qreal max_x = std::numeric_limits<qreal>::min();
+    qreal min_y = std::numeric_limits<qreal>::max();
+    qreal max_y = std::numeric_limits<qreal>::min();
+    for ( auto& point : m_points ) {
+        if ( point.x() < min_x ) min_x = point.x();
+        if ( point.x() > max_x ) max_x = point.x();
+        if ( point.y() < min_y ) min_y = point.y();
+        if ( point.x() > max_y ) max_y = point.y();
+    }
+    return QRectF( min_x, min_y, max_x - min_x, max_y - min_y );
+}
+//
+//
+//
 static QVector2D nearestPointOnLine( const QVector2D& p1, const QVector2D& p2, const QVector2D& p3 ) {
     if ( p1 == p2 ) {
         return p1;

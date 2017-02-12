@@ -154,6 +154,7 @@ Item {
     Rectangle {
         id: lockIndicator
         anchors.fill: parent
+        anchors.margins: 23
         radius: 8
         color: "transparent"
         border.width: 4
@@ -168,6 +169,10 @@ Item {
     states: [
         State {
             name: "edit"
+            PropertyChanges {
+                target: lockIndicator
+                visible: false
+            }
             PropertyChanges {
                 target: controls;
                 visible: true
@@ -187,6 +192,10 @@ Item {
         },
         State {
             name: "display"
+            PropertyChanges {
+                target: lockIndicator
+                visible: false
+            }
             PropertyChanges {
                 target: controls;
                 visible: false
@@ -209,6 +218,22 @@ Item {
             PropertyChanges {
                 target: lockIndicator
                 visible: true
+            }
+            PropertyChanges {
+                target: controls;
+                visible: false
+            }
+            PropertyChanges {
+                target: editor;
+                visible: false
+            }
+            PropertyChanges {
+                target: content;
+                visible: true
+            }
+            PropertyChanges {
+                target: container
+                z: 0
             }
         }
 
@@ -280,7 +305,8 @@ Item {
             y: container.y,
             width: container.width,
             height: container.height,
-            rotation: container.rotation
+            rotation: container.rotation,
+            itemid: container.itemId
         };
     }
 
@@ -291,5 +317,6 @@ Item {
         container.height = param.height;
         container.rotation = param.rotation;
         container.itemId = param.itemid || GUIDGenerator.generate();
+        console.log( 'restoring item : ' + param.itemid + ' with id : ' + container.itemId);
     }
 }
