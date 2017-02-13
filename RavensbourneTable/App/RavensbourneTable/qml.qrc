@@ -65,5 +65,6 @@
         <file>TimeoutDialog.qml</file>
         <file>GoogleImageBrowser.qml</file>
         <file>icons/rotate-white.png</file>
+        <file>SketchContainer.qml</file>
     </qresource>
 </RCC>

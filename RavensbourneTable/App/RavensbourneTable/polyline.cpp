@@ -176,7 +176,16 @@ QVariant PolyLine::save() {
 void PolyLine::load( const QVariant& line ) {
     QVariantMap lineMap = line.toMap();
     m_id = lineMap.contains("id") ? lineMap["id"].value<QString>() : QUuid::createUuid().toString();
-    m_colour = lineMap.contains("colour") ? lineMap["colour"].value<QColor>() : m_colour;
+    if ( lineMap.contains("colour") ) {
+        if ( lineMap["colour"].canConvert<QColor>() ) {
+            m_colour = lineMap["colour"].value<QColor>();
+        } else {
+            QVariantMap colourMap = lineMap["colour"].toMap();
+            if ( colourMap.contains("r") && colourMap.contains("g") && colourMap.contains("b") ) {
+                m_colour.setRgb(colourMap["r"].toFloat(),colourMap["g"].toFloat(),colourMap["b"].toFloat());
+            }
+        }
+    }
     m_lineWidth = lineMap.contains("linewidth") ? lineMap["linewidth"].value<int>() : m_lineWidth;
     QVariantList points = lineMap["points"].toList();
     int count = points.size();
