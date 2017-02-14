@@ -319,4 +319,11 @@ Item {
         container.itemId = param.itemid || GUIDGenerator.generate();
         console.log( 'restoring item : ' + param.itemid + ' with id : ' + container.itemId);
     }
+    //
+    //
+    //
+    signal itemDestroyed();
+    Component.onDestruction: {
+        itemDestroyed();
+    }
 }

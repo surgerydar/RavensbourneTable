@@ -135,6 +135,7 @@ void Drawing::deletePath( QString id ) {
     for ( int i = 0; i < m_lines.size(); i++ ) {
         if ( m_lines[i].getId() == id ) {
             m_lines.erase(m_lines.begin()+i);
+            update();
             break;
         }
     }

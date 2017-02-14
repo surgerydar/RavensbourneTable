@@ -2,8 +2,9 @@ import QtQuick 2.0
 
 ListModel {
     ListElement {
-        name: "rotate"
-        icon: "icons/rotate.png"
+        name: "pan"
+        icon: "icons/pan-white.png"
+        action: "pan"
     }
     ListElement {
         name: "draw"

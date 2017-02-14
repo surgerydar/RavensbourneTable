@@ -357,7 +357,12 @@ SketchForm {
             }
         }
         if ( tool === "delete" ) {
-            if ( item ) item.destroy();
+            if ( item ) {
+                item.destroy();
+                sessionCommand.itemid = item.itemId;
+                sessionCommand.command = 'deleteitem';
+                SessionClient.sendMessage( JSON.stringify(sessionCommand) );
+            }
         } else {
             activeEditor = item;
             if ( activeEditor ) {
@@ -810,6 +815,22 @@ SketchForm {
             WebDatabase.getUser(id);
         });
     }
+    function setUserLoggedIn( userId, loggedIn ) {
+        var count = topUserList.children.length;
+        for ( var i = 0; i < count; i++ ) {
+            if ( topUserList.children[ i ].user && topUserList.children[ i ].user.id === userId ) {
+                topUserList.children[ i ].setLoggedIn(loggedIn);
+                break;
+            }
+        }
+        count = bottomUserList.children.length;
+        for ( i = 0; i < count; i++ ) {
+            if ( bottomUserList.children[ i ].user &&  bottomUserList.children[ i ].user.id === userId ) {
+                bottomUserList.children[ i ].setLoggedIn(loggedIn);
+                break;
+            }
+        }
+    }
 
     /* TODO: integrate undo
     UndoManager {
@@ -829,7 +850,15 @@ SketchForm {
                 username: result.username,
                 email: result.email
             };
-            addUserToGroup(newUser)
+            addUserToGroup(newUser);
+            //
+            // request loggedin userlist
+            //
+            var sessionCommand = {
+                command: 'userlist',
+                sketchid: sketchId
+            };
+            SessionClient.sendMessage(JSON.stringify(sessionCommand));
         } else if (command.indexOf('/user') === 0 && enrollFingerprint.visible) {
             if ( enrollFingerprint.user ) {
                 addUserToGroup(enrollFingerprint.user)
@@ -864,16 +893,40 @@ SketchForm {
                 switch( command.command ) {
                 case 'join' :
                     if ( command.userid === user.id ) {
-                        // me, update userlist
+                        //
+                        // process user list
+                        // user indicators not loaded at this point:
+                        // request
+                        //
+                        if ( command.users ) {
+                            command.users.forEach( function(userId) {
+                                setUserLoggedIn(userId,true);
+                            });
+                        }
+                        //
+                        // process locks
+                        //
+                        if ( command.locks ) {
+                            command.locks.forEach( function(lock) {
+                                lockItem(lock.itemid);
+                            });
+                        }
                     } else {
-                        // someone else, add to userlist
+                        setUserLoggedIn(command.userid,true);
                     }
                 break;
+                case 'userlist' :
+                    if( command.userlist ) {
+                        command.userlist.forEach( function( userId) {
+                            setUserLoggedIn(userId,true);
+                        });
+                    }
+                    break;
                 case 'leave' :
                     if ( command.userid === user.id ) {
                         // me, do nothing
                     } else {
-                        // someone else, add to userlist
+                        setUserLoggedIn(command.userid,false);
                     }
                 break;
                 case 'lock' :
@@ -905,7 +958,7 @@ SketchForm {
                     if ( command.userid === user.id ) {
                         // me, do nothing
                     } else {
-                        // lock item
+                        // delete item
                         deleteItem(command.itemid)
                     }
                 break;
@@ -928,7 +981,7 @@ SketchForm {
                     if ( command.userid === user.id ) {
                         // me, do nothing
                     } else {
-                        // delete line
+                        // update item
                         updateItem( command.itemid, command.data );
                     }
                 }

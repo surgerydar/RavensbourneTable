@@ -177,14 +177,22 @@ void PolyLine::load( const QVariant& line ) {
     QVariantMap lineMap = line.toMap();
     m_id = lineMap.contains("id") ? lineMap["id"].value<QString>() : QUuid::createUuid().toString();
     if ( lineMap.contains("colour") ) {
-        if ( lineMap["colour"].canConvert<QColor>() ) {
+        qDebug() << "PolyLine::load : setting colour";
+        QVariantMap colourMap = lineMap["colour"].toMap();
+        if ( colourMap.contains("r") && colourMap.contains("g") && colourMap.contains("b") ) {
+            qDebug() << "PolyLine::load : colour has rgb";
+            qreal r = colourMap["r"].value<qreal>();
+            qreal g = colourMap["g"].value<qreal>();
+            qreal b = colourMap["b"].value<qreal>();
+            qDebug() << "PolyLine::load : rgb = [" << r << "," << g << "," << b << "]";
+            m_colour.setRgbF(r,g,b);
+        } else if ( lineMap["colour"].canConvert<QColor>() ) {
             m_colour = lineMap["colour"].value<QColor>();
         } else {
-            QVariantMap colourMap = lineMap["colour"].toMap();
-            if ( colourMap.contains("r") && colourMap.contains("g") && colourMap.contains("b") ) {
-                m_colour.setRgb(colourMap["r"].toFloat(),colourMap["g"].toFloat(),colourMap["b"].toFloat());
-            }
+            qDebug() << "PolyLine::load : unknown colour format : " << lineMap["colour"].toString();
+            m_colour = lineMap["colour"].value<QColor>();
         }
+        qDebug() << "PolyLine::load : m_colour = [" << m_colour.redF() << "," << m_colour.greenF() << "," << m_colour.blueF() << "]";
     }
     m_lineWidth = lineMap.contains("linewidth") ? lineMap["linewidth"].value<int>() : m_lineWidth;
     QVariantList points = lineMap["points"].toList();

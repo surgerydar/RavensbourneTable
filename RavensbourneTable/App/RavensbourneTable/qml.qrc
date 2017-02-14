@@ -66,5 +66,7 @@
         <file>GoogleImageBrowser.qml</file>
         <file>icons/rotate-white.png</file>
         <file>SketchContainer.qml</file>
+        <file>icons/pan-black.png</file>
+        <file>icons/pan-white.png</file>
     </qresource>
 </RCC>

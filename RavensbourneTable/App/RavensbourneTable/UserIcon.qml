@@ -47,6 +47,16 @@ Item {
         }
     }
     Rectangle {
+        id: loggedIndicator
+        width: 8
+        height: 8
+        anchors.top: parent.top
+        anchors.left: parent.left
+        radius: 4
+        color: "#FF6666"
+        visible: false
+    }
+    Rectangle {
         id: popup
         height: 64
         width: username.implicitWidth + 32 + ( creator ? 0 : 48 )
@@ -115,6 +125,9 @@ Item {
     }
     function hidePopup() {
         popup.visible = false;
+    }
+    function setLoggedIn( loggedIn ) {
+        loggedIndicator.visible = loggedIn;
     }
 
 }

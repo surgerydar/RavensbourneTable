@@ -72,12 +72,18 @@ ApplicationWindow {
             visible: false
         }
 
+        SketchContainer {
+            id: sketch
+            anchors.fill: parent
+            visible: false
+        }
+        /*
         Sketch {
             id: sketch
             anchors.fill: parent
             visible: false
         }
-
+        */
     }
 
     MaterialBrowser {
