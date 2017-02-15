@@ -236,7 +236,6 @@ Item {
                 z: 0
             }
         }
-
     ]
     //
     // TODO: move all this into rotating params

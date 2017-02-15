@@ -7,7 +7,7 @@ Item {
     //
     // geometry
     //
-    x: -( parent.width / 2 + 24 )
+    x: -( width + 24 )
     width: parent.width / 2
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -238,7 +238,6 @@ Item {
     //
     //
     Component.onCompleted: {
-        me = this; // JONS: do I need this ? I think all properties are in scope
     }
     //
     //
@@ -248,12 +247,12 @@ Item {
     //
     //
     function show() {
-        me.x = 0;
+        x = 0;
     }
 
     function hide() {
-        me.x = -(me.width+24);
-        webBrowser.url = "";
+        x = -(width+24);
+        webBrowser.url = "blank.html";
         webBrowser.focus = false;
         urlBar.focus = false;
     }

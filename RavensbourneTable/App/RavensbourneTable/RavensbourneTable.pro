@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     linewidthsegmentcontrol.cpp \
     linestylechooser.cpp \
     sessionclient.cpp \
-    guidgenerator.cpp
+    guidgenerator.cpp \
+    windowcontrol.cpp
 
 RESOURCES += qml.qrc
 
@@ -73,7 +74,8 @@ HEADERS += \
     linewidthsegmentcontrol.h \
     linestylechooser.h \
     sessionclient.h \
-    guidgenerator.h
+    guidgenerator.h \
+    windowcontrol.h
 
 DISTFILES += \
     Request.js \

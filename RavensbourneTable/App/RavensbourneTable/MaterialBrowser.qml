@@ -198,7 +198,7 @@ Item {
     //
     //
     Component.onCompleted: {
-        me = this;
+        x = -(width+24);
     }
     //
     // signals
@@ -224,14 +224,14 @@ Item {
                 webBrowser.url = newMaterial.url;
             }
             add.visible = false;
-            me.x = 0;
+            x = 0;
         } else {
             console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode)
         }
     }
 
     function hide() {
-        me.x = -(me.width+24);
+        x = -(width+24);
         //
         // hide current materal
         //
@@ -240,7 +240,7 @@ Item {
         var base = 'file://';
         webBrowser.loadHtml(html,base);
         */
-        webBrowser.url = "";
+        webBrowser.url = "blank.html";
         material = null;
         webBrowser.focus = false;
     }

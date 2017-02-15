@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Sketch.qml</file>
         <file>SketchForm.ui.qml</file>
         <file>Sketch.js</file>
         <file>TextItem.qml</file>
@@ -68,5 +67,6 @@
         <file>SketchContainer.qml</file>
         <file>icons/pan-black.png</file>
         <file>icons/pan-white.png</file>
+        <file>blank.html</file>
     </qresource>
 </RCC>

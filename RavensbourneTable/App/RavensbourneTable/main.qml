@@ -171,6 +171,7 @@ ApplicationWindow {
     */
     Component.onCompleted: {
         appWindow.showFullScreen();
+        WindowControl.setAlwaysOnTop(true);
         Timeout.registerEvent();
         go('Attractor');
     }

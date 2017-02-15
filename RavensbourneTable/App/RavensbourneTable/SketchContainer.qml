@@ -108,6 +108,10 @@ Item {
                 id: dropZone
                 anchors.fill: parent
 
+                onEntered: {
+
+                }
+
                 onDropped: {
                     var source;
                     var position = { x: drop.x, y: drop.y };
@@ -292,8 +296,8 @@ Item {
                 //
                 item.x = componentPosition.x - ( item.width / 2 );
                 item.y = componentPosition.y - ( item.height / 2 );
-                item.x = Math.max( 0,Math.min(item.x,sketch.width-item.width));
-                item.y = Math.max( 0,Math.min(item.y,sketch.height-item.height));
+                item.x = Math.max( 0,Math.min(item.x,sketchScroller.width-item.width));
+                item.y = Math.max( 0,Math.min(item.y,sketchScroller.height-item.height));
                 item.itemId = GUIDGenerator.generate();
 
                 //item.state = "edit"
@@ -435,6 +439,7 @@ Item {
     property var group: []
     property string sketchId: ''
     property var material: null
+    property bool newSketch: false
     //
     //
     //
@@ -473,17 +478,19 @@ Item {
                     if (  param.new_sketch ) {
                         var source = "ImageItem.qml";
                         var position = {
-                            x: sketchContainer.width / 2,
-                            y: sketchContainer.height / 2
+                            x: sketchScroller.width / 2,
+                            y: sketchScroller.height / 2
                         };
                         createSketchItem(source, position, function(item) {
                             //console.log("url:" + material.image);
                             item.setContent(material.image);
+                            item.state = "display";
                         });
                     }
                 }
             }
             if ( param.sketch ) {
+                newSketch = false;
                 console.log( 'loading sketch : ' + param.sketch.id );
                 //
                 // store id for save
@@ -500,7 +507,8 @@ Item {
                 //
                 // add sketch creator to group
                 //
-                sketchId = '';
+                newSketch = true;
+                sketchId = GUIDGenerator.generate();
                 group.push(user.id);
             }
             resetGroupIndicators();
@@ -555,6 +563,7 @@ Item {
         // TODO: other sketch metadata
         //
         var object = {
+            id: sketchId,
             user_id: user.id,
             group: group,
             icon: material.image,
@@ -562,13 +571,12 @@ Item {
             items: items,
             drawing: lines
         };
-        if ( sketchId.length > 0 ) {
+        if ( !newSketch ) {
             console.log('updating sketch : ' + sketchId );
-            object.id = sketchId;
             WebDatabase.updateSketch(object);
         } else {
+            newSketch = false;
             console.log('putting new sketch' );
-            object.id = GUIDGenerator.generate();
             WebDatabase.putSketch(object);
         }
     }
@@ -706,7 +714,7 @@ Item {
             var y = sketch.children[ i ].y;
             var width = sketch.children[ i ].width;
             var height = sketch.children[ i ].height;
-            console.log( 'item x=' + x + ' y=' + y + ' width=' + width + ' height=' + height);
+            //console.log( 'item x=' + x + ' y=' + y + ' width=' + width + ' height=' + height);
             if ( x < min_x ) min_x = x;
             if ( x + width > max_x ) max_x = x + width;
             if ( y < min_y ) min_x = y;
@@ -948,7 +956,9 @@ Item {
                         //
                         if ( command.locks ) {
                             command.locks.forEach( function(lock) {
-                                lockItem(lock.itemid);
+                                if ( lock.userid !== user.id ) { // don't lock my items, TODO: need to deal with multiple logins
+                                    lockItem(lock.itemid);
+                                }
                             });
                         }
                     } else {
