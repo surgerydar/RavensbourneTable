@@ -1,0 +1,2185 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+		5E618435888B9D49F8540165 = {
+			buildActionMask = 2147483647;
+			files = (
+				);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Qt Qmake";
+			shellPath = "/bin/sh";
+			shellScript = "make -C /Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable -f qt_makeqmake.mak";
+			showEnvVarsInLog = "0";
+		};
+		05C3F9CFB6F8FB9670548140 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/main.cpp";
+			name = "main.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		3D8E879B075830A88650F079 = {
+			fileRef = "05C3F9CFB6F8FB9670548140";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		072ED46C92B3AC0A6614415B = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/drawing.cpp";
+			name = "drawing.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		419FD9AF36F5CEB2F3A74798 = {
+			fileRef = "072ED46C92B3AC0A6614415B";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B038741644B5921A31515D99 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/drawingrenderer.cpp";
+			name = "drawingrenderer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		E18710FD6CBCBEFBC22838EB = {
+			fileRef = "B038741644B5921A31515D99";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B5610621D9E9D906C1DAB912 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/polyline.cpp";
+			name = "polyline.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		7983F9A67D2A0E69A534E9EE = {
+			fileRef = "B5610621D9E9D906C1DAB912";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		26229428AC3775CBC9EECADC = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/colourchooser.cpp";
+			name = "colourchooser.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		0823F0849DC82F9DCD8DFFFA = {
+			fileRef = "26229428AC3775CBC9EECADC";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		D2F492EF80A432433761BA9C = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/fontchooser.cpp";
+			name = "fontchooser.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		82206A4E90A84F19E8F8B090 = {
+			fileRef = "D2F492EF80A432433761BA9C";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		19369CA8301A6BA793B73CA6 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/circularmenu.cpp";
+			name = "circularmenu.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		FAEB48E4E90077F203CE6222 = {
+			fileRef = "19369CA8301A6BA793B73CA6";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		F6EBA55A0BD0190831439896 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentcontrol.cpp";
+			name = "segmentcontrol.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		37046A001D517D799CA62F3A = {
+			fileRef = "F6EBA55A0BD0190831439896";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		BF52D56ADC4F618D52F5B043 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/hslsegmentcontrol.cpp";
+			name = "hslsegmentcontrol.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		62A2E3521DE52C5E3D53E481 = {
+			fileRef = "BF52D56ADC4F618D52F5B043";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		7D128CCB90170DD7B0641680 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/fontsizeselector.cpp";
+			name = "fontsizeselector.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		0972D00F829E0635E8572CA0 = {
+			fileRef = "7D128CCB90170DD7B0641680";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		4175E9D8B099FEF18DED1184 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentbutton.cpp";
+			name = "segmentbutton.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		45348274DACAD3C775743860 = {
+			fileRef = "4175E9D8B099FEF18DED1184";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		CC42DC4CED2F4DB2E1868BBF = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentbuttongroup.cpp";
+			name = "segmentbuttongroup.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		5E8140561125BF7C66CBCB71 = {
+			fileRef = "CC42DC4CED2F4DB2E1868BBF";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B61764A6549BC5FC46184430 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/database.cpp";
+			name = "database.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F6FE7DB46D9ADC7D06B90081 = {
+			fileRef = "B61764A6549BC5FC46184430";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A54CDB29E033A026C01F7524 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/googleimagelistmodel.cpp";
+			name = "googleimagelistmodel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		FDE251A5522637FB76927FE6 = {
+			fileRef = "A54CDB29E033A026C01F7524";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		65DC78C2FC44A6FEC14093CD = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/webdatabase.cpp";
+			name = "webdatabase.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		53AA67EAC24E7D5094CF3253 = {
+			fileRef = "65DC78C2FC44A6FEC14093CD";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		62577780FCEFC68FF19D8F96 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/ravensbournetable_qml_plugin_import.cpp";
+			name = "ravensbournetable_qml_plugin_import.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		B368246477EA81F31957B4C2 = {
+			fileRef = "62577780FCEFC68FF19D8F96";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		33CEC21EE0F478143044F856 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/ravensbournetable_plugin_import.cpp";
+			name = "ravensbournetable_plugin_import.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		7C6173891D151E1107D6CA5C = {
+			fileRef = "33CEC21EE0F478143044F856";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		2C1CE1327B727A645F6109BA = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/qrc_qml.cpp";
+			name = "qrc_qml.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		35081EF03FAE589DC0F7B490 = {
+			fileRef = "2C1CE1327B727A645F6109BA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		4FE1BCB181D5C024EE3FCBDC = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_drawing.cpp";
+			name = "moc_drawing.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		6F3F7281873C1B443C5FE79F = {
+			fileRef = "4FE1BCB181D5C024EE3FCBDC";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A5954719706910AB6F6F13B6 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_drawingrenderer.cpp";
+			name = "moc_drawingrenderer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		7082E35D74337F3829879335 = {
+			fileRef = "A5954719706910AB6F6F13B6";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A83368CE28257AD07D3E5F6F = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_colourchooser.cpp";
+			name = "moc_colourchooser.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		45B04A135840F4B9608F6EE0 = {
+			fileRef = "A83368CE28257AD07D3E5F6F";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		75F1D580FCCC5212EF86B457 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_fontchooser.cpp";
+			name = "moc_fontchooser.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		9E44020493A86C55C1546C3C = {
+			fileRef = "75F1D580FCCC5212EF86B457";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3C1BAE995198705419746947 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_circularmenu.cpp";
+			name = "moc_circularmenu.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		EA453168930B236EB1C45375 = {
+			fileRef = "3C1BAE995198705419746947";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		BD99417E2291C55E921E936F = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_database.cpp";
+			name = "moc_database.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		BD54A7A4D4A2B23DF0E59DC5 = {
+			fileRef = "BD99417E2291C55E921E936F";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AB1EF55E8A615C8ADF3B0F0B = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_googleimagelistmodel.cpp";
+			name = "moc_googleimagelistmodel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		3DE12BFF3F1092FA9895C38E = {
+			fileRef = "AB1EF55E8A615C8ADF3B0F0B";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		E5EC9FBD351CF9197338F266 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/moc_webdatabase.cpp";
+			name = "moc_webdatabase.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		06D4E927275B14AE37CF8791 = {
+			fileRef = "E5EC9FBD351CF9197338F266";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		4DF5C1879C27A4FE55F7F789 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/drawing.h";
+			name = "drawing.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		EDC6184C08B3C9C68D20D15C = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/drawingrenderer.h";
+			name = "drawingrenderer.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		FD4BB277242E2274711D0341 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/polyline.h";
+			name = "polyline.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		E7ABA12C1F3C8726A0CD8DAB = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/colourchooser.h";
+			name = "colourchooser.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		15D77805A1FAB45450F4D35E = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/fontchooser.h";
+			name = "fontchooser.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		9CE28580226A013EFF0E04AF = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/circularmenu.h";
+			name = "circularmenu.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		D9A6B8D5E7CE87AF9384147B = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentcontrol.h";
+			name = "segmentcontrol.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		1FE5D32395F63750E595043B = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/hslsegmentcontrol.h";
+			name = "hslsegmentcontrol.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		0BC653EF1A5FB7D70432AA89 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/fontsizeselector.h";
+			name = "fontsizeselector.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		A3BBFD1D8130DE87E7C37701 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentbutton.h";
+			name = "segmentbutton.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		A4D53B5289688239A8BD0CA8 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/segmentbuttongroup.h";
+			name = "segmentbuttongroup.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		9E6E92A7B794711A190FFFD0 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/database.h";
+			name = "database.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		2A4866D6D9B43A1267510A87 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/googleimagelistmodel.h";
+			name = "googleimagelistmodel.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		4A1ECA32D68CED0B552536DA = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/webdatabase.h";
+			name = "webdatabase.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		08B690CFEB8DBB710D9DB8E9 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/RavensbourneTable.pro";
+			name = "RavensbourneTable.pro";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "text";
+		};
+		1C5C3EFAF79E96312DFE3EB7 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/.qmake.stash";
+			name = ".qmake.stash";
+			sourceTree = "<absolute>";
+		};
+		5D0C8D9BB6E50D6CD6E8EA32 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/qml.qrc";
+			name = "qml.qrc";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "text";
+		};
+		5D0C8D9BB6E50D6CD6E8EA32 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/qml.qrc";
+			name = "qml.qrc";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "text";
+		};
+		84F9B0A6364C888E4308C1C4 = {
+			fileRef = "5D0C8D9BB6E50D6CD6E8EA32";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		25B08E2869634E9BCBA333A2 = {
+			isa = PBXGroup;
+			children = (
+				"62577780FCEFC68FF19D8F96",
+				"33CEC21EE0F478143044F856",
+				"2C1CE1327B727A645F6109BA",
+				"4FE1BCB181D5C024EE3FCBDC",
+				"A5954719706910AB6F6F13B6",
+				"A83368CE28257AD07D3E5F6F",
+				"75F1D580FCCC5212EF86B457",
+				"3C1BAE995198705419746947",
+				"BD99417E2291C55E921E936F",
+				"AB1EF55E8A615C8ADF3B0F0B",
+				"E5EC9FBD351CF9197338F266");
+			name = "Generated Sources";
+			sourceTree = "<group>";
+		};
+		87DF60DE337FB58864343E39 = {
+			isa = PBXGroup;
+			children = (
+				"5D0C8D9BB6E50D6CD6E8EA32");
+			name = "Resources";
+			sourceTree = "<group>";
+		};
+		2EB56BE3C2D93CDAB0C52E67 = {
+			isa = PBXGroup;
+			children = (
+				"05C3F9CFB6F8FB9670548140",
+				"072ED46C92B3AC0A6614415B",
+				"B038741644B5921A31515D99",
+				"B5610621D9E9D906C1DAB912",
+				"26229428AC3775CBC9EECADC",
+				"D2F492EF80A432433761BA9C",
+				"19369CA8301A6BA793B73CA6",
+				"F6EBA55A0BD0190831439896",
+				"BF52D56ADC4F618D52F5B043",
+				"7D128CCB90170DD7B0641680",
+				"4175E9D8B099FEF18DED1184",
+				"CC42DC4CED2F4DB2E1868BBF",
+				"B61764A6549BC5FC46184430",
+				"A54CDB29E033A026C01F7524",
+				"65DC78C2FC44A6FEC14093CD",
+				"4DF5C1879C27A4FE55F7F789",
+				"EDC6184C08B3C9C68D20D15C",
+				"FD4BB277242E2274711D0341",
+				"E7ABA12C1F3C8726A0CD8DAB",
+				"15D77805A1FAB45450F4D35E",
+				"9CE28580226A013EFF0E04AF",
+				"D9A6B8D5E7CE87AF9384147B",
+				"1FE5D32395F63750E595043B",
+				"0BC653EF1A5FB7D70432AA89",
+				"A3BBFD1D8130DE87E7C37701",
+				"A4D53B5289688239A8BD0CA8",
+				"9E6E92A7B794711A190FFFD0",
+				"2A4866D6D9B43A1267510A87",
+				"4A1ECA32D68CED0B552536DA");
+			name = "Sources";
+			sourceTree = "<group>";
+		};
+		74B182DB50CB5611B5C1C297 = {
+			isa = PBXGroup;
+			children = (
+				"08B690CFEB8DBB710D9DB8E9",
+				"1C5C3EFAF79E96312DFE3EB7",
+				"5D0C8D9BB6E50D6CD6E8EA32");
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7EF0942E79C014DCEC8976BC = {
+			buildActionMask = 2147483647;
+			files = (
+				);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Qt Preprocessors";
+			shellPath = "/bin/sh";
+			shellScript = "make -C /Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable -f qt_preprocess.mak";
+			showEnvVarsInLog = "0";
+		};
+		F7E50F631C51CD5B5DC0BC43 = {
+			buildActionMask = 2147483647;
+			files = (
+				"3D8E879B075830A88650F079",
+				"419FD9AF36F5CEB2F3A74798",
+				"E18710FD6CBCBEFBC22838EB",
+				"7983F9A67D2A0E69A534E9EE",
+				"0823F0849DC82F9DCD8DFFFA",
+				"82206A4E90A84F19E8F8B090",
+				"FAEB48E4E90077F203CE6222",
+				"37046A001D517D799CA62F3A",
+				"62A2E3521DE52C5E3D53E481",
+				"0972D00F829E0635E8572CA0",
+				"45348274DACAD3C775743860",
+				"5E8140561125BF7C66CBCB71",
+				"F6FE7DB46D9ADC7D06B90081",
+				"FDE251A5522637FB76927FE6",
+				"53AA67EAC24E7D5094CF3253",
+				"B368246477EA81F31957B4C2",
+				"7C6173891D151E1107D6CA5C",
+				"35081EF03FAE589DC0F7B490",
+				"6F3F7281873C1B443C5FE79F",
+				"7082E35D74337F3829879335",
+				"45B04A135840F4B9608F6EE0",
+				"9E44020493A86C55C1546C3C",
+				"EA453168930B236EB1C45375",
+				"BD54A7A4D4A2B23DF0E59DC5",
+				"3DE12BFF3F1092FA9895C38E",
+				"06D4E927275B14AE37CF8791");
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Compile Sources";
+		};
+		FCC237CA5AD60B9BA4447615 = {
+			isa = PBXFileReference;
+			name = "Foundation.framework";
+			path = "/System/Library/Frameworks/Foundation.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		F26454630C80841CBDCFE1CA = {
+			fileRef = "FCC237CA5AD60B9BA4447615";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7EC00404ACD5AB0E97726B0E = {
+			isa = PBXFileReference;
+			name = "QuartzCore.framework";
+			path = "/System/Library/Frameworks/QuartzCore.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		B460F624007324313696BE86 = {
+			fileRef = "7EC00404ACD5AB0E97726B0E";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3C44131FDCFEF4396B9EA2BA = {
+			isa = PBXFileReference;
+			name = "AudioToolbox.framework";
+			path = "/System/Library/Frameworks/AudioToolbox.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		4EB68D0C8182BCE33529C421 = {
+			fileRef = "3C44131FDCFEF4396B9EA2BA";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4D765E1B1EA6C757220C63E7 = {
+			isa = PBXFileReference;
+			name = "CoreFoundation.framework";
+			path = "/System/Library/Frameworks/CoreFoundation.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		F8B465CE34D8DF87AAE95913 = {
+			fileRef = "4D765E1B1EA6C757220C63E7";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7D7B02101166B76FD2D4F8B4 = {
+			isa = PBXFileReference;
+			name = "CoreText.framework";
+			path = "/System/Library/Frameworks/CoreText.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		2B02D9DC58A01E45248DDBCE = {
+			fileRef = "7D7B02101166B76FD2D4F8B4";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6AE3EC31EE5BB1FCEE84137C = {
+			isa = PBXFileReference;
+			name = "CoreGraphics.framework";
+			path = "/System/Library/Frameworks/CoreGraphics.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		0CE02722F00CAD43741297B5 = {
+			fileRef = "6AE3EC31EE5BB1FCEE84137C";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		205259EEEE2BADA5E64741E3 = {
+			isa = PBXFileReference;
+			name = "Security.framework";
+			path = "/System/Library/Frameworks/Security.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		15364689D2AB5A30E87A689F = {
+			fileRef = "205259EEEE2BADA5E64741E3";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		FF5BDAB0076F3391B219EA52 = {
+			isa = PBXFileReference;
+			name = "SystemConfiguration.framework";
+			path = "/System/Library/Frameworks/SystemConfiguration.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		D4639595C3BCF2A39D88DF6E = {
+			fileRef = "FF5BDAB0076F3391B219EA52";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		2D88F9D381728DBA216E5B28 = {
+			isa = PBXFileReference;
+			name = "qtquick2plugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick.2/libqtquick2plugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		FC455E611A7F95F31E96748A = {
+			fileRef = "2D88F9D381728DBA216E5B28";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D871E1A794CA0AC60B059606 = {
+			isa = PBXFileReference;
+			name = "qtquickcontrols2plugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls.2/libqtquickcontrols2plugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		F9DF91BB64CACA12ECA07D55 = {
+			fileRef = "D871E1A794CA0AC60B059606";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		C2C5F9642A4C8AA35E7AF61D = {
+			isa = PBXFileReference;
+			name = "Qt5QuickControls2";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5QuickControls2$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		184818929500991105833AA9 = {
+			fileRef = "C2C5F9642A4C8AA35E7AF61D";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BD371C1426C759842B8F613C = {
+			isa = PBXFileReference;
+			name = "qtquicktemplates2plugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Templates.2/libqtquicktemplates2plugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		B62D8C4D7A1C1C0FC20BC7D2 = {
+			fileRef = "BD371C1426C759842B8F613C";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		ABDA134A8320B8CF255763D7 = {
+			isa = PBXFileReference;
+			name = "Qt5QuickTemplates2";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5QuickTemplates2$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		8CD316AEE04A7EB2B31D5836 = {
+			fileRef = "ABDA134A8320B8CF255763D7";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8CE421F3FA5CB5D678B94986 = {
+			isa = PBXFileReference;
+			name = "windowplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Window.2/libwindowplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		7C6122C080030481922D6934 = {
+			fileRef = "8CE421F3FA5CB5D678B94986";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8F9623B0F06A8540884AB069 = {
+			isa = PBXFileReference;
+			name = "qtgraphicaleffectsplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/libqtgraphicaleffectsplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		BB92AE6F63964AC0AE0004E3 = {
+			fileRef = "8F9623B0F06A8540884AB069";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F0B102C24B88D5266F71FB17 = {
+			isa = PBXFileReference;
+			name = "qtgraphicaleffectsprivate";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/private/libqtgraphicaleffectsprivate$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		08A4B9A5E8DFFAD3C8A405D5 = {
+			fileRef = "F0B102C24B88D5266F71FB17";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BE46863583834172631B2C29 = {
+			isa = PBXFileReference;
+			name = "qquicklayoutsplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Layouts/libqquicklayoutsplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		2E67501DC6FE53E351CE40AC = {
+			fileRef = "BE46863583834172631B2C29";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0FE0FE76A6A6747D4CD263DA = {
+			isa = PBXFileReference;
+			name = "declarative_webview";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtWebView/libdeclarative_webview$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		28F9ABC3EE944DA8BDEE21DB = {
+			fileRef = "0FE0FE76A6A6747D4CD263DA";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B5994A8C3BC3D5E951EF437 = {
+			isa = PBXFileReference;
+			name = "Qt5WebView";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5WebView$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0FA766FF045508FEAE70A51C = {
+			fileRef = "4B5994A8C3BC3D5E951EF437";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		42E66417D486B145AB4BA295 = {
+			isa = PBXFileReference;
+			name = "WebKit.framework";
+			path = "/System/Library/Frameworks/WebKit.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		F2E0BCD8F4A4408514A419EB = {
+			fileRef = "42E66417D486B145AB4BA295";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9714322A39372B7AFA9028A3 = {
+			isa = PBXFileReference;
+			name = "dialogplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/libdialogplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		E37C1A837EF2AD7FC759CCBB = {
+			fileRef = "9714322A39372B7AFA9028A3";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		521346A2CC91F63542147BD4 = {
+			isa = PBXFileReference;
+			name = "qmlfolderlistmodelplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/Qt/labs/folderlistmodel/libqmlfolderlistmodelplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		01CEF69A7E0EFF33525F8DB7 = {
+			fileRef = "521346A2CC91F63542147BD4";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		36B5786A3324F713D6D80781 = {
+			isa = PBXFileReference;
+			name = "qmlsettingsplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/Qt/labs/settings/libqmlsettingsplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		328D7BB5DAFE24DB00CC6B5E = {
+			fileRef = "36B5786A3324F713D6D80781";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		7886764D2BB3D847127790C2 = {
+			isa = PBXFileReference;
+			name = "dialogsprivateplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/Private/libdialogsprivateplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		8B0057B36F147D1685EC66BD = {
+			fileRef = "7886764D2BB3D847127790C2";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		A58D1050DBBFFFABBB8A54AB = {
+			isa = PBXFileReference;
+			name = "qtquickcontrolsplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls/libqtquickcontrolsplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0C0E260F2F1CDE20C20CDE58 = {
+			fileRef = "A58D1050DBBFFFABBB8A54AB";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BAA012157A81A042CC4B445F = {
+			isa = PBXFileReference;
+			name = "widgetsplugin";
+			path = "/Users/jons/Qt/5.8/ios/qml/QtQuick/PrivateWidgets/libwidgetsplugin$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		78A12D01C7357BDAD0D0D4FC = {
+			fileRef = "BAA012157A81A042CC4B445F";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		EF0E48123F421B5C7E4DE246 = {
+			isa = PBXFileReference;
+			name = "Qt5Widgets";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Widgets$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		46667F7797994324F2C0A0C2 = {
+			fileRef = "EF0E48123F421B5C7E4DE246";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		12FAE6C3BD17F754FB335079 = {
+			isa = PBXFileReference;
+			name = "qios";
+			path = "/Users/jons/Qt/5.8/ios/plugins/platforms/libqios$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		185A7EC785C122412DA5D1CE = {
+			fileRef = "12FAE6C3BD17F754FB335079";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BFFA87A95609940615CDE88B = {
+			isa = PBXFileReference;
+			name = "Qt5FontDatabaseSupport";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5FontDatabaseSupport$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		C362CDB1E5F0134A0B4236E6 = {
+			fileRef = "BFFA87A95609940615CDE88B";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9E5EEB651EA56CADBE83979E = {
+			isa = PBXFileReference;
+			name = "Qt5GraphicsSupport";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5GraphicsSupport$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1300D602ED3616788E10FBF6 = {
+			fileRef = "9E5EEB651EA56CADBE83979E";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CDAC56FA72C68BF129B6B766 = {
+			isa = PBXFileReference;
+			name = "Qt5ClipboardSupport";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5ClipboardSupport$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		A034B4C76CB4092A351E232A = {
+			fileRef = "CDAC56FA72C68BF129B6B766";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9CE4548C966EF5177441FAC7 = {
+			isa = PBXFileReference;
+			name = "qtfreetype";
+			path = "/Users/jons/Qt/5.8/ios/lib/libqtfreetype$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		64F575B8A0541BFE354A9D00 = {
+			fileRef = "9CE4548C966EF5177441FAC7";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0DF9BAC25B71573C889F5E96 = {
+			isa = PBXFileReference;
+			name = "qgif";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqgif$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		A79A23F0B616A2D59E96B6F1 = {
+			fileRef = "0DF9BAC25B71573C889F5E96";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		64383B73CD2D28E8A379D699 = {
+			isa = PBXFileReference;
+			name = "qicns";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqicns$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		95A031BC9C2116CBAF639108 = {
+			fileRef = "64383B73CD2D28E8A379D699";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8CF609ED9F414D3C974AAE00 = {
+			isa = PBXFileReference;
+			name = "qico";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqico$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		3CDB8B233D3E9F3765CDE452 = {
+			fileRef = "8CF609ED9F414D3C974AAE00";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CA745A9EA7E7EB54DEE17966 = {
+			isa = PBXFileReference;
+			name = "qjpeg";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqjpeg$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		527EFF9698A4DFF626DFC804 = {
+			fileRef = "CA745A9EA7E7EB54DEE17966";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		042EA4BA62B20A9D5B7037E4 = {
+			isa = PBXFileReference;
+			name = "qmacjp2";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqmacjp2$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		6E0A29E63DFCE87D48666FA9 = {
+			fileRef = "042EA4BA62B20A9D5B7037E4";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3A8EF9C62A8D4790CBB89CEA = {
+			isa = PBXFileReference;
+			name = "ImageIO.framework";
+			path = "/System/Library/Frameworks/ImageIO.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		61EEC397DC8556BF8C4E36A7 = {
+			fileRef = "3A8EF9C62A8D4790CBB89CEA";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8AC9674AAC5DDB1748AA978F = {
+			isa = PBXFileReference;
+			name = "qtga";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqtga$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		44C73CA92CF9D377A48D268C = {
+			fileRef = "8AC9674AAC5DDB1748AA978F";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		825B3DB0AA54F28A30F11CB4 = {
+			isa = PBXFileReference;
+			name = "qtiff";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqtiff$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		F61F5469846C21BB3541C73A = {
+			fileRef = "825B3DB0AA54F28A30F11CB4";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		C161E75F52243813C6A11076 = {
+			isa = PBXFileReference;
+			name = "qwbmp";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqwbmp$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		2CA19287DF18BC73ACCE7A37 = {
+			fileRef = "C161E75F52243813C6A11076";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1508DBD77E280580E6A15883 = {
+			isa = PBXFileReference;
+			name = "qwebp";
+			path = "/Users/jons/Qt/5.8/ios/plugins/imageformats/libqwebp$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		CBEBD6B780A6CFAAE513699A = {
+			fileRef = "1508DBD77E280580E6A15883";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		04BA692404FA2FB70FCC83F1 = {
+			isa = PBXFileReference;
+			name = "qmldbg_debugger";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_debugger$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		75FEE0E6FA60FDC1CBCF47E6 = {
+			fileRef = "04BA692404FA2FB70FCC83F1";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		1B46B9C598B65F61276B609C = {
+			isa = PBXFileReference;
+			name = "qmldbg_inspector";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_inspector$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		66F8F60252E9BFDB473FCA9B = {
+			fileRef = "1B46B9C598B65F61276B609C";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9D388EB97CA5B74AAB34D643 = {
+			isa = PBXFileReference;
+			name = "qmldbg_local";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_local$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		D2C9CFB7BF7A0AFA043A71E8 = {
+			fileRef = "9D388EB97CA5B74AAB34D643";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4DA645A5EB378FE3731BBC48 = {
+			isa = PBXFileReference;
+			name = "qmldbg_native";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_native$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		3B1433B0856091B112A1D3F7 = {
+			fileRef = "4DA645A5EB378FE3731BBC48";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		A3E1E4E83477D9F2B8031C97 = {
+			isa = PBXFileReference;
+			name = "qmldbg_profiler";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_profiler$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		8DDA8B828FBAEF36844DA4B1 = {
+			fileRef = "A3E1E4E83477D9F2B8031C97";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		50F7A07F67EDD09B1B9BEBB9 = {
+			isa = PBXFileReference;
+			name = "qmldbg_quickprofiler";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_quickprofiler$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		C60046A646717988F2D1F612 = {
+			fileRef = "50F7A07F67EDD09B1B9BEBB9";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D20A40E6CBBF4877589C3A4E = {
+			isa = PBXFileReference;
+			name = "Qt5Quick";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Quick$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		216710EAF0B42F545F1E7F30 = {
+			fileRef = "D20A40E6CBBF4877589C3A4E";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9C374F739BBA0785E97B926D = {
+			isa = PBXFileReference;
+			name = "Qt5Gui";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Gui$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		E8B46D137E23D35FEC460A66 = {
+			fileRef = "9C374F739BBA0785E97B926D";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		90E57866ABCA597AFFB37C10 = {
+			isa = PBXFileReference;
+			name = "qtlibpng";
+			path = "/Users/jons/Qt/5.8/ios/lib/libqtlibpng$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5814BC3A3F228932DD6BE805 = {
+			fileRef = "90E57866ABCA597AFFB37C10";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		671E667FE895BABEDBDE0B04 = {
+			isa = PBXFileReference;
+			name = "qtharfbuzz";
+			path = "/Users/jons/Qt/5.8/ios/lib/libqtharfbuzz$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		AEB25FB4323C360A4D5170DF = {
+			fileRef = "671E667FE895BABEDBDE0B04";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		805E491C444831A71A1840F3 = {
+			isa = PBXFileReference;
+			name = "qmldbg_server";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_server$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		AD47C9ACA6F1523E279D255F = {
+			fileRef = "805E491C444831A71A1840F3";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B38DC3DB0AF0D8BEF747D12C = {
+			isa = PBXFileReference;
+			name = "Qt5PacketProtocol";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5PacketProtocol$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0A563363FD3FE29ADB8E7BB2 = {
+			fileRef = "B38DC3DB0AF0D8BEF747D12C";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		A8D39D2DE9883FBCB88B84C8 = {
+			isa = PBXFileReference;
+			name = "qmldbg_tcp";
+			path = "/Users/jons/Qt/5.8/ios/plugins/qmltooling/libqmldbg_tcp$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		4F1F0A4E3D000227585763A9 = {
+			fileRef = "A8D39D2DE9883FBCB88B84C8";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		E37D48885CF9C84599576AFC = {
+			isa = PBXFileReference;
+			name = "Qt5Qml";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Qml$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		AC27AC5FACD443C43ACB8F9D = {
+			fileRef = "E37D48885CF9C84599576AFC";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		327784BAAA54CFDBDE781B1E = {
+			isa = PBXFileReference;
+			name = "qgenericbearer";
+			path = "/Users/jons/Qt/5.8/ios/plugins/bearer/libqgenericbearer$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		94443546D4804B74BFE42B9A = {
+			fileRef = "327784BAAA54CFDBDE781B1E";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AC15257C7A18C756F5CBBA7B = {
+			isa = PBXFileReference;
+			name = "Qt5Network";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Network$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		615D6BD063D815E1107F62A6 = {
+			fileRef = "AC15257C7A18C756F5CBBA7B";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		32A1185C818B1A53F103A9C4 = {
+			isa = PBXFileReference;
+			name = "Qt5Core";
+			path = "/Users/jons/Qt/5.8/ios/lib/libQt5Core$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		8FD93D1347838B0753B105AB = {
+			fileRef = "32A1185C818B1A53F103A9C4";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		698A7351B08E6B8C21E37456 = {
+			isa = PBXFileReference;
+			name = "qtpcre";
+			path = "/Users/jons/Qt/5.8/ios/lib/libqtpcre$(QT_LIBRARY_SUFFIX).a";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		D2FB94647C3B83C830FCC9FB = {
+			fileRef = "698A7351B08E6B8C21E37456";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AF39DD055C3EF8226FBE929D = {
+			children = (
+				"FCC237CA5AD60B9BA4447615",
+				"7EC00404ACD5AB0E97726B0E",
+				"3C44131FDCFEF4396B9EA2BA",
+				"4D765E1B1EA6C757220C63E7",
+				"7D7B02101166B76FD2D4F8B4",
+				"6AE3EC31EE5BB1FCEE84137C",
+				"205259EEEE2BADA5E64741E3",
+				"FF5BDAB0076F3391B219EA52",
+				"2D88F9D381728DBA216E5B28",
+				"D871E1A794CA0AC60B059606",
+				"C2C5F9642A4C8AA35E7AF61D",
+				"BD371C1426C759842B8F613C",
+				"ABDA134A8320B8CF255763D7",
+				"8CE421F3FA5CB5D678B94986",
+				"8F9623B0F06A8540884AB069",
+				"F0B102C24B88D5266F71FB17",
+				"BE46863583834172631B2C29",
+				"0FE0FE76A6A6747D4CD263DA",
+				"4B5994A8C3BC3D5E951EF437",
+				"42E66417D486B145AB4BA295",
+				"9714322A39372B7AFA9028A3",
+				"521346A2CC91F63542147BD4",
+				"36B5786A3324F713D6D80781",
+				"7886764D2BB3D847127790C2",
+				"A58D1050DBBFFFABBB8A54AB",
+				"BAA012157A81A042CC4B445F",
+				"EF0E48123F421B5C7E4DE246",
+				"12FAE6C3BD17F754FB335079",
+				"BFFA87A95609940615CDE88B",
+				"9E5EEB651EA56CADBE83979E",
+				"CDAC56FA72C68BF129B6B766",
+				"9CE4548C966EF5177441FAC7",
+				"0DF9BAC25B71573C889F5E96",
+				"64383B73CD2D28E8A379D699",
+				"8CF609ED9F414D3C974AAE00",
+				"CA745A9EA7E7EB54DEE17966",
+				"042EA4BA62B20A9D5B7037E4",
+				"3A8EF9C62A8D4790CBB89CEA",
+				"8AC9674AAC5DDB1748AA978F",
+				"825B3DB0AA54F28A30F11CB4",
+				"C161E75F52243813C6A11076",
+				"1508DBD77E280580E6A15883",
+				"04BA692404FA2FB70FCC83F1",
+				"1B46B9C598B65F61276B609C",
+				"9D388EB97CA5B74AAB34D643",
+				"4DA645A5EB378FE3731BBC48",
+				"A3E1E4E83477D9F2B8031C97",
+				"50F7A07F67EDD09B1B9BEBB9",
+				"D20A40E6CBBF4877589C3A4E",
+				"9C374F739BBA0785E97B926D",
+				"90E57866ABCA597AFFB37C10",
+				"671E667FE895BABEDBDE0B04",
+				"805E491C444831A71A1840F3",
+				"B38DC3DB0AF0D8BEF747D12C",
+				"A8D39D2DE9883FBCB88B84C8",
+				"E37D48885CF9C84599576AFC",
+				"327784BAAA54CFDBDE781B1E",
+				"AC15257C7A18C756F5CBBA7B",
+				"32A1185C818B1A53F103A9C4",
+				"698A7351B08E6B8C21E37456");
+			isa = PBXGroup;
+			name = "Frameworks";
+			sourceTree = "<group>";
+		};
+		D1C883685E82D5676953459A = {
+			buildActionMask = 2147483647;
+			files = (
+				"F26454630C80841CBDCFE1CA",
+				"B460F624007324313696BE86",
+				"4EB68D0C8182BCE33529C421",
+				"F8B465CE34D8DF87AAE95913",
+				"2B02D9DC58A01E45248DDBCE",
+				"0CE02722F00CAD43741297B5",
+				"15364689D2AB5A30E87A689F",
+				"D4639595C3BCF2A39D88DF6E",
+				"FC455E611A7F95F31E96748A",
+				"F9DF91BB64CACA12ECA07D55",
+				"184818929500991105833AA9",
+				"B62D8C4D7A1C1C0FC20BC7D2",
+				"8CD316AEE04A7EB2B31D5836",
+				"7C6122C080030481922D6934",
+				"BB92AE6F63964AC0AE0004E3",
+				"08A4B9A5E8DFFAD3C8A405D5",
+				"2E67501DC6FE53E351CE40AC",
+				"28F9ABC3EE944DA8BDEE21DB",
+				"0FA766FF045508FEAE70A51C",
+				"F2E0BCD8F4A4408514A419EB",
+				"E37C1A837EF2AD7FC759CCBB",
+				"01CEF69A7E0EFF33525F8DB7",
+				"328D7BB5DAFE24DB00CC6B5E",
+				"8B0057B36F147D1685EC66BD",
+				"0C0E260F2F1CDE20C20CDE58",
+				"78A12D01C7357BDAD0D0D4FC",
+				"46667F7797994324F2C0A0C2",
+				"185A7EC785C122412DA5D1CE",
+				"C362CDB1E5F0134A0B4236E6",
+				"1300D602ED3616788E10FBF6",
+				"A034B4C76CB4092A351E232A",
+				"64F575B8A0541BFE354A9D00",
+				"A79A23F0B616A2D59E96B6F1",
+				"95A031BC9C2116CBAF639108",
+				"3CDB8B233D3E9F3765CDE452",
+				"527EFF9698A4DFF626DFC804",
+				"6E0A29E63DFCE87D48666FA9",
+				"61EEC397DC8556BF8C4E36A7",
+				"44C73CA92CF9D377A48D268C",
+				"F61F5469846C21BB3541C73A",
+				"2CA19287DF18BC73ACCE7A37",
+				"CBEBD6B780A6CFAAE513699A",
+				"75FEE0E6FA60FDC1CBCF47E6",
+				"66F8F60252E9BFDB473FCA9B",
+				"D2C9CFB7BF7A0AFA043A71E8",
+				"3B1433B0856091B112A1D3F7",
+				"8DDA8B828FBAEF36844DA4B1",
+				"C60046A646717988F2D1F612",
+				"216710EAF0B42F545F1E7F30",
+				"E8B46D137E23D35FEC460A66",
+				"5814BC3A3F228932DD6BE805",
+				"AEB25FB4323C360A4D5170DF",
+				"AD47C9ACA6F1523E279D255F",
+				"0A563363FD3FE29ADB8E7BB2",
+				"4F1F0A4E3D000227585763A9",
+				"AC27AC5FACD443C43ACB8F9D",
+				"94443546D4804B74BFE42B9A",
+				"615D6BD063D815E1107F62A6",
+				"8FD93D1347838B0753B105AB",
+				"D2FB94647C3B83C830FCC9FB");
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Link Binary With Libraries";
+		};
+		776D5E25B18ED6FE9A43064F = {
+			buildActionMask = 2147483647;
+			files = (
+				);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)");
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Qt Postlink";
+			shellPath = "/bin/sh";
+			shellScript = "cp /Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/qt.conf \"$CODESIGNING_FOLDER_PATH/qt.conf\";  test -d \"$CODESIGNING_FOLDER_PATH/qt_qml\" && rm -r \"$CODESIGNING_FOLDER_PATH/qt_qml\";  mkdir -p \"$CODESIGNING_FOLDER_PATH/qt_qml\" &&  for p in /Users/jons/Qt/5.8/ios/qml; do rsync -r --exclude='*.a' --exclude='*.prl' --exclude='*.qmltypes'  $p/ \"$CODESIGNING_FOLDER_PATH/qt_qml\"; done";
+			showEnvVarsInLog = "0";
+		};
+		C70BB064FE6E49444F72BD9E = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/RavensbourneTable.xcodeproj/Default-568h@2x.png";
+			name = "Default-568h@2x.png";
+			sourceTree = "<absolute>";
+		};
+		37721DC71458AA9DF5D8855D = {
+			fileRef = "C70BB064FE6E49444F72BD9E";
+			isa = PBXBuildFile;
+		};
+		368B6B4D49C45CB5E28485E6 = {
+			isa = PBXFileReference;
+			path = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable/RavensbourneTable.xcodeproj/LaunchScreen.xib";
+			name = "LaunchScreen.xib";
+			sourceTree = "<absolute>";
+		};
+		0A3CFE412018F551CE5C1363 = {
+			fileRef = "368B6B4D49C45CB5E28485E6";
+			isa = PBXBuildFile;
+		};
+		858FCAB0EB1F29CF8B07677C = {
+			children = (
+				"C70BB064FE6E49444F72BD9E",
+				"368B6B4D49C45CB5E28485E6");
+			isa = PBXGroup;
+			name = "Bundle Data";
+			sourceTree = "<group>";
+		};
+		30414803F31797EB689AE508 = {
+			buildActionMask = 2147483647;
+			files = (
+				"37721DC71458AA9DF5D8855D",
+				"0A3CFE412018F551CE5C1363");
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Copy Bundle Resources";
+		};
+		4A31BECE417632A4203116E7 = {
+			isa = PBXFileReference;
+			includeInIndex = 0;
+			explicitFileType = "wrapper.application";
+			path = "RavensbourneTable.app";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FE0A091FDBFB3E9C31B7A1BD = {
+			children = (
+				"4A31BECE417632A4203116E7");
+			isa = PBXGroup;
+			name = "Products";
+			sourceTree = "<group>";
+		};
+		E8C543AB96796ECAA2E65C57 = {
+			children = (
+				"2EB56BE3C2D93CDAB0C52E67",
+				"25B08E2869634E9BCBA333A2",
+				"74B182DB50CB5611B5C1C297",
+				"87DF60DE337FB58864343E39",
+				"AF39DD055C3EF8226FBE929D",
+				"858FCAB0EB1F29CF8B07677C",
+				"FE0A091FDBFB3E9C31B7A1BD");
+			isa = PBXGroup;
+			name = "RavensbourneTable";
+			sourceTree = "<group>";
+		};
+		91FF03D60D30A862F576A726 = {
+			buildPhases = (
+				"5E618435888B9D49F8540165",
+				"7EF0942E79C014DCEC8976BC");
+			dependencies = (
+				);
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59;
+			isa = PBXAggregateTarget;
+			buildRules = (
+);
+			productName = "Qt Preprocess";
+			name = "Qt Preprocess";
+		};
+		DF8AA0502FAC7F4BAF3CB209 = {
+			isa = PBXTargetDependency;
+			target = "91FF03D60D30A862F576A726";
+		};
+		69B54FA9A538915F46C65B8A = {
+			buildPhases = (
+				"F7E50F631C51CD5B5DC0BC43",
+				"D1C883685E82D5676953459A",
+				"776D5E25B18ED6FE9A43064F",
+				"30414803F31797EB689AE508");
+			dependencies = (
+				"DF8AA0502FAC7F4BAF3CB209");
+			productReference = "4A31BECE417632A4203116E7";
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59;
+			isa = PBXNativeTarget;
+			buildRules = (
+);
+			productType = "com.apple.product-type.application";
+			name = "RavensbourneTable";
+			productName = "RavensbourneTable";
+		};
+		3AA6C32AC930069E80220CF1 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "armv7 arm64";
+				"ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				COPY_PHASE_STRIP = "NO";
+				DEBUG_INFORMATION_FORMAT = "dwarf";
+				DEVELOPMENT_TEAM = "5937HKH33T";
+				ENABLE_BITCODE = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "YES";
+				GCC_OPTIMIZATION_LEVEL = "0";
+				ONLY_ACTIVE_ARCH = "YES";
+				PRODUCT_NAME = "RavensbourneTable";
+				"QMAKE_MAC_SDK_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk";
+				"QMAKE_MAC_SDK_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.2.sdk";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform";
+				QT_LIBRARY_SUFFIX = "_debug";
+				SDKROOT = "iphoneos";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				CC = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang";
+				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				INFOPLIST_FILE = "ios/Info.plist";
+				SYMROOT = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable";
+				DYLIB_CURRENT_VERSION = "1.0.0";
+				DYLIB_COMPATIBILITY_VERSION = "1.0";
+				IPHONEOS_DEPLOYMENT_TARGET = "7.0";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					".",
+					"../../../../Qt/5.8/ios/mkspecs/common/uikit",
+					"../../../../Qt/5.8/ios/include",
+					"../../../../Qt/5.8/ios/include/QtQuick",
+					"../../../../Qt/5.8/ios/include/QtGui",
+					"../../../../Qt/5.8/ios/include/QtQml",
+					"../../../../Qt/5.8/ios/include/QtNetwork",
+					"../../../../Qt/5.8/ios/include/QtCore",
+					".",
+					"../../../../Qt/5.8/ios/mkspecs/macx-ios-clang");
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/jons/Qt/5.8/ios/plugins/platforms",
+					"/System/Library/Frameworks/",
+					"/Users/jons/Qt/5.8/ios/lib",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Templates.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Window.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects",
+					"/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/private",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Layouts",
+					"/Users/jons/Qt/5.8/ios/qml/QtWebView",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs",
+					"/Users/jons/Qt/5.8/ios/qml/Qt/labs/folderlistmodel",
+					"/Users/jons/Qt/5.8/ios/qml/Qt/labs/settings",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/Private",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/PrivateWidgets",
+					"/Users/jons/Qt/5.8/ios/plugins/imageformats",
+					"/Users/jons/Qt/5.8/ios/plugins/qmltooling",
+					"/Users/jons/Qt/5.8/ios/plugins/bearer");
+				FRAMEWORK_SEARCH_PATHS = "";
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-fvisibility=hidden",
+					"-fpascal-strings",
+					"-fmessage-length=0",
+					"-Wno-trigraphs",
+					"-Wreturn-type",
+					"-Wparentheses",
+					"-Wswitch",
+					"-Wno-unused-parameter",
+					"-Wunused-variable",
+					"-Wunused-value",
+					"-Wno-shorten-64-to-32",
+					"-Wno-sign-conversion",
+					"-fexceptions",
+					"-fasm-blocks",
+					"-Wno-missing-field-initializers",
+					"-Wno-missing-prototypes",
+					"-Wno-implicit-atomic-properties",
+					"-Wformat",
+					"-Wno-missing-braces",
+					"-Wno-unused-function",
+					"-Wno-unused-label",
+					"-Wuninitialized",
+					"-Wno-unknown-pragmas",
+					"-Wno-shadow",
+					"-Wno-four-char-constants",
+					"-Wno-sign-compare",
+					"-Wpointer-sign",
+					"-Wno-newline-eof",
+					"-Wdeprecated-declarations",
+					"-Winvalid-offsetof",
+					"-Wno-conversion",
+					"-g",
+					"-fobjc-nonfragile-abi",
+					"-fobjc-legacy-dispatch",
+					"-Wno-deprecated-implementations",
+					"-Wprotocol",
+					"-Wno-selector",
+					"-Wno-strict-selector-match",
+					"-Wno-undeclared-selector",
+					"-fembed-bitcode-marker",
+					"-Wall",
+					"-W",
+					"-fPIC",
+					"-DDARWIN_NO_CARBON",
+					"-DQT_COMPILER_SUPPORTS_SSE2",
+					"-DQT_QUICK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_QML_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-stdlib=libc++",
+					"-fvisibility=hidden",
+					"-fpascal-strings",
+					"-fmessage-length=0",
+					"-Wno-trigraphs",
+					"-Wreturn-type",
+					"-Wparentheses",
+					"-Wswitch",
+					"-Wno-unused-parameter",
+					"-Wunused-variable",
+					"-Wunused-value",
+					"-Wno-shorten-64-to-32",
+					"-Wno-sign-conversion",
+					"-fexceptions",
+					"-fasm-blocks",
+					"-Wno-missing-field-initializers",
+					"-Wno-missing-prototypes",
+					"-Wno-implicit-atomic-properties",
+					"-Wformat",
+					"-Wno-missing-braces",
+					"-Wno-unused-function",
+					"-Wno-unused-label",
+					"-Wuninitialized",
+					"-Wno-unknown-pragmas",
+					"-Wno-shadow",
+					"-Wno-four-char-constants",
+					"-Wno-sign-compare",
+					"-Wpointer-sign",
+					"-Wno-newline-eof",
+					"-Wdeprecated-declarations",
+					"-Winvalid-offsetof",
+					"-Wno-conversion",
+					"-fvisibility-inlines-hidden",
+					"-Wno-non-virtual-dtor",
+					"-Wno-overloaded-virtual",
+					"-Wno-exit-time-destructors",
+					"-g",
+					"-std=gnu++11",
+					"-fobjc-nonfragile-abi",
+					"-fobjc-legacy-dispatch",
+					"-Wno-deprecated-implementations",
+					"-Wprotocol",
+					"-Wno-selector",
+					"-Wno-strict-selector-match",
+					"-Wno-undeclared-selector",
+					"-fembed-bitcode-marker",
+					"-Wall",
+					"-W",
+					"-fPIC",
+					"-DDARWIN_NO_CARBON",
+					"-DQT_COMPILER_SUPPORTS_SSE2",
+					"-DQT_QUICK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_QML_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_LDFLAGS = (
+						"-headerpad_max_install_names",
+						"-stdlib=libc++",
+						"-fembed-bitcode-marker",
+						"-Wl,-e,_qt_main_wrapper",
+						"-L/Users/jons/Qt/5.8/ios/plugins/platforms",
+						"-framework",
+						"UIKit",
+						"-framework",
+						"AssetsLibrary",
+						"-L/Users/jons/Qt/5.8/ios/lib",
+						"-framework",
+						"MobileCoreServices",
+						"-framework",
+						"OpenGLES",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Templates.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Window.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/private",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Layouts",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtWebView",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs",
+						"-L/Users/jons/Qt/5.8/ios/qml/Qt/labs/folderlistmodel",
+						"-L/Users/jons/Qt/5.8/ios/qml/Qt/labs/settings",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/Private",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/PrivateWidgets",
+						"-L/Users/jons/Qt/5.8/ios/plugins/imageformats",
+						"-L/Users/jons/Qt/5.8/ios/plugins/qmltooling",
+						"-L/Users/jons/Qt/5.8/ios/plugins/bearer",
+						"-lm",
+						"-lz");
+				ARCHS = "armv7 arm64 i386 x86_64";
+			};
+			name = "Debug";
+		};
+		77418F46922677BB04ED38DD = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "armv7 arm64";
+				"ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				COPY_PHASE_STRIP = "NO";
+				DEBUG_INFORMATION_FORMAT = "dwarf";
+				DEVELOPMENT_TEAM = "5937HKH33T";
+				ENABLE_BITCODE = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "YES";
+				GCC_OPTIMIZATION_LEVEL = "0";
+				ONLY_ACTIVE_ARCH = "YES";
+				PRODUCT_NAME = "RavensbourneTable";
+				"QMAKE_MAC_SDK_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk";
+				"QMAKE_MAC_SDK_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.2.sdk";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform";
+				QT_LIBRARY_SUFFIX = "_debug";
+				SDKROOT = "iphoneos";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_NAME = "RavensbourneTable";
+			};
+			name = "Debug";
+		};
+		339EE1B2CC4FC24589A0EA95 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "armv7 arm64";
+				"ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				COPY_PHASE_STRIP = "YES";
+				DEVELOPMENT_TEAM = "5937HKH33T";
+				ENABLE_BITCODE = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "NO";
+				PRODUCT_NAME = "RavensbourneTable";
+				"QMAKE_MAC_SDK_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk";
+				"QMAKE_MAC_SDK_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.2.sdk";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform";
+				QT_LIBRARY_SUFFIX = "";
+				SDKROOT = "iphoneos";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				CC = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang";
+				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				INFOPLIST_FILE = "ios/Info.plist";
+				SYMROOT = "/Users/jons/Documents/RavensbourneTable/IosVersion/RavensbourneTable";
+				DYLIB_CURRENT_VERSION = "1.0.0";
+				DYLIB_COMPATIBILITY_VERSION = "1.0";
+				IPHONEOS_DEPLOYMENT_TARGET = "7.0";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = (
+					".",
+					"../../../../Qt/5.8/ios/mkspecs/common/uikit",
+					"../../../../Qt/5.8/ios/include",
+					"../../../../Qt/5.8/ios/include/QtQuick",
+					"../../../../Qt/5.8/ios/include/QtGui",
+					"../../../../Qt/5.8/ios/include/QtQml",
+					"../../../../Qt/5.8/ios/include/QtNetwork",
+					"../../../../Qt/5.8/ios/include/QtCore",
+					".",
+					"../../../../Qt/5.8/ios/mkspecs/macx-ios-clang");
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/jons/Qt/5.8/ios/plugins/platforms",
+					"/System/Library/Frameworks/",
+					"/Users/jons/Qt/5.8/ios/lib",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Templates.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Window.2",
+					"/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects",
+					"/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/private",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Layouts",
+					"/Users/jons/Qt/5.8/ios/qml/QtWebView",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs",
+					"/Users/jons/Qt/5.8/ios/qml/Qt/labs/folderlistmodel",
+					"/Users/jons/Qt/5.8/ios/qml/Qt/labs/settings",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/Private",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls",
+					"/Users/jons/Qt/5.8/ios/qml/QtQuick/PrivateWidgets",
+					"/Users/jons/Qt/5.8/ios/plugins/imageformats",
+					"/Users/jons/Qt/5.8/ios/plugins/qmltooling",
+					"/Users/jons/Qt/5.8/ios/plugins/bearer");
+				FRAMEWORK_SEARCH_PATHS = "";
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-fvisibility=hidden",
+					"-fpascal-strings",
+					"-fmessage-length=0",
+					"-Wno-trigraphs",
+					"-Wreturn-type",
+					"-Wparentheses",
+					"-Wswitch",
+					"-Wno-unused-parameter",
+					"-Wunused-variable",
+					"-Wunused-value",
+					"-Wno-shorten-64-to-32",
+					"-Wno-sign-conversion",
+					"-fexceptions",
+					"-fasm-blocks",
+					"-Wno-missing-field-initializers",
+					"-Wno-missing-prototypes",
+					"-Wno-implicit-atomic-properties",
+					"-Wformat",
+					"-Wno-missing-braces",
+					"-Wno-unused-function",
+					"-Wno-unused-label",
+					"-Wuninitialized",
+					"-Wno-unknown-pragmas",
+					"-Wno-shadow",
+					"-Wno-four-char-constants",
+					"-Wno-sign-compare",
+					"-Wpointer-sign",
+					"-Wno-newline-eof",
+					"-Wdeprecated-declarations",
+					"-Winvalid-offsetof",
+					"-Wno-conversion",
+					"-g",
+					"-fobjc-nonfragile-abi",
+					"-fobjc-legacy-dispatch",
+					"-Wno-deprecated-implementations",
+					"-Wprotocol",
+					"-Wno-selector",
+					"-Wno-strict-selector-match",
+					"-Wno-undeclared-selector",
+					"-fembed-bitcode-marker",
+					"-Wall",
+					"-W",
+					"-fPIC",
+					"-DDARWIN_NO_CARBON",
+					"-DQT_COMPILER_SUPPORTS_SSE2",
+					"-DQT_QUICK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_QML_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-stdlib=libc++",
+					"-fvisibility=hidden",
+					"-fpascal-strings",
+					"-fmessage-length=0",
+					"-Wno-trigraphs",
+					"-Wreturn-type",
+					"-Wparentheses",
+					"-Wswitch",
+					"-Wno-unused-parameter",
+					"-Wunused-variable",
+					"-Wunused-value",
+					"-Wno-shorten-64-to-32",
+					"-Wno-sign-conversion",
+					"-fexceptions",
+					"-fasm-blocks",
+					"-Wno-missing-field-initializers",
+					"-Wno-missing-prototypes",
+					"-Wno-implicit-atomic-properties",
+					"-Wformat",
+					"-Wno-missing-braces",
+					"-Wno-unused-function",
+					"-Wno-unused-label",
+					"-Wuninitialized",
+					"-Wno-unknown-pragmas",
+					"-Wno-shadow",
+					"-Wno-four-char-constants",
+					"-Wno-sign-compare",
+					"-Wpointer-sign",
+					"-Wno-newline-eof",
+					"-Wdeprecated-declarations",
+					"-Winvalid-offsetof",
+					"-Wno-conversion",
+					"-fvisibility-inlines-hidden",
+					"-Wno-non-virtual-dtor",
+					"-Wno-overloaded-virtual",
+					"-Wno-exit-time-destructors",
+					"-g",
+					"-std=gnu++11",
+					"-fobjc-nonfragile-abi",
+					"-fobjc-legacy-dispatch",
+					"-Wno-deprecated-implementations",
+					"-Wprotocol",
+					"-Wno-selector",
+					"-Wno-strict-selector-match",
+					"-Wno-undeclared-selector",
+					"-fembed-bitcode-marker",
+					"-Wall",
+					"-W",
+					"-fPIC",
+					"-DDARWIN_NO_CARBON",
+					"-DQT_COMPILER_SUPPORTS_SSE2",
+					"-DQT_QUICK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_QML_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_LDFLAGS = (
+						"-headerpad_max_install_names",
+						"-stdlib=libc++",
+						"-fembed-bitcode-marker",
+						"-Wl,-e,_qt_main_wrapper",
+						"-L/Users/jons/Qt/5.8/ios/plugins/platforms",
+						"-framework",
+						"UIKit",
+						"-framework",
+						"AssetsLibrary",
+						"-L/Users/jons/Qt/5.8/ios/lib",
+						"-framework",
+						"MobileCoreServices",
+						"-framework",
+						"OpenGLES",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Templates.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Window.2",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtGraphicalEffects/private",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Layouts",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtWebView",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs",
+						"-L/Users/jons/Qt/5.8/ios/qml/Qt/labs/folderlistmodel",
+						"-L/Users/jons/Qt/5.8/ios/qml/Qt/labs/settings",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Dialogs/Private",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/Controls",
+						"-L/Users/jons/Qt/5.8/ios/qml/QtQuick/PrivateWidgets",
+						"-L/Users/jons/Qt/5.8/ios/plugins/imageformats",
+						"-L/Users/jons/Qt/5.8/ios/plugins/qmltooling",
+						"-L/Users/jons/Qt/5.8/ios/plugins/bearer",
+						"-lm",
+						"-lz");
+				ARCHS = "armv7 arm64 i386 x86_64";
+			};
+			name = "Release";
+		};
+		6666AA5E688052234F6758D8 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphoneos*]" = "armv7 arm64";
+				"ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				COPY_PHASE_STRIP = "YES";
+				DEVELOPMENT_TEAM = "5937HKH33T";
+				ENABLE_BITCODE = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "NO";
+				PRODUCT_NAME = "RavensbourneTable";
+				"QMAKE_MAC_SDK_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk";
+				"QMAKE_MAC_SDK_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator10.2.sdk";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphoneos*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform";
+				"QMAKE_MAC_SDK_PLATFORM_PATH[sdk=iphonesimulator*]" = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform";
+				QT_LIBRARY_SUFFIX = "";
+				SDKROOT = "iphoneos";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				PRODUCT_NAME = "RavensbourneTable";
+			};
+			name = "Release";
+		};
+		DAC4C1AA5EDEA1C85E9CA5E6 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"3AA6C32AC930069E80220CF1",
+				"339EE1B2CC4FC24589A0EA95");
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug";
+		};
+		6CC3B5D2136C7CD6A5CF5A59 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"77418F46922677BB04ED38DD",
+				"6666AA5E688052234F6758D8");
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug";
+		};
+		6DB9C3763D02B1415CD9D565 = {
+			hasScannedForEncodings = 1;
+			compatibilityVersion = "Xcode 3.2";
+			isa = PBXProject;
+			mainGroup = "E8C543AB96796ECAA2E65C57";
+			productRefGroup = "FE0A091FDBFB3E9C31B7A1BD";
+			buildConfigurationList = "DAC4C1AA5EDEA1C85E9CA5E6";
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"69B54FA9A538915F46C65B8A",
+				"91FF03D60D30A862F576A726");
+			attributes = {
+				TargetAttributes = {
+				};
+			};
+		};
+	};
+	rootObject = "6DB9C3763D02B1415CD9D565";
+}
