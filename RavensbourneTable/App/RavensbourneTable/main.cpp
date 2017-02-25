@@ -14,6 +14,7 @@
 #include "timeout.h"
 #include "keyboardfocuslistener.h"
 #include "googleimagelistmodel.h"
+#include "flickrimagelistmodel.h"
 #include "webdatabase.h"
 #include "sessionclient.h"
 #include "guidgenerator.h"
@@ -85,6 +86,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("Timeout", Timeout::shared());
     engine.rootContext()->setContextProperty("KeyboardFocusListener", KeyboardFocusListener::shared());
     engine.rootContext()->setContextProperty("GoogleImageListModel", GoogleImageListModel::shared());
+    engine.rootContext()->setContextProperty("FlickrImageListModel", FlickrImageListModel::shared());
     engine.rootContext()->setContextProperty("WebDatabase", WebDatabase::shared());
     engine.rootContext()->setContextProperty("SessionClient", SessionClient::shared());
     engine.rootContext()->setContextProperty("GUIDGenerator", GUIDGenerator::shared());

@@ -28,7 +28,7 @@ ListModel {
     }
     ListElement {
         name: "back"
-        icon: "icons/down_arrow-white.png"
+        icon: "icons/home-white.png"
         action: "back"
     }
 }

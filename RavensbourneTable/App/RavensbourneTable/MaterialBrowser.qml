@@ -24,7 +24,7 @@ Item {
         anchors.rightMargin: parent.rotation === 0 ? 32 : 0
         anchors.leftMargin: parent.rotation === 0 ? 0 : 32
         backgroundColor: "transparent"
-        onNewViewRequested: function(request) { // open all
+        onNewViewRequested: function(request) { // open all in same pane TODO: tabs
             request.openIn(webBrowser);
         }
         onLoadingChanged: {
@@ -192,7 +192,6 @@ Item {
     //
     //
     //
-    property var me: null
     property var material: null
     //
     //

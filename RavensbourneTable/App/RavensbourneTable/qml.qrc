@@ -68,5 +68,8 @@
         <file>icons/pan-black.png</file>
         <file>icons/pan-white.png</file>
         <file>blank.html</file>
+        <file>FlickrImageBrowser.qml</file>
+        <file>icons/home-white.png</file>
+        <file>icons/home-black.png</file>
     </qresource>
 </RCC>

@@ -96,15 +96,21 @@ ApplicationWindow {
         }
     }
 
+    /*
     ImageBrowser {
         id: imageBrowser
     }
-
+    */
     /*
     GoogleImageBrowser {
         id: imageBrowser
     }
     */
+
+    FlickrImageBrowser {
+        id: imageBrowser
+    }
+
     EnrollFingerprint {
         id: enrollFingerprint
         z: 2

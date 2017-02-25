@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     linestylechooser.cpp \
     sessionclient.cpp \
     guidgenerator.cpp \
-    windowcontrol.cpp
+    windowcontrol.cpp \
+    flickrimagelistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -75,7 +76,8 @@ HEADERS += \
     linestylechooser.h \
     sessionclient.h \
     guidgenerator.h \
-    windowcontrol.h
+    windowcontrol.h \
+    flickrimagelistmodel.h
 
 DISTFILES += \
     Request.js \

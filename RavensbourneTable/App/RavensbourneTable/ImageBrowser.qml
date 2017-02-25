@@ -130,6 +130,8 @@ Item {
                 webBrowser.runJavaScript("var _nav_bar = document.querySelector('#rshdr'); if ( _nav_bar ) _nav_bar.style.display='none';");
                 webBrowser.runJavaScript("var _search_bar = document.querySelector('#qbc'); if ( _search_bar ) _search_bar.style.display='none';");
                 //urlBar.text = this.url;
+                var imageScript = "var _list_images = function() { var _image_elements }"
+
                 busyIndicator.visible = false;
                 break;
             default:
@@ -232,7 +234,6 @@ Item {
     //
     //
     //
-    property var me: null
     property var materialImage: null
     //
     //
