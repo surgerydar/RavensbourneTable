@@ -191,7 +191,7 @@ Item {
                 var d = GU.distance( cp, mp );
                 var dx = Math.abs( mp.x - cp.x );
                 var dy = Math.abs( mp.y - cp.y );
-                mode = dx < width / 4 && dy < height / 4 ? 'pan' : 'pinch'; // TODO: this should be closer to edge or closer to center
+                mode = dx < width / 4 && dy < height / 4 ? 'pan' : 'pinch'; 
                 startDistance = d;
                 startAngle = GU.angleBetween(cp,mp);
                 console.log( 'd=' + d );

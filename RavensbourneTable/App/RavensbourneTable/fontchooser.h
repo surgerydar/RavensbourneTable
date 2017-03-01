@@ -32,6 +32,7 @@ signals:
 
 public slots:
     QFont getFont() { return m_font; }
+    void setFont(QFont font, QColor colour);
 
 protected:
 

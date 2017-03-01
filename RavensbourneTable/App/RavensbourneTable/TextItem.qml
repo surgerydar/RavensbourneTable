@@ -26,7 +26,9 @@ EditableItem {
         //
         //
         onTextChanged: {
-            fitContent();
+            if ( enabled && focus && previousText.length > 0 ) { // editing and not new
+                fitContent();
+            }
         }
     }
 
@@ -91,7 +93,6 @@ EditableItem {
             content.font.italic = param.font.italic;
             content.font.underline = param.font.underline;
         }
-        //commitEditing();
     }
 
     function hasContent() {
@@ -99,6 +100,19 @@ EditableItem {
     }
 
     function showPropertyEditor() {
+    }
+
+    function setFont( font, colour ) {
+        content.font = font
+        content.color = colour;
+        fitContent();
+    }
+    function getFont() {
+        return content.font;
+    }
+
+    function getColour() {
+        return content.color;
     }
 
     property string previousText: content.text
@@ -111,7 +125,8 @@ EditableItem {
         previousColour = content.color;
         content.enabled = true;
         content.readOnly = false;
-        textBounds.visible = true;
+        content.clip = false;
+        //textBounds.visible = true;
     }
 
     function commitEditing() {
@@ -119,7 +134,8 @@ EditableItem {
         content.focus = false;
         content.enabled = false;
         content.readOnly = true;
-        textBounds.visible = true;
+        content.clip = true;
+        //textBounds.visible = true;
         fitContent();
     }
 
@@ -131,28 +147,41 @@ EditableItem {
         content.focus = false;
         content.enabled = false;
         content.readOnly = true;
+        content.clip = true;
     }
 
     function fitContent() {
         //
         // adjust text bounds
         //
-        textBounds.x = content.x;
-        textBounds.y = content.y;
-        textBounds.width = content.contentWidth + content.padding * 2;
-        textBounds.height = content.contentHeight + content.padding * 2;
+        var contentBounds = getContentBounds();
+        textBounds.x = contentBounds.x;
+        textBounds.y = contentBounds.y;
+        textBounds.width = contentBounds.width;
+        textBounds.height = contentBounds.height;
         //
         // calculate global center
         //
-        var centerX = container.x + textBounds.x + textBounds.width / 2;
-        var centerY = container.y + textBounds.y + textBounds.height / 2;
+        var centerX = container.x + contentBounds.x + contentBounds.width / 2;
+        var centerY = container.y + contentBounds.y + contentBounds.height / 2;
         //
         // fit container
         //
-        container.width = textBounds.width + 16;
-        container.height = textBounds.height + 16;
+        container.width = contentBounds.width + 16;
+        container.height = contentBounds.height + 16;
         container.x = centerX - container.width / 2;
         container.y = centerY - container.height / 2;
+    }
+
+    function getContentBounds() {
+        var contentBounds = Qt.rect(content.x,content.y,content.contentWidth + content.padding * 2, content.contentHeight + content.padding * 2)
+        //textBounds.visible = true;
+        textBounds.x = contentBounds.x;
+        textBounds.y = contentBounds.y;
+        textBounds.width = contentBounds.width;
+        textBounds.height = contentBounds.height;
+        return contentBounds;
+        //return Qt.rect(content.x,content.y,content.contentWidth + content.padding * 2, content.contentHeight + content.padding * 2)
     }
 
     Component.onCompleted: {

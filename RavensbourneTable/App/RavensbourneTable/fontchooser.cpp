@@ -47,11 +47,13 @@ FontChooser::FontChooser(QQuickItem *parent) :
     underlineFont.setUnderline(true);
     m_underlineSelector.setFont(underlineFont);
     QFont sansFont;
+    sansFont.setStyleHint(QFont::SansSerif);
     sansFont.setFamily("Helvetica");
     sansFont.setPixelSize(32.);
     m_sansSelector.setFont(sansFont);
     m_sansSelector.setChecked();
     QFont serifFont;
+    serifFont.setStyleHint(QFont::Serif);
     serifFont.setFamily("Times");
     serifFont.setPixelSize(32.);
     m_serifSelector.setFont(serifFont);
@@ -126,12 +128,18 @@ void FontChooser::mouseReleaseEvent(QMouseEvent *event) {
         event->ignore();
     }
 }
-
-/*
-void FontChooser::touchEvent(QTouchEvent* event) {
-
+void FontChooser::setFont(QFont font, QColor colour) {
+    if ( font != m_font || colour != m_colour ) {
+        m_font = font;
+        m_fontSizeSelector.setSize(m_font.pixelSize());
+        m_boldSelector.setChecked(m_font.bold());
+        m_italicSelector.setChecked(m_font.italic());
+        m_underlineSelector.setChecked(m_font.underline());
+        m_colour = colour;
+        m_colourSelector.setColour(colour);
+        update();
+    }
 }
-*/
 //
 //
 //

@@ -69,16 +69,23 @@ EditableItem {
     }
 
     function fitContent() {
-        var visibleWidth = content.paintedWidth;
-        var visibleHeight = content.paintedHeight;
-        var centerX = container.x + container.width / 2;
-        var centerY = container.y + container.height / 2;
-        container.width = visibleWidth + 16;
-        container.height = visibleWidth + 16;
+        var contentBounds = getContentBounds();
+        var centerX = container.x + contentBounds.x + contentBounds.width / 2;
+        var centerY = container.y + contentBounds.y + contentBounds.height / 2;
+        container.width = contentBounds.width + 16;
+        container.height = contentBounds.height + 16;
         container.x = centerX - container.width / 2;
-        container.y = centerY - container.width / 2;
+        container.y = centerY - container.height / 2;
     }
 
+
+    function getContentBounds() {
+        var offset = Qt.point(
+                    content.x+(content.width-content.paintedWidth)/2,
+                    content.y+(content.height-content.paintedHeight)/2
+                    );
+        return Qt.rect(offset.x,offset.y,content.paintedWidth, content.paintedHeight);
+    }
 
     Component.onCompleted: {
         type = "image";

@@ -308,7 +308,6 @@ Item {
             lineStyleChooserBottom.setStyle(lineWidth,colour);
         }
     }
-
     LineStyleChooser {
         id: lineStyleChooserBottom
         width: 240
@@ -322,6 +321,42 @@ Item {
             drawColour = colour;
             drawLineWidth = lineWidth;
             lineStyleChooserTop.setStyle(lineWidth,colour);
+            if ( activeEditor && activeEditor.setFont ) activeEditor.setFont( font, colour );
+        }
+    }
+    //
+    // font chooser
+    //
+    FontChooser {
+        id: fontChooserTop
+        width: 240
+        height: 240
+        anchors.left: parent.left;
+        anchors.top: parent.top;
+        anchors.margins: 8
+        rotation: 180
+        enabled: true;
+        visible: false
+        onFontChanged: {
+            textColour = colour;
+            textFont = font;
+            fontChooserBottom.setFont(font,colour);
+            if ( activeEditor && activeEditor.setFont ) activeEditor.setFont( font, colour );
+        }
+    }
+    FontChooser {
+        id: fontChooserBottom
+        width: 240
+        height: 240
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        anchors.margins: 8
+        enabled: true;
+        visible: false
+        onFontChanged: {
+            textColour = colour;
+            textFont = font;
+            fontChooserTop.setFont(font,colour);
         }
     }
     //
@@ -442,7 +477,8 @@ Item {
                 sessionCommand.command = 'deleteitem';
                 SessionClient.sendMessage( JSON.stringify(sessionCommand) );
             } else {
-                activeEditor.state = "display"
+                activeEditor.state = "display";
+                activeEditor.commitEditing(); // Should this be cancelEditing
                 sessionCommand.command = 'updateitem';
                 sessionCommand.data = activeEditor.save();
                 SessionClient.sendMessage( JSON.stringify(sessionCommand) );
@@ -461,7 +497,8 @@ Item {
         } else {
             activeEditor = item;
             if ( activeEditor ) {
-                activeEditor.state = "edit"
+                activeEditor.state = "edit";
+                activeEditor.startEditing();
                 sessionCommand.itemid = activeEditor.itemId;
                 sessionCommand.command = 'lock';
                 sessionCommand.data = null;
@@ -476,10 +513,8 @@ Item {
 
     function setTool( newTool, param ) {
         tool = newTool;
-        /*
-        colourChooserTop.visible = false;
-        colourChooserBottom.visible = false;
-        */
+        fontChooserTop.visible = false;
+        fontChooserBottom.visible = false;
         lineStyleChooserTop.visible = false;
         lineStyleChooserBottom.visible = false;
         enableSketchItems();
@@ -491,27 +526,22 @@ Item {
             if ( !param || !param.no_options ) imageBrowser.show();
             break;
         case "text" :
+            fontChooserTop.visible = true;
+            fontChooserBottom.visible = true;
+            if ( activeEditor && activeEditor.getFont && activeEditor.getColour ) {
+                fontChooserTop.setFont( activeEditor.getFont(), activeEditor.getColour() );
+                fontChooserBottom.setFont( activeEditor.getFont(), activeEditor.getColour() );
+            }
             break;
         case "draw" :
-            /*
-            colourChooserTop.visible = true;
-            colourChooserBottom.visible = true;
-            */
             lineStyleChooserTop.visible = true;
             lineStyleChooserBottom.visible = true;
             disableSketchItems();
             break;
         case "back" :
             save();
-            /*
-            var homeParams = {
-                user: user
-            };
-            appWindow.go("Home",homeParams);
             break;
-            */
         case "delete" :
-
             break;
         case "pan" :
             sketchScroller.interactive = true;

@@ -20,7 +20,8 @@ public:
     //
     //
     //
-    QColor getColour() { return m_colour; };
+    QColor getColour() { return m_colour; }
+    void setColour( QColor colour ) { m_colour = colour; }
 
 protected:
     void setColourFromPoint(QPointF point);
