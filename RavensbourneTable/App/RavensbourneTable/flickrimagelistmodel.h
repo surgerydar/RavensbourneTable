@@ -22,6 +22,9 @@ public:
     static FlickrImageListModel* shared();
 public slots:
     void search( QString term, int page, int perPage );
+    void clear();
+    int pageCount() { return m_pages; }
+    int page() { return m_page; }
 private slots:
     void replyFinished(QNetworkReply* reply);
 private:
@@ -31,6 +34,8 @@ private:
     static FlickrImageListModel*    s_shared;
     QNetworkAccessManager*          m_net;
     QStringList                     m_results;
+    int                             m_page;
+    int                             m_pages;
 };
 
 #endif // FLICKRIMAGELISTMODEL_H

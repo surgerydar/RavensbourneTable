@@ -84,7 +84,7 @@ Item {
                         }
                     }
                 }
-
+                /*
                 onPressAndHold: {
                     console.log('sketchContainer.onPressAndHold');
                     if ( !drawingLine ) {
@@ -95,6 +95,11 @@ Item {
                         }
                     }
                 }
+                */
+            }
+            Rectangle {
+                anchors.fill: parent
+                color: "white"
             }
             Item {
                 id: sketch
@@ -157,6 +162,102 @@ Item {
                         drop.accept();
                     }
 
+                }
+            }
+        }
+    }
+    //
+    // puck controls
+    //
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.bottom: parent.verticalCenter
+        anchors.bottomMargin: 4
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            source: "icons/puck-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    puck.visible = !puck.visible
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.top: parent.verticalCenter
+        anchors.topMargin: 4
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            source: "icons/puck-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    puck.visible = !puck.visible
+                }
+            }
+        }
+    }
+    //
+    //
+    // sketch info controls
+    //
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.top: parent.verticalCenter
+        anchors.topMargin: 4
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            rotation: 180
+            source: "icons/info-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    // show / hide info box
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.bottom: parent.verticalCenter
+        anchors.bottomMargin: 4
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            source: "icons/info-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    // show / hide info box
                 }
             }
         }
@@ -369,7 +470,7 @@ Item {
         }
         if ( itemTool ) {
             setTool( itemTool, param );
-            puck.selectTool(itemTool); // only set puck if tool is specified
+            puck.selectTool(itemTool);
         }
     }
 
@@ -562,23 +663,31 @@ Item {
         //
         // TODO: other sketch metadata
         //
-        var object = {
-            id: sketchId,
-            user_id: user.id,
-            group: group,
-            icon: material.image,
-            material: material,
-            items: items,
-            drawing: lines
-        };
-        if ( !newSketch ) {
-            console.log('updating sketch : ' + sketchId );
-            WebDatabase.updateSketch(object);
-        } else {
-            newSketch = false;
-            console.log('putting new sketch' );
-            WebDatabase.putSketch(object);
-        }
+
+        sketchContainer.grabToImage(function(icon) {
+            //console.log( 'sketch icon url:' + icon.url );
+            icon.saveToFile("icon-temp.png");
+            var object = {
+                id: sketchId,
+                user_id: user.id,
+                group: group,
+                //icon: material.image,
+                icon: ImageEncoder.uriEncode("icon-temp.png","PNG"),
+                material: material,
+                items: items,
+                drawing: lines
+            };
+            console.log( 'sketch icon:' + object.icon );
+            if ( !newSketch ) {
+                console.log('updating sketch : ' + sketchId );
+                WebDatabase.updateSketch(object);
+            } else {
+                newSketch = false;
+                console.log('putting new sketch' );
+                WebDatabase.putSketch(object);
+            }
+        },
+        Qt.size(192, 108));
     }
 
     function load(object) {

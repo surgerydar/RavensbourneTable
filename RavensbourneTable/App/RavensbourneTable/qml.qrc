@@ -71,5 +71,13 @@
         <file>FlickrImageBrowser.qml</file>
         <file>icons/home-white.png</file>
         <file>icons/home-black.png</file>
+        <file>icons/info-white.png</file>
+        <file>icons/puck-white.png</file>
+        <file>icons/close-black.png</file>
+        <file>icons/close-white.png</file>
+        <file>icons/done-black.png</file>
+        <file>icons/done-white.png</file>
+        <file>icons/lock-black.png</file>
+        <file>icons/lock-white.png</file>
     </qresource>
 </RCC>

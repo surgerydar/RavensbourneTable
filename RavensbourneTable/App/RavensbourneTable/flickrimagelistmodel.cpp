@@ -17,6 +17,7 @@ FlickrImageListModel::FlickrImageListModel(QObject *parent)
 {
     m_net = new QNetworkAccessManager(this);
     connect(m_net, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+    m_page = m_pages = 0;
 }
 
 QVariant FlickrImageListModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -55,6 +56,7 @@ FlickrImageListModel* FlickrImageListModel::shared() {
 //
 void FlickrImageListModel::search( QString term, int page, int perPage ) {
     qDebug() << "FlickrImageListModel::search(" << term << ")";
+    clear();
     QString endpoint = buildRequest( term, page, perPage );
     qDebug() << "endpoint : " << endpoint;
     QUrl url = QUrl(endpoint);
@@ -63,6 +65,13 @@ void FlickrImageListModel::search( QString term, int page, int perPage ) {
     request.setRawHeader("X-Custom_User-Agent", "Collaborative Sketch v0.1");
     request.setRawHeader("Content-Type", "text/json");
     m_net->get(request);
+}
+
+void FlickrImageListModel::clear() {
+    beginResetModel();
+    m_results.clear();
+    m_page = m_pages = 0;
+    endResetModel();
 }
 
 void FlickrImageListModel::replyFinished(QNetworkReply* reply) {
@@ -90,8 +99,8 @@ void FlickrImageListModel::replyFinished(QNetworkReply* reply) {
                 if ( response.value("stat").toString() == "ok" ) {
                     if ( response.contains("photos") ) {
                         QJsonObject photos = response.value("photos").toObject();
-                        int page = photos.value("page").toInt();
-                        int pages = photos.value("pages").toInt();
+                        m_page = photos.value("page").toInt();
+                        m_pages = photos.value("pages").toInt();
                         int perPage = photos.value("perpage").toInt();
                         int total = photos.value("total").toInt();
                         QJsonArray items = photos.value("photo").toArray();

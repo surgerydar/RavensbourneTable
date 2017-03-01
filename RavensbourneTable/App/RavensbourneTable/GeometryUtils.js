@@ -76,11 +76,8 @@ function distanceSquared( a, b ) {
 
 function wrapAngle( a, d ) {
     var ar = a + d;
-    if ( ar > 360 ) {
-        ar = ar - 360;
-    } else if ( ar < 0 ) {
-        ar = 360 + ar;
-    }
+    while ( ar > 360 ) ar -= 360;
+    while ( ar < 0 ) ar += 360;
     return ar;
 }
 
@@ -88,16 +85,16 @@ function angleBetween( c, p ) {
     var d = point(p.x - c.x,p.y - c.y);
     var deg = radToDeg(Math.atan(d.x / d.y));
     if (d.x > 0 && d.y > 0) {
-        console.log( 'seg 1:' + deg );
+        //console.log( 'seg 1:' + deg );
         deg = 90 - Math.abs (deg);
     } else if (d.x > 0 && d.y < 0) {
-        console.log( 'seg 4 :' + deg );
+        //console.log( 'seg 4 :' + deg );
         deg = 270 + Math.abs (deg);
     } else if (d.x < 0 && d.y > 0) {
-        console.log( 'seg 2:' + deg );
+        //console.log( 'seg 2:' + deg );
         deg = 90 + Math.abs (deg);
     } else if (d.x < 0 && d.y < 0) {
-        console.log( 'seg 3:' + deg );
+        //console.log( 'seg 3:' + deg );
         deg = 270 - Math.abs (deg);
     }
     return deg;

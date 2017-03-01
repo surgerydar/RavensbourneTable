@@ -27,7 +27,9 @@ SOURCES += main.cpp \
     sessionclient.cpp \
     guidgenerator.cpp \
     windowcontrol.cpp \
-    flickrimagelistmodel.cpp
+    flickrimagelistmodel.cpp \
+    touchutilities.cpp \
+    imageencoder.cpp
 
 RESOURCES += qml.qrc
 
@@ -77,7 +79,9 @@ HEADERS += \
     sessionclient.h \
     guidgenerator.h \
     windowcontrol.h \
-    flickrimagelistmodel.h
+    flickrimagelistmodel.h \
+    touchutilities.h \
+    imageencoder.h
 
 DISTFILES += \
     Request.js \

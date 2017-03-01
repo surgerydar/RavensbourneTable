@@ -6,7 +6,7 @@ Item {
     //
     // geometry
     //
-    x: -( parent.width / 2 + 24 )
+    x: -( 24 + 1920 / 2 )
     width: parent.width / 2
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -15,7 +15,7 @@ Item {
     //
     Rectangle {
         anchors.fill: parent
-        color: colourTurquoise
+        color: colourGreen
     }
 
     WebEngineView {
@@ -28,6 +28,7 @@ Item {
             request.openIn(webBrowser);
         }
         onLoadingChanged: {
+            //
             // default image id "ctl00_phMain_imgMain"
             // product name "ctl00_phMain_lblProductName" / "ctl00_phMain_lblProductName"
             // product manufacturer "ctl00_phMain_lblManufacturerName" /
@@ -63,6 +64,10 @@ Item {
                         console.log( 'Material Browser : manufacturer: ' + manufacturer );
                         material.manufacturer = manufacturer;
                     });
+                    webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_lblDesc').innerHTML;", function( description ) {
+                        console.log( 'Material Browser : description: ' + description );
+                        material.description = description;
+                    });
                 }
                 break;
             }
@@ -93,7 +98,7 @@ Item {
         radius: 24
         anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
         anchors.bottom: parent.verticalCenter
-        color: colourTurquoise
+        color: colourGreen
         Image {
             anchors.fill: parent
             source: "icons/add-black.png"
@@ -115,7 +120,7 @@ Item {
         radius: 24
         anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
         anchors.top: parent.verticalCenter
-        color: colourTurquoise
+        color: colourGreen
         Image {
             anchors.fill: parent
             source: parent.parent.rotation === 0 ? "icons/back_arrow-black.png" : "icons/forward_arrow-black.png"
@@ -135,7 +140,7 @@ Item {
         anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
         anchors.top: parent.top
         anchors.topMargin: 16
-        color: colourTurquoise
+        color: colourGreen
         Image {
             anchors.fill: parent
             source: "icons/rotate-black.png"
@@ -155,7 +160,7 @@ Item {
         anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 16
-        color: colourTurquoise
+        color: colourGreen
         Image {
             anchors.fill: parent
             source: "icons/rotate-black.png"

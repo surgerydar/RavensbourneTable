@@ -6,63 +6,35 @@ import "./EditablItem"
 
 EditableItem {
     id: container
-    Item {
-        id: editor
-        anchors.fill: parent
-        anchors.margins: 46
 
-        Rectangle {
-            anchors.fill: parent
-            radius: 8
-            border.color: 'black'
-            border.width: 4
-        }
-
-        Image {
-            id: editorImage
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            onStatusChanged: {
-                console.log( 'image item status changed : ' + status );
-                busyIndicator.visible = !(status === Image.Ready)
-            }
-        }
-    }
     Image {
         id: content
         anchors.fill: parent
-        anchors.margins: 46
-        source: editorImage.source
+        anchors.margins: 8
         fillMode: Image.PreserveAspectFit
-        MouseArea {
-            id: activateEditor
-            anchors.fill: parent
-            onClicked: {
-                if ( container.state !== "locked" ) {
-                    setActiveEditor(container,"image", { no_options: true } );
-                }
-            }
+        onStatusChanged: {
+            busyIndicator.visible = !(status === Image.Ready)
         }
     }
 
     AnimatedImage {
         id: busyIndicator
+        visible: true
         width: 48
         height: 48
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
-        visible: false
         source:"icons/spinner.gif"
     }
 
     function setContent( source ) {
-        editorImage.source = source;
+        content.source = source;
     }
 
     function save() {
         var object = container.getGeometry();
         object.type = "image";
-        object.source = editorImage.source.toString();
+        object.source = content.source.toString();
         return object;
     }
 
@@ -70,24 +42,45 @@ EditableItem {
         container.setGeometry(param);
         var source = param.source.toString().replace('qrc:/','');
         source = source.replace(/%22/g,'');
-        console.log( source );
-        editorImage.source = source;
+        content.source = source;
     }
 
     function hasContent() {
-        console.log( 'image source : ' + editorImage.source );
-        return editorImage.source.length !== "";
+        return content.source.length !== "";
     }
 
     function showPropertyEditor() {
-        imageBrowser.show();
+
     }
 
-    function enableEditing() {
-        activateEditor.enabled = true;
+    property string previousSource: content.source
+
+    function startEditing() {
+        previousSource = content.source;
     }
 
-    function diableEditing() {
-        activateEditor.enabled = false;
+    function commitEditing() {
+        fitContent();
+    }
+
+    function cancelEditing() {
+        content.source = previousSource;
+        fitContent();
+    }
+
+    function fitContent() {
+        var visibleWidth = content.paintedWidth;
+        var visibleHeight = content.paintedHeight;
+        var centerX = container.x + container.width / 2;
+        var centerY = container.y + container.height / 2;
+        container.width = visibleWidth + 16;
+        container.height = visibleWidth + 16;
+        container.x = centerX - container.width / 2;
+        container.y = centerY - container.width / 2;
+    }
+
+
+    Component.onCompleted: {
+        type = "image";
     }
 }

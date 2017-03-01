@@ -11,157 +11,228 @@ Item {
     //
     //
     //
+    property string type: "unknown"
+    //
+    //
+    //
     property Image propertyToggle: propertyToggle
     property string itemId: ""
+    //
+    //
+    //
+
+    Rectangle {
+        anchors.fill: parent
+        color: "green"
+        opacity: 0.5
+    }
+
     //
     //
     //
     Item {
         id: controls
         anchors.fill: parent
-        Image {
-            id: move
+        Rectangle {
+            id: commit
             width: 46
             height: 46
-            anchors.top: parent.top
+            anchors.top: parent.bottom
             anchors.left: parent.left
-            source: "../icons/move-black.png"
-            fillMode: Image.PreserveAspectFit
-            /*
-            Rectangle {
+            Image {
                 anchors.fill: parent
-                border.color: 'green'
-            }
-            */
-            MouseArea {
-                anchors.fill: parent
-                preventStealing: true
-                drag.target: container
-                onClicked : {
-                    console.log( 'hello' );
+                source: "../icons/done-black.png"
+                fillMode: Image.PreserveAspectFit
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log('EditableItem.commit clicked');
+                        commitEditing();
+                        setActiveEditor();
+                    }
                 }
             }
         }
-
-        Image {
-            id: rotate
+        Rectangle {
+            id: cancel;
             width: 46
             height: 46
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            source: "../icons/rotate-black.png"
-            fillMode: Image.PreserveAspectFit
-            /*
-            Rectangle {
+            anchors.top: parent.bottom
+            anchors.left: commit.right
+            anchors.leftMargin: 8
+            Image {
                 anchors.fill: parent
-                border.color: 'blue'
+                source: "../icons/close-black.png"
+                fillMode: Image.PreserveAspectFit
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log('EditableItem.cancel clicked');
+                        cancelEditing();
+                        setActiveEditor();
+                    }
+                }
             }
-            */
-            MouseArea {
-                anchors.fill: parent
-                preventStealing: true
-                onPressed : {
-                    console.log('rotate pressed [' + mouse.x + ',' + mouse.y + ']')
-                    var center = {
-                        x: container.x + ( container.width / 2 ),
-                        y: container.y + ( container.height / 2 )
-                    };
-                    var globalCoord = rotate.mapToItem(sketch,mouse.x,mouse.y)
-                    container.startAngle = GU.angleBetween(center,globalCoord)
-                    container.startRotation = container.rotation
-                }
-                onReleased : {
-                    console.log('rotate released [' + mouse.x + ',' + mouse.y + ']')
-                }
-                onPositionChanged : {
-                    var center = {
-                        x: container.x + ( container.width / 2 ),
-                        y: container.y + ( container.height / 2 )
-                    };
-                    var globalCoord = rotate.mapToItem(sketch,mouse.x,mouse.y)
-                    var angle = GU.angleBetween(center,globalCoord)
-                    console.log( 'start angle=' + container.startAngle + ' current=' + angle);
-                    var dAngle = angle - container.startAngle;
-                    container.rotation = GU.wrapAngle(container.startRotation,dAngle);
+        }
+    }
+    //
+    //
+    //
+    MultiPointTouchArea {
+        id: multiTouchArea
+        anchors.fill: parent
+        mouseEnabled: true
+        maximumTouchPoints: 2
 
-                    console.log( 'rotation=' + container.rotation + ' dAngle=' + dAngle );
-                }
+        property string mode: 'none'
+        property real startRotation: container.rotation
+        property real startWidth: container.width
+        property real startHeight: container.height
+        property real startAngle: 0
+        property real startDistance: 0
+        property real startX: container.x + container.width / 2.;
+        property real startY: container.y + container.height / 2.;
+        property string scaleMode: "both"
 
-            }
+        onGestureStarted: {
+            gesture.grab();
+        }
+
+        onTouchUpdated : {
 
         }
 
-        Image {
-            id: scale
-            width: 46
-            height: 46
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            source: "../icons/scale-black.png"
-            fillMode: Image.PreserveAspectFit
-            /*
-            Rectangle {
-                anchors.fill: parent
-                border.color: 'red'
-            }
-            */
-            MouseArea {
-                anchors.fill: parent
-                preventStealing: true
-                onPressed : {
-                    console.log('scale pressed [' + mouse.x + ',' + mouse.y + ']')
-                     var globalCoord = scale.mapToItem(sketch,mouse.x,mouse.y)
-                    startScaling(globalCoord);
-                 }
-                onReleased : {
-                    console.log('scale released [' + mouse.x + ',' + mouse.y + ']')
+        onUpdated: {
+            var mp, sp, md, ma, sd, sa, da, s;
+            if ( TouchUtilities.hasTouchScreen() ) {
+                //
+                // handle multipoint
+                //
+                if ( mode === 'pinch' ) {
+                    var p0 = GU.point(touchPoints[ 0 ].x, touchPoints[ 0 ].y);
+                    var p1 = GU.point(touchPoints[ 1 ].x, touchPoints[ 1 ].y);
+                    var sp0 = GU.point(touchPoints[ 0 ].startX, touchPoints[ 0 ].startY);
+                    var sp1 = GU.point(touchPoints[ 1 ].startX, touchPoints[ 1 ].startY);
+                    sd = GU.distance( sp0, sp1 );
+                    sa = GU.angleBetween( sp0, sp1 );
+                    md = GU.distance( p0, p1 );
+                    ma = GU.angleBetween( p0, p1 );
+                    da = ma - sa;
+                    s = ma / sa;
+                } else {
+                     mp = container.mapToItem(sketch,touchPoints[ 0 ].x, touchPoints[ 0 ].y);
                 }
-                onPositionChanged : {
-                    var globalCoord = scale.mapToItem(sketch,mouse.x,mouse.y)
-                    updateScaling(globalCoord)
-                }
-
+            } else {
+                var cp = GU.point( container.x + container.width / 2, container.y + container.height / 2 );
+                mp = container.mapToItem(sketch,touchPoints[ 0 ].x, touchPoints[ 0 ].y);
+                //sp = GU.point(touchPoints[ 0 ].startX, touchPoints[ 0 ].startY);
+                md = GU.distance( cp, mp );
+                ma = GU.angleBetween( cp, mp );
+                //sd = GU.distance( cp, sp );
+                //sa = GU.angleBetween( cp, sp );
+                da = ma - startAngle;
+                s = md / startDistance;
+                console.log( 'start angle=' + startAngle + ' current=' + ma);
+                console.log( 'start distance=' + startDistance + ' current=' + md);
+                console.log( 'touch [' + touchPoints[ 0 ].x + ',' + touchPoints[ 0 ].y +  ']')
+                console.log( 'mp [' + mp.x + ',' + mp.y +  ']');
+                console.log( 'da=' + da + ' s=' + s );
             }
-
+            switch( mode ) {
+            case 'pan' :
+                container.x = mp.x - container.width / 2;
+                container.y = mp.y - container.height / 2;
+                editTimer.restart();
+                break;
+            case 'pinch' :
+                container.rotation = GU.wrapAngle(startRotation,da);
+                if ( scaleMode === "scalex" || scaleMode === "both" ) {
+                    container.width = startWidth * s;
+                }
+                if ( scaleMode === "scaley" || scaleMode === "both" ) {
+                    container.height = startHeight * s;
+                }
+                container.x = startX - container.width / 2;
+                container.y = startY - container.height / 2;
+                break;
+            }
         }
 
-        Image {
-            id: propertyToggle
-            width: 46
-            height: 46
-            anchors.top: parent.top
-            anchors.right: parent.right
-            source: "../icons/puck-black.png"
-            fillMode: Image.PreserveAspectFit
-            /*
-            Rectangle {
-                anchors.fill: parent
-                border.color: 'green'
+        onPressed: {
+            startRotation = container.rotation;
+            startWidth = container.width;
+            startHeight = container.height;
+            startX = container.x + container.width / 2.;
+            startY = container.y + container.height / 2.;
+            if ( TouchUtilities.hasTouchScreen() ) {
+                //
+                // handle multipoint
+                //
+                mode = touchPoints.length > 1 ? 'pan' : 'pinch';
+                var p0 = GU.point(touchPoints[ 0 ].x, touchPoints[ 0 ].y);
+                var p1 = GU.point(touchPoints[ 1 ].x, touchPoints[ 1 ].y);
+                startAngle = GU.angleBetween( p0, p1 );
+            } else {
+                var cp = GU.point( container.x + container.width / 2, container.y + container.height / 2 );
+                var gp = container.mapToItem(sketch,touchPoints[ 0 ].x, touchPoints[ 0 ].y);
+                var mp = GU.point(gp.x, gp.y);
+                var d = GU.distance( cp, mp );
+                var dx = Math.abs( mp.x - cp.x );
+                var dy = Math.abs( mp.y - cp.y );
+                mode = dx < width / 4 && dy < height / 4 ? 'pan' : 'pinch'; // TODO: this should be closer to edge or closer to center
+                startDistance = d;
+                startAngle = GU.angleBetween(cp,mp);
+                console.log( 'd=' + d );
             }
-            */
-            MouseArea {
-                anchors.fill: parent
-                preventStealing: true
-
-                onClicked: {
-                    if( showPropertyEditor ) showPropertyEditor(); // defined in subcalsses
+            console.log( 'mode=' + mode );
+            if ( mode === 'pan' ) {
+                //
+                // start double click timer
+                //
+                editTimer.restart();
+            } else {
+                if ( startAngle > 340 || startAngle < 20 || ( startAngle > 160 && startAngle < 200 ) ) {
+                    scaleMode = "scalex";
+                } else if ( ( startAngle > 70 && startAngle < 110 ) || ( startAngle > 250 && startAngle < 290 ) ) {
+                    scaleMode = "scaley";
+                } else {
+                    scaleMode = "both";
                 }
-
+                editTimer.stop();
             }
+        }
+
+        onReleased: {
+            mode = 'none';
+            editTimer.stop();
+            commitEditing();
+        }
+    }
+
+    Timer {
+        id: editTimer
+        interval: 500
+        onTriggered: {
+            console.log('edit timer fired fpr type : ' + type);
+            setActiveEditor(container,type);
+            startEditing();
         }
     }
 
     Rectangle {
         id: lockIndicator
-        anchors.fill: parent
-        anchors.margins: 23
-        radius: 8
-        color: "transparent"
-        border.width: 4
-        border.color: "red"
+        width: 48
+        height: 48
+        anchors.centerIn: parent
         visible: false
+        radius: width / 2
+        color: "#FF6666"
+        Image {
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
+            source: "../icons/lock-white.png"
+        }
     }
-
     //
     //
     //
@@ -172,18 +243,11 @@ Item {
             PropertyChanges {
                 target: lockIndicator
                 visible: false
+                z: 0
             }
             PropertyChanges {
                 target: controls;
                 visible: true
-            }
-            PropertyChanges {
-                target: editor;
-                visible: true
-            }
-            PropertyChanges {
-                target: content;
-                visible: false
             }
             PropertyChanges {
                 target: container
@@ -195,18 +259,11 @@ Item {
             PropertyChanges {
                 target: lockIndicator
                 visible: false
+                z: 0
             }
             PropertyChanges {
                 target: controls;
                 visible: false
-            }
-            PropertyChanges {
-                target: editor;
-                visible: false
-            }
-            PropertyChanges {
-                target: content;
-                visible: true
             }
             PropertyChanges {
                 target: container
@@ -218,13 +275,10 @@ Item {
             PropertyChanges {
                 target: lockIndicator
                 visible: true
+                z: 1
             }
             PropertyChanges {
                 target: controls;
-                visible: false
-            }
-            PropertyChanges {
-                target: editor;
                 visible: false
             }
             PropertyChanges {
@@ -238,66 +292,8 @@ Item {
         }
     ]
     //
-    // TODO: move all this into rotating params
     //
-    property var startAngle: 0
-    property var startRotation: 0
-
-    property var scalingParams: undefined;
-
-    function startScaling( mp ) {
-        //
-        // get left and bottom
-        //
-        var p0 = GU.point( container.x + container.width, container.y + container.height );
-        var p1 = GU.point( container.x + container.width, container.y );
-        var p2 = GU.point( container.x, container.y + container.height );
-        var cp = GU.point( container.x + container.width / 2, container.y + container.height / 2 );
-        var left = GU.line( p0, p1 );
-        var bottom = GU.line( p0, p2 );
-        //
-        // rotate left and bottom
-        //
-        left = GU.rotateLine(cp,left,container.rotation);
-        bottom = GU.rotateLine(cp,bottom,container.rotation);
-        //
-        // find closest point
-        //
-        var positionLeft = GU.positionOnLine(left,mp);
-        var positionBottom = GU.positionOnLine(bottom,mp);
-        //
-        // store values for update
-        //
-        container.scalingParams = {
-            x: container.x,
-            y: container.y,
-            width: container.width,
-            height: container.height,
-            left: left,
-            bottom: bottom,
-            positionLeft: positionLeft,
-            positionBottom: positionBottom
-        }
-    }
-
-    function updateScaling( mp ) {
-        //
-        // find closest point
-        //
-        var positionLeft = GU.positionOnLine(container.scalingParams.left,mp);
-        var positionBottom = GU.positionOnLine(container.scalingParams.bottom,mp);
-        //
-        //
-        //
-        var dWidth = ( container.scalingParams.positionBottom - positionBottom ) * container.scalingParams.width;
-        var dHeight = ( container.scalingParams.positionLeft - positionLeft ) * container.scalingParams.height;
-
-        container.width = container.scalingParams.width + dWidth * 1.5;
-        container.height = container.scalingParams.height + dHeight * 1.5;
-        container.x = container.scalingParams.x + ( -1 * ( dWidth / 2 ) );
-        container.y = container.scalingParams.y + ( -1 * ( dHeight / 2 ) );
-    }
-
+    //
     function getGeometry() {
         return {
             x: container.x,
@@ -316,7 +312,17 @@ Item {
         container.height = param.height;
         container.rotation = param.rotation;
         container.itemId = param.itemid || GUIDGenerator.generate();
-        console.log( 'restoring item : ' + param.itemid + ' with id : ' + container.itemId);
+        //console.log( 'restoring item : ' + param.itemid + ' with id : ' + container.itemId);
+    }
+    //
+    //
+    //
+    function enableEditing() {
+        multiTouchArea.enabled = true;
+    }
+
+    function diableEditing() {
+        multiTouchArea.enabled = false;
     }
     //
     //

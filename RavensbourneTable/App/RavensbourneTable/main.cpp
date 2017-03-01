@@ -19,6 +19,8 @@
 #include "sessionclient.h"
 #include "guidgenerator.h"
 #include "windowcontrol.h"
+#include "touchutilities.h"
+#include "imageencoder.h"
 
 void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
     QString txt;
@@ -91,7 +93,11 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("SessionClient", SessionClient::shared());
     engine.rootContext()->setContextProperty("GUIDGenerator", GUIDGenerator::shared());
     engine.rootContext()->setContextProperty("WindowControl", WindowControl::shared());
-
+    engine.rootContext()->setContextProperty("TouchUtilities", TouchUtilities::shared());
+    engine.rootContext()->setContextProperty("ImageEncoder", ImageEncoder::shared());
+    //
+    //
+    //
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
     return app.exec();

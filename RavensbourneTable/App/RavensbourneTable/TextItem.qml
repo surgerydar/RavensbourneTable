@@ -8,92 +8,43 @@ import QtQuick.VirtualKeyboard 2.1
 
 EditableItem {
     id: container
-    property string type: "text"
-    Item {
-        id: editor
-        anchors.fill: parent
-        anchors.margins: 46
 
-        Rectangle {
-            anchors.fill: parent
-            radius: 8
-            border.color: 'black'
-            border.width: 4
-        }
-
-        TextEdit {
-            id: editorText
-            anchors.fill: parent
-            padding: 8
-            textFormat: TextEdit.PlainText
-            wrapMode: TextEdit.Wrap
-            clip: true
-            /*
-            onFocusChanged: {
-                //
-                // TODO: shift this to global focus hook
-                //
-                if( editorText.focus ) {
-                    if ( container.rotation > 90 && container.rotation < 270 ) {
-                        inputPanel.y        = inputPanel.parent.y;
-                        inputPanel.rotation = 180;
-                    } else {
-                        inputPanel.y        = inputPanel.parent.height - inputPanel.height;
-                        inputPanel.rotation = 0;
-                    }
-                } else {
-                    inputPanel.y = inputPanel.parent.height;
-                    inputPanel.rotation = 0;
-                }
-            }
-            */
-        }
-
-        FontChooser {
-            id: propertyEditor
-            width: 240
-            height: 240
-            anchors.left: parent.right
-            anchors.bottom: parent.top
-            anchors.margins: 8
-
-            enabled: true
-            visible: false
-            onFontChanged: {
-                editorText.font = font;
-                editorText.color = colour;
-            }
-
-        }
-
-        onVisibleChanged: {
-            editorText.focus = visible;
-        }
-    }
     TextEdit {
         id: content
         anchors.fill: parent
-        anchors.margins: 46
-        color: editorText.color;
+        anchors.margins: 8
         padding: 8
-        text: editorText.text
-        font: editorText.font
         textFormat: TextEdit.PlainText
         wrapMode: TextEdit.Wrap
         readOnly: true
+        enabled: false
         clip: true
-        MouseArea {
-            id: activateEditor
-            anchors.fill: parent
-            onClicked: {
-                if ( container.state !== "locked" ) {
-                    setActiveEditor(container,"text");
-                }
-            }
+        onEnabledChanged: {
+            focus = enabled;
+        }
+        //
+        //
+        //
+        onTextChanged: {
+            fitContent();
         }
     }
+
+    Rectangle {
+        id: textBounds
+        color: "transparent"
+        border.width: 1
+        border.color: "black"
+        radius: 4
+        visible: false
+        opacity: 0.5
+    }
+
+    //
+    // placeholder text
+    //
     Text {
-        visible: editorText.text.length <= 0
+        visible: content.text.length <= 0
         anchors.left: parent.left
         anchors.leftMargin: 8
         anchors.right: parent.right
@@ -106,61 +57,106 @@ EditableItem {
         text: "Enter Text"
         clip: true
     }
-
+    //
+    //
+    //
     function setContent( text ) {
-        editorText.text = text;
+        content.text = text;
+        commitEditing();
     }
+
     function save() {
         var object = container.getGeometry()
         object.type = "text";
-        object.text = editorText.text;
-        object.colour = editorText.color;
-        object.font = editorText.font;
+        object.text = content.text;
+        object.colour = content.color;
+        object.font = content.font;
         return object;
     }
+
     function setup(param) {
         container.setGeometry(param);
-        editorText.text = param.text;
+        content.text = param.text;
         try { // JONS: to get over the JSON re-encoding problem from update item
-            editorText.color = param.colour;
+            content.color = param.colour;
         } catch( err ) {
-            editorText.color = Qt.rgba( param.colour.r, param.colour.g, param.colour.b, 1. );
+            content.color = Qt.rgba( param.colour.r, param.colour.g, param.colour.b, 1. );
         }
         try {
-            editorText.font = param.font;
+            content.font = param.font;
         } catch( err ) {
-            editorText.font.family = param.font.family;
-            editorText.font.pixelSize = param.font.pixelSize;
-            editorText.font.bold = param.font.bold;
-            editorText.font.italic = param.font.italic;
-            editorText.font.underline = param.font.underline;
+            content.font.family = param.font.family;
+            content.font.pixelSize = param.font.pixelSize;
+            content.font.bold = param.font.bold;
+            content.font.italic = param.font.italic;
+            content.font.underline = param.font.underline;
         }
+        //commitEditing();
     }
+
     function hasContent() {
-        return editorText.text.length > 0;
+        return content.text.length > 0;
     }
+
     function showPropertyEditor() {
-        propertyEditor.visible = !propertyEditor.visible
-        propertyToggle.source = !propertyEditor.visible ? "../icons/puck-black.png" : "../icons/hide-puck-black.png"
+    }
+
+    property string previousText: content.text
+    property var previousFont: content.font
+    property color previousColour: content.color
+
+    function startEditing() {
+        previousText = content.text;
+        previousFont = content.font;
+        previousColour = content.color;
+        content.enabled = true;
+        content.readOnly = false;
+        textBounds.visible = true;
+    }
+
+    function commitEditing() {
+        console.log('TextItem.commitEditing')
+        content.focus = false;
+        content.enabled = false;
+        content.readOnly = true;
+        textBounds.visible = true;
+        fitContent();
+    }
+
+    function cancelEditing() {
+        console.log('TextItem.cancelEditing')
+        content.text = previousText;
+        content.font = previousFont;
+        content.color = previousColour;
+        content.focus = false;
+        content.enabled = false;
+        content.readOnly = true;
+    }
+
+    function fitContent() {
+        //
+        // adjust text bounds
+        //
+        textBounds.x = content.x;
+        textBounds.y = content.y;
+        textBounds.width = content.contentWidth + content.padding * 2;
+        textBounds.height = content.contentHeight + content.padding * 2;
+        //
+        // calculate global center
+        //
+        var centerX = container.x + textBounds.x + textBounds.width / 2;
+        var centerY = container.y + textBounds.y + textBounds.height / 2;
+        //
+        // fit container
+        //
+        container.width = textBounds.width + 16;
+        container.height = textBounds.height + 16;
+        container.x = centerX - container.width / 2;
+        container.y = centerY - container.height / 2;
     }
 
     Component.onCompleted: {
-        if ( parent.parent.textFont ) {
-            console.log( "setting font");
-            /*
-            editorText.font = parent.parent.textFont;
-            editorText.color = parent.parent.textColour;
-            content.font = parent.parent.textFont;
-            content.color = parent.parent.textColour;
-            */
-        }
-    }
-    function enableEditing() {
-        activateEditor.enabled = true;
-    }
-
-    function diableEditing() {
-        activateEditor.enabled = false;
+        type = "text";
     }
 
 }
