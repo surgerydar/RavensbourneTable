@@ -17,7 +17,9 @@ Item {
         anchors.fill: parent
         color: colourGreen
     }
-
+    //
+    //
+    //
     WebEngineView {
         id: webBrowser
         anchors.fill: parent
@@ -28,6 +30,7 @@ Item {
             request.openIn(webBrowser);
         }
         onLoadingChanged: {
+            console.log( 'material url : ' + loadRequest.url );
             //
             // default image id "ctl00_phMain_imgMain"
             // product name "ctl00_phMain_lblProductName" / "ctl00_phMain_lblProductName"

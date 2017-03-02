@@ -357,6 +357,7 @@ Item {
             textColour = colour;
             textFont = font;
             fontChooserTop.setFont(font,colour);
+            if ( activeEditor && activeEditor.setFont ) activeEditor.setFont( font, colour );
         }
     }
     //
@@ -466,6 +467,7 @@ Item {
     }
 
     function setActiveEditor( item, itemTool, param ) {
+        console.log( 'SketchContainer.setActiveEditor : ' + itemTool );
         var sessionCommand = {
             sketchid : sketchId,
             userid : user.id,

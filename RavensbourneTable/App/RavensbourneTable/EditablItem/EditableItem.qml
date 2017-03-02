@@ -49,7 +49,6 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log('EditableItem.commit clicked');
                         commitEditing();
                         setActiveEditor();
                     }
@@ -72,7 +71,6 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log('EditableItem.cancel clicked');
                         cancelEditing();
                         setActiveEditor();
                     }
@@ -167,9 +165,9 @@ Item {
         }
 
         onPressed: {
-            console.log( 'tool=' + tool );
             if ( tool === "delete" ) {
                 destroy();
+                return;
             }
             startRotation = container.rotation;
             startWidth = container.width;
@@ -191,12 +189,10 @@ Item {
                 var d = GU.distance( cp, mp );
                 var dx = Math.abs( mp.x - cp.x );
                 var dy = Math.abs( mp.y - cp.y );
-                mode = dx < width / 4 && dy < height / 4 ? 'pan' : 'pinch'; // TODO: this should be closer to edge or closer to center
+                mode = dx < width / 4 && dy < height / 4 ? 'pan' : 'pinch';
                 startDistance = d;
                 startAngle = GU.angleBetween(cp,mp);
-                console.log( 'd=' + d );
             }
-            console.log( 'mode=' + mode );
             if ( mode === 'pan' ) {
                 //
                 // start double click timer
@@ -235,7 +231,6 @@ Item {
         id: editTimer
         interval: 500
         onTriggered: {
-            console.log('edit timer fired fpr type : ' + type);
             setActiveEditor(container,type);
             startEditing();
         }
@@ -334,7 +329,6 @@ Item {
         container.height = param.height;
         container.rotation = param.rotation;
         container.itemId = param.itemid || GUIDGenerator.generate();
-        //console.log( 'restoring item : ' + param.itemid + ' with id : ' + container.itemId);
     }
     //
     //

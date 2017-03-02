@@ -15,10 +15,12 @@ EditableItem {
         anchors.margins: 8
         padding: 8
         textFormat: TextEdit.PlainText
-        wrapMode: TextEdit.Wrap
+        //wrapMode: TextEdit.Wrap
         readOnly: true
         enabled: false
         clip: true
+        font.family: "Helvetica"
+        font.pixelSize: 32
         onEnabledChanged: {
             focus = enabled;
         }

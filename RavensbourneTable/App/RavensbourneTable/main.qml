@@ -55,7 +55,9 @@ ApplicationWindow {
     //
     //
     title: qsTr("Ravensbourne Table")
-
+    //
+    // mail scenes
+    //
     Item {
         id: swipeView
         anchors.fill: parent
@@ -77,15 +79,10 @@ ApplicationWindow {
             anchors.fill: parent
             visible: false
         }
-        /*
-        Sketch {
-            id: sketch
-            anchors.fill: parent
-            visible: false
-        }
-        */
     }
-
+    //
+    //
+    //
     MaterialBrowser {
         id: materialBrowser
         onAddMaterial: {
@@ -95,17 +92,6 @@ ApplicationWindow {
             }
         }
     }
-
-    /*
-    ImageBrowser {
-        id: imageBrowser
-    }
-    */
-    /*
-    GoogleImageBrowser {
-        id: imageBrowser
-    }
-    */
 
     FlickrImageBrowser {
         id: imageBrowser
@@ -132,7 +118,7 @@ ApplicationWindow {
             //
             // TODO: shift keyboard to avoid itemBounds
             //
-            if ( itemOrientation > 0 ) {
+            if ( itemOrientation > 90 ) {
                 y           = parent.y;
                 rotation    = 180;
             } else {
@@ -149,32 +135,15 @@ ApplicationWindow {
             rotation = 0;
         }
     }
-
+    //
+    //
+    //
     TimeoutDialog {
         id: timeoutDialog
     }
-    /*
     //
-    // TODO: loose this in production
     //
-    footer: TabBar {
-        id: tabbar
-        //currentIndex: swipeView.currentIndex
-        currentIndex: 0
-        TabButton {
-            text: qsTr("Attractor")
-        }
-        TabButton {
-            text: qsTr("Home")
-        }
-        TabButton {
-            text: qsTr("Sketch")
-        }
-        onCurrentIndexChanged: {
-            appWindow.go(scenes[tabbar.currentIndex].name,null,true);
-        }
-    }
-    */
+    //
     Component.onCompleted: {
         appWindow.showFullScreen();
         WindowControl.setAlwaysOnTop(true);
@@ -203,7 +172,6 @@ ApplicationWindow {
             name: "Sketch"
         }
     ];
-
     function sceneId( sceneName ) {
         for ( var i = 0; i < scenes.length; i++ ) {
             if ( scenes[ i ].name === sceneName ) return scenes[ i ].id;
@@ -214,7 +182,7 @@ ApplicationWindow {
     function go( sceneName, param ) {
         console.log( 'going to scene : ' + sceneName );
         //
-        // NOTE: perhaps load from disk?
+        // JONS: perhaps load from disk?
         //
         var id = sceneId(sceneName);
         if ( id ) {
