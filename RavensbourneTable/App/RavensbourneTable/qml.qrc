@@ -79,5 +79,6 @@
         <file>icons/done-white.png</file>
         <file>icons/lock-black.png</file>
         <file>icons/lock-white.png</file>
+        <file>MaterialMetadataViewer.qml</file>
     </qresource>
 </RCC>

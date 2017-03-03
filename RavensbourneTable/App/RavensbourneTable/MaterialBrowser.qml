@@ -37,6 +37,8 @@ Item {
             // product manufacturer "ctl00_phMain_lblManufacturerName" /
             // product code "ctl00_phMain_lblMCNumber" library code
             // product description "ctl00_phMain_lblDesc"
+            // physical attributes : name "physAttribName" value "physAttribValue"
+            // product images "img" class "preload"
             //
             switch( loadRequest.status ) {
             case WebEngineView.LoadStartedStatus :
@@ -50,6 +52,9 @@ Item {
                 busyIndicator.visible = false;
                 var url = webBrowser.url.toString();
                 if ( url.indexOf('library.materialconnexion.com') >= 0 ) {
+                    //
+                    // scrape metadata
+                    //
                     console.log( "loaded" );
                     webBrowser.runJavaScript("var _login_bar = document.querySelector('#ctl00_tblHeader'); if ( _login_bar ) _login_bar.style.display='none';");
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_imgMain').src;", function( image ) {
@@ -70,6 +75,23 @@ Item {
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_lblDesc').innerHTML;", function( description ) {
                         console.log( 'Material Browser : description: ' + description );
                         material.description = description;
+                    });
+                    webBrowser.runJavaScript("var imageArray = []; document.querySelectorAll('.preload').forEach( function( image ) { imageArray.push(image.src); } ); imageArray.join();", function( productImages ) {
+                        material.images = productImages.split(',');
+                    });
+                    webBrowser.runJavaScript("var attribNames = document.querySelectorAll('.physAttribName'); var attribValues = document.querySelectorAll('.physAttribValue'); var attribList = []; for ( var i = 0; i < attribNames.length; i++ ) { attribList.push( attribNames[ i ].innerHTML.trim() + '|' + attribValues[ i ].innerHTML.trim() ) }; attribList.join('~');", function( productAttributes ) {
+                        material.attributes = [];
+                        console.log( 'productAttributes=' + productAttributes );
+                        if ( productAttributes.length > 0 ) {
+                            productAttributes.split('~').forEach( function( attribute ) {
+                                console.log( 'attribute=' + attribute );
+                                var attributeArray = attribute.split('|');
+                                if ( attributeArray.length > 0 ) {
+                                    material.attributes.push( { name: attributeArray[ 0 ], value: attributeArray[ 1 ] } );
+                                }
+                            });
+                        }
+                        console.log( 'attribute list=' + JSON.stringify(material.attributes));
                     });
                 }
                 break;
@@ -185,7 +207,7 @@ Item {
         source:"icons/spinner.gif"
     }
     //
-    // behavious
+    // behaviours
     //
     Behavior on x {
         NumberAnimation {

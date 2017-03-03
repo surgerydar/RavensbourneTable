@@ -97,6 +97,10 @@ ApplicationWindow {
         id: imageBrowser
     }
 
+    MaterialMetadataViewer {
+        id: metadataViewer
+    }
+
     EnrollFingerprint {
         id: enrollFingerprint
         z: 2
@@ -115,6 +119,7 @@ ApplicationWindow {
         //
         //
         function show( itemBounds, itemOrientation ) {
+            console.log( 'InputPanel.show : rotation : ' + itemOrientation );
             //
             // TODO: shift keyboard to avoid itemBounds
             //

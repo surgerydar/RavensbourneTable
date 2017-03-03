@@ -65,6 +65,7 @@ void KeyboardFocusListener::signalFocusChanged( QQuickItem* item, bool hasFocus 
     item = item->parentItem();
     while( item ) {
         rotation += item->rotation();
+        if ( rotation > 360 ) rotation -= 360;
         item = item->parentItem();
     }
     qDebug() << "Focus object : " << name << " rect: " << bounds << " rotation: " << rotation;

@@ -144,6 +144,7 @@ Item {
                 break;
             case 'pinch' :
                 container.rotation = GU.wrapAngle(startRotation,da);
+                console.log( 'item rotation : ' + container.rotation );
                 if ( scaleMode === "scalex" || scaleMode === "both" ) {
                     container.width = startWidth * s;
                 }

@@ -236,6 +236,7 @@ Item {
                 anchors.fill: parent;
                 onClicked: {
                     // show / hide info box
+                    metadataViewer.show(material);
                 }
             }
         }
@@ -258,6 +259,7 @@ Item {
                 anchors.fill: parent;
                 onClicked: {
                     // show / hide info box
+                    metadataViewer.show(material);
                 }
             }
         }
