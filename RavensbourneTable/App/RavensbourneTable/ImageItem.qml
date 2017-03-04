@@ -1,11 +1,9 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.0
-import QtQuick.Dialogs 1.2
-import "GeometryUtils.js" as GU
+import QtQuick 2.7
 import "./EditablItem"
 
 EditableItem {
     id: container
+    property var metadata: null
 
     Image {
         id: content
@@ -14,6 +12,28 @@ EditableItem {
         fillMode: Image.PreserveAspectFit
         onStatusChanged: {
             busyIndicator.visible = !(status === Image.Ready)
+        }
+    }
+
+    Rectangle {
+        id: info
+        width: 24
+        height: 24
+        anchors.horizontalCenter: content.right
+        anchors.verticalCenter: content.top
+        radius: width / 2
+        color: colourTurquoise
+        visible: metadata !== null
+        Image {
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
+            source: "icons/info-white.png"
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                metadataViewer.show(metadata);
+            }
         }
     }
 
@@ -27,14 +47,16 @@ EditableItem {
         source:"icons/spinner.gif"
     }
 
-    function setContent( source ) {
+    function setContent( source, material ) {
         content.source = source;
+        metadata = material ? material : null;
     }
 
     function save() {
         var object = container.getGeometry();
         object.type = "image";
         object.source = content.source.toString();
+        if ( metadata ) object.metadata = metadata;
         return object;
     }
 
@@ -43,6 +65,7 @@ EditableItem {
         var source = param.source.toString().replace('qrc:/','');
         source = source.replace(/%22/g,'');
         content.source = source;
+        if ( param.metadata ) metadata = param.metadata;
     }
 
     function hasContent() {
@@ -77,7 +100,6 @@ EditableItem {
         container.x = centerX - container.width / 2;
         container.y = centerY - container.height / 2;
     }
-
 
     function getContentBounds() {
         var offset = Qt.point(

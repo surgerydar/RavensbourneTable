@@ -21,16 +21,18 @@ void SegmentButton::paint(QPainter *painter) {
     //
     //
     painter->save();
+    painter->setRenderHint(QPainter::Antialiasing);
     //
     //
     //
-    painter->setPen(Qt::black);
-    painter->setBrush((m_checked?QBrush(Qt::lightGray):Qt::NoBrush));
+    painter->setPen(Qt::white);
+    painter->setBrush((m_checked?QBrush("#00D2C2"):Qt::NoBrush));
     painter->drawPath(m_segment);
     //
     //
     //
     painter->setFont(m_font);
+    painter->setPen(Qt::black);
     painter->setBrush(Qt::NoBrush);
     painter->translate(point);
     painter->rotate(-angle);

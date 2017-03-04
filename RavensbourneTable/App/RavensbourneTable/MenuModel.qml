@@ -26,9 +26,4 @@ ListModel {
         icon: "icons/delete-white.png"
         action: "delete"
     }
-    ListElement {
-        name: "back"
-        icon: "icons/home-white.png"
-        action: "back"
-    }
 }

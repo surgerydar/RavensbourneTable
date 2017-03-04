@@ -53,7 +53,6 @@ bool SegmentButtonGroup::mouseReleaseEvent(QMouseEvent *event) {
         }
     }
     if ( selected.length() > 0 ) {
-        qDebug() << "selected : " << selected;
         selectButton(selected);
         return true;
     }
@@ -81,7 +80,10 @@ void SegmentButtonGroup::selectButton( QString name ) {
 QString SegmentButtonGroup::selectedButton() {
     QMap<QString,SegmentButton*>::iterator it = m_buttons.begin();
     for ( ; it != m_buttons.end(); ++it ) {
-        if ( it.value()->isChecked() ) return it.key();
+        if ( it.value()->isChecked() ) {
+            return it.key();
+        }
     }
+
     return "";
 }

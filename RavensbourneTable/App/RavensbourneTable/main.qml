@@ -9,7 +9,7 @@ ApplicationWindow {
     //
     //
     property ApplicationWindow appWindow : appWindow
-    property InputPanel inputPanel : inputPanel
+    //property InputPanel inputPanel : inputPanelTop
     property EnrollFingerprint enrollFingerprint : enrollFingerprint
     property MaterialBrowser materialBrowser: materialBrowser
     property FontLoader ravensbourneRegular: ravensbourneRegular
@@ -105,10 +105,12 @@ ApplicationWindow {
         id: enrollFingerprint
         z: 2
     }
-
+    //
+    // input panels
+    //
     InputPanel {
-        id: inputPanel
-        y: parent.height;//Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+        id: inputPanelBottom
+        y: parent.height;
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 3
         anchors.right: parent.right
@@ -119,25 +121,50 @@ ApplicationWindow {
         //
         //
         function show( itemBounds, itemOrientation ) {
-            console.log( 'InputPanel.show : rotation : ' + itemOrientation );
-            //
-            // TODO: shift keyboard to avoid itemBounds
-            //
-            if ( itemOrientation > 90 ) {
-                y           = parent.y;
-                rotation    = 180;
-            } else {
-                y           = parent.height - height;
-                rotation    = 0;
-            }
-
+            y = parent.height - height;
         }
         function hide() {
-            //
-            // TODO: check nothing else has focus
-            //
             y = parent.height;
-            rotation = 0;
+        }
+        Behavior on x {
+            NumberAnimation {
+                duration: 250
+            }
+        }
+        Behavior on y {
+            NumberAnimation {
+                duration: 250
+            }
+        }
+    }
+
+    InputPanel {
+        id: inputPanelTop
+        y: parent.y - height;
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width / 3
+        anchors.right: parent.right
+        anchors.rightMargin: parent.width / 3
+        rotation: 180
+        z: 4
+        //
+        //
+        //
+        function show( itemBounds, itemOrientation ) {
+            y = parent.y;
+        }
+        function hide() {
+            y = parent.y - height;
+        }
+        Behavior on x {
+            NumberAnimation {
+                duration: 250
+            }
+        }
+        Behavior on y {
+            NumberAnimation {
+                duration: 250
+            }
         }
     }
     //
@@ -186,6 +213,12 @@ ApplicationWindow {
 
     function go( sceneName, param ) {
         console.log( 'going to scene : ' + sceneName );
+        //
+        // hide browsers
+        //
+        materialBrowser.hide();
+        imageBrowser.hide();
+        metadataViewer.hide();
         //
         // JONS: perhaps load from disk?
         //
@@ -285,7 +318,8 @@ ApplicationWindow {
                     enrollFingerprint.cancel();
                     materialBrowser.hide();
                     imageBrowser.hide();
-                    inputPanel.hide();
+                    inputPanelTop.hide();
+                    inputPanelBottom.hide();
                     go( 'Attractor' );
                 });
             }
@@ -301,9 +335,11 @@ ApplicationWindow {
             // TODO: prevent keyboard from overlapping focus item
             //
             if ( hasFocus ) {
-                inputPanel.show(itemBounds,itemOrientation);
+                inputPanelTop.show(itemBounds,itemOrientation);
+                inputPanelBottom.show(itemBounds,itemOrientation);
             } else {
-                inputPanel.hide();
+                inputPanelTop.hide();
+                inputPanelBottom.hide();
             }
         }
     }

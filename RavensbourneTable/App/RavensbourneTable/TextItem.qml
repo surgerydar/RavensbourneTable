@@ -188,6 +188,7 @@ EditableItem {
 
     Component.onCompleted: {
         type = "text";
+        scaleable = false; // bounds always fits to text
     }
 
 }

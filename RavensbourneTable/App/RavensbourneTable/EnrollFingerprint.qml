@@ -128,7 +128,7 @@ RotatableDialog {
         }
     }
 
-    Button {
+    TextButton {
         id: action
         anchors.top: parent.verticalCenter
         anchors.topMargin: ( parent.height / 12 ) + 16

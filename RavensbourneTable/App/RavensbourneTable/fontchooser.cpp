@@ -21,19 +21,19 @@ static void listFonts() {
 FontChooser::FontChooser(QQuickItem *parent) :
     CircularMenu(parent),
     m_fontSizeSelector(0.,90.,16.,72.),
-    m_colourSelector(90.,90.),
-    m_boldSelector(180.,30.,"b",true),
-    m_italicSelector(210.,30.,"i",true),
-    m_underlineSelector(240.,30.,"u",true),
-    m_sansSelector(270.,30.,"H",true),
-    m_serifSelector(300.,30.,"T",true),
-    m_familyGroup( 270., 60.) {
-    //m_cursiveSelector(330.,30.,"e",false) {
+    m_colourSelector(95.,90.),
+    m_boldSelector(190.,30.,"b",true),
+    m_italicSelector(220.,30.,"i",true),
+    m_underlineSelector(250.,30.,"u",true),
+    m_sansSelector(285.,30.,"H",true),
+    m_serifSelector(315.,30.,"T",true),
+    m_familyGroup( 285., 60.) {
     //
     //
     //
+    //listFonts();
     m_fontSizeSelector.setFont(QFont());
-    m_fontSizeSelector.setSize(16.);
+    m_fontSizeSelector.setSize(32.);
     QFont boldFont;
     boldFont.setPixelSize(32.);
     boldFont.setBold(true);
@@ -74,6 +74,12 @@ FontChooser::FontChooser(QQuickItem *parent) :
     addControl("family",&m_familyGroup);
     m_familyGroup.addButton("Helvetica",&m_sansSelector);
     m_familyGroup.addButton("Times",&m_serifSelector);
+    //
+    //
+    //
+    m_font.setStyleHint(QFont::SansSerif);
+    m_font.setFamily("Helvetica");
+    m_font.setPixelSize(32);
 }
 
 void FontChooser::paint(QPainter *painter) {
@@ -85,6 +91,7 @@ void FontChooser::paint(QPainter *painter) {
     //
     // draw swatch
     //
+    painter->save();
     QPointF cp(width()/2.,height()/2.);
     painter->setFont(m_font);
     painter->setPen(m_colour);
@@ -94,10 +101,15 @@ void FontChooser::paint(QPainter *painter) {
     //
     // draw outline
     //
-    painter->setPen(Qt::black);
-    painter->drawPath(m_outerPath);
-    painter->drawPath(m_innerPath);
-
+    QBrush brush("#00D2C2");
+    QPen pen(brush,4);
+    painter->setPen(pen);
+    painter->setBrush(Qt::NoBrush);
+    qreal innerRadius = ( m_innerPath.boundingRect().width() / 2. ) - 2;
+    qreal outerRadius = ( m_outerPath.boundingRect().width() / 2. ) - 2;
+    painter->drawEllipse(cp,outerRadius,outerRadius);
+    painter->drawEllipse(cp,innerRadius,innerRadius);
+    painter->restore();
 }
 //
 //
@@ -147,7 +159,9 @@ void FontChooser::updateFont() {
     QColor oldColour = m_colour;
     QFont oldFont = m_font;
     m_colour = m_colourSelector.getColour();
-    m_font.setFamily(m_familyGroup.selectedButton());
+    QString family = m_familyGroup.selectedButton();
+    m_font.setStyleHint(family=="Times" ? QFont::Serif : QFont::SansSerif);
+    m_font.setFamily(family);
     m_font.setPixelSize(m_fontSizeSelector.getSize());
     m_font.setBold(m_boldSelector.isChecked());
     m_font.setItalic(m_italicSelector.isChecked());

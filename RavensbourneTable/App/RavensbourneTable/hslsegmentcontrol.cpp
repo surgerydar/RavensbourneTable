@@ -21,7 +21,7 @@ HslSegmentControl::HslSegmentControl(qreal startAngle, qreal sweep) : SegmentCon
 }
 
 void HslSegmentControl::paint(QPainter*painter) {
-    SegmentControl::paint(painter);
+    //SegmentControl::paint(painter);
     //
     //
     //

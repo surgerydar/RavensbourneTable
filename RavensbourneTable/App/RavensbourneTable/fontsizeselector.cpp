@@ -5,15 +5,16 @@ FontSizeSelector::FontSizeSelector(qreal startAngle, qreal sweep, qreal minSize,
     m_maxSize = maxSize;
 }
 void FontSizeSelector::paint(QPainter *painter) {
-    SegmentControl::paint(painter);
+    //SegmentControl::paint(painter);
     //
     //
     //
     painter->save();
+    painter->setRenderHint(QPainter::Antialiasing);
     QFont font = m_font;
     qreal percent = ( 360. - m_startAngle ) / 360.; // ellipse appears to go clockwise???
     qreal percentExtent = -m_sweep / 360.;
-    percent += percentExtent * .25; // Fudge a margin
+    percent += percentExtent * .33; // Fudge a margin
     painter->setBrush(Qt::NoBrush);
     painter->setPen("black");
     const int sizes[4] = { 48, 32, 24, 16 }; // TODO: adjust size relative to sweep

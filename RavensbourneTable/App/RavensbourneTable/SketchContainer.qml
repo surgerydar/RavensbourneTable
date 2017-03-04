@@ -84,18 +84,6 @@ Item {
                         }
                     }
                 }
-                /*
-                onPressAndHold: {
-                    console.log('sketchContainer.onPressAndHold');
-                    if ( !drawingLine ) {
-                        puck.visible = !puck.visible;
-                        if( puck.visible ) {
-                            puck.x = mouse.x - puck.width / 2;
-                            puck.y = mouse.y - puck.height / 2;
-                        }
-                    }
-                }
-                */
             }
             Rectangle {
                 anchors.fill: parent
@@ -167,26 +155,47 @@ Item {
         }
     }
     //
-    // puck controls
+    // global controls
     //
     Rectangle {
         width: 64
         height: 64
-        anchors.left: parent.left
-        anchors.leftMargin: 8
+        anchors.right: parent.right
+        anchors.rightMargin: 8
         anchors.bottom: parent.verticalCenter
-        anchors.bottomMargin: 4
+        anchors.bottomMargin: 36
         color: colourTurquoise
         radius: width / 2
         Image {
             width: 48
             height: 48
             anchors.centerIn: parent
-            source: "icons/puck-white.png"
+            source: "icons/home-white.png"
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    puck.visible = !puck.visible
+                    save();
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.verticalCenter: parent.verticalCenter
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            source: "icons/info-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    metadataViewer.show(material);
                 }
             }
         }
@@ -197,7 +206,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 8
         anchors.top: parent.verticalCenter
-        anchors.topMargin: 4
+        anchors.topMargin: 36
         color: colourTurquoise
         radius: width / 2
         Image {
@@ -223,7 +232,29 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: 8
         anchors.top: parent.verticalCenter
-        anchors.topMargin: 4
+        anchors.topMargin: 36
+        color: colourTurquoise
+        radius: width / 2
+        Image {
+            width: 48
+            height: 48
+            anchors.centerIn: parent
+            rotation: 180
+            source: "icons/home-white.png"
+            MouseArea {
+                anchors.fill: parent;
+                onClicked: {
+                    save();
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 64
+        height: 64
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.verticalCenter: parent.verticalCenter
         color: colourTurquoise
         radius: width / 2
         Image {
@@ -244,22 +275,22 @@ Item {
     Rectangle {
         width: 64
         height: 64
-        anchors.right: parent.right
-        anchors.rightMargin: 8
+        anchors.left: parent.left
+        anchors.leftMargin: 8
         anchors.bottom: parent.verticalCenter
-        anchors.bottomMargin: 4
+        anchors.bottomMargin: 36
         color: colourTurquoise
         radius: width / 2
         Image {
             width: 48
             height: 48
             anchors.centerIn: parent
-            source: "icons/info-white.png"
+            rotation: 180
+            source: "icons/puck-white.png"
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    // show / hide info box
-                    metadataViewer.show(material);
+                    puck.visible = !puck.visible
                 }
             }
         }
@@ -901,15 +932,15 @@ Item {
         materialBrowser.show(barcode);
     }
 
-    function addMaterial( material ) {
-        if ( material ) {
+    function addMaterial( data ) {
+        if ( data ) {
             var source = "ImageItem.qml";
             var position = {
                 x: sketchContainer.width / 2,
                 y: sketchContainer.height / 2
             };
             createSketchItem(source, position, function(item) {
-                item.setContent(material.image);
+                item.setContent(data.image,data);
             });
         }
     }
@@ -928,7 +959,7 @@ Item {
     function fingerPrintValidated(device,id) {
         console.log( 'Sketch.Valid finger : ' + id );
         //
-        // go to user home
+        //
         //
         if ( !enrollFingerprint.visible ) { // no enrollment in progress
             if ( user === null || user.id !== id ) // not current user

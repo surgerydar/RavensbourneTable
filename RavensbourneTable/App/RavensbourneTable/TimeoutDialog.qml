@@ -32,7 +32,7 @@ RotatableDialog {
         wrapMode: Text.WordWrap
     }
 
-    Button {
+    TextButton {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: prompt.bottom
         anchors.topMargin: 16

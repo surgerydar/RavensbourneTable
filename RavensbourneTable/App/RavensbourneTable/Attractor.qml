@@ -60,12 +60,12 @@ Item {
     // TODO: move these into external qml
     //
     Rectangle {
-        height: parent.height / 6
+        height: 120//parent.height / 6
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 32
-        color:colourTurquoise
+        color:"transparent"
         opacity: .75
         rotation: 180
         Text {
@@ -83,8 +83,11 @@ Item {
             radius: width /2
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
-            color:colourTurquoise
-            opacity: .75
+            color:"transparent"
+            /*
+            border.width: 4
+            border.color: "black"
+            */
             Image {
                 anchors.fill: parent
                 source:"icons/down_arrow-black.png"
@@ -93,12 +96,12 @@ Item {
     }
 
     Rectangle {
-        height: parent.height / 6
+        height: 120//parent.height / 6
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 32
-        color:colourTurquoise
+        color:"transparent"
         opacity: .75
         Text {
             anchors.fill: parent
@@ -115,8 +118,11 @@ Item {
             radius: width /2
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
-            color:colourTurquoise
-            opacity: .75
+            color:"transparent"
+            /*
+            border.width: 4
+            border.color: "black"
+            */
             Image {
                 anchors.fill: parent
                 source:"icons/down_arrow-black.png"

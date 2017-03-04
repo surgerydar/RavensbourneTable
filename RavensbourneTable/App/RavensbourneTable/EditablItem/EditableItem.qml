@@ -12,6 +12,7 @@ Item {
     //
     //
     property string type: "unknown"
+    property bool scaleable: true
     //
     //
     //
@@ -144,12 +145,13 @@ Item {
                 break;
             case 'pinch' :
                 container.rotation = GU.wrapAngle(startRotation,da);
-                console.log( 'item rotation : ' + container.rotation );
-                if ( scaleMode === "scalex" || scaleMode === "both" ) {
-                    container.width = startWidth * s;
-                }
-                if ( scaleMode === "scaley" || scaleMode === "both" ) {
-                    container.height = startHeight * s;
+                if ( scaleable ) {
+                    if ( scaleMode === "scalex" || scaleMode === "both" ) {
+                        container.width = startWidth * s;
+                    }
+                    if ( scaleMode === "scaley" || scaleMode === "both" ) {
+                        container.height = startHeight * s;
+                    }
                 }
                 //
                 // center content
@@ -200,6 +202,7 @@ Item {
                 //
                 editTimer.restart();
             } else {
+                /*
                 if ( startAngle > 340 || startAngle < 20 || ( startAngle > 160 && startAngle < 200 ) ) {
                     scaleMode = "scalex";
                 } else if ( ( startAngle > 70 && startAngle < 110 ) || ( startAngle > 250 && startAngle < 290 ) ) {
@@ -207,6 +210,7 @@ Item {
                 } else {
                     scaleMode = "both";
                 }
+                */
                 pinchIndicator.visible = true;
                 editTimer.stop();
             }

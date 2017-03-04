@@ -8,14 +8,15 @@ LineWidthSegmentControl::LineWidthSegmentControl(qreal startAngle,qreal sweep, q
 }
 
 void LineWidthSegmentControl::paint(QPainter*painter) {
-    SegmentControl::paint(painter);
+    //SegmentControl::paint(painter);
     //
     //
     //
     painter->save();
     qreal margin = 5.;
     qreal ellipseUBase = ( 360. - ( m_startAngle + margin ) ) / 360.; // start ellipse interpolation
-    qreal ellipseUExtent = -( m_sweep - margin * 2. ) / 360.;
+    //qreal ellipseUExtent = -( m_sweep - margin * 2. ) / 360.;
+    qreal ellipseUExtent = -( m_sweep - margin ) / 360.;
     qreal ellipseU = ellipseUBase;
     painter->setBrush(Qt::NoBrush);
     QBrush blackBrush("black");

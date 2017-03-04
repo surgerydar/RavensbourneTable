@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: container
     x: 120
-    y: 120
+    y: parent.height / 2
     z: 2
     width: 324
     height: 324

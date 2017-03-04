@@ -46,6 +46,7 @@ void LineStyleChooser::paint(QPainter *painter) {
     // draw swatch
     //
     QRectF innerRect = m_innerPath.boundingRect();
+    QRectF outerRect = m_outerPath.boundingRect();
     painter->save();
     QBrush brush(m_colour);
     QPen pen(brush, m_width, Qt::SolidLine, Qt::RoundCap);
@@ -59,9 +60,19 @@ void LineStyleChooser::paint(QPainter *painter) {
     //
     // draw outline
     //
-    painter->setPen(Qt::black);
-    painter->drawPath(m_outerPath);
-    painter->drawPath(m_innerPath);
+    QBrush outline_brush("#00D2C2");
+    QPen outline_pen(outline_brush,4);
+    painter->setPen(outline_pen);
+    //painter->drawPath(m_outerPath);
+    //painter->drawPath(m_innerPath);
+    QPointF cp = innerRect.center();
+    qreal innerRadius = ( innerRect.width() / 2. ) - 2;
+    qreal outerRadius = ( outerRect.width() / 2. ) - 2;
+    painter->drawEllipse(cp,innerRadius,innerRadius);
+    painter->drawEllipse(cp,outerRadius,outerRadius);
+    //
+    //
+    //
     painter->restore();
 }
 //

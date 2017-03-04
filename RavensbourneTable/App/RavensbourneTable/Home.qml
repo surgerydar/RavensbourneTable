@@ -9,6 +9,12 @@ Item {
         color: "orange"
     }
 
+    Image {
+        anchors.fill: parent
+        anchors.margins: 0
+        source: "icons/rectangular-frame.svg"
+    }
+
     Item {
         id: sketches
         anchors.fill: parent
@@ -36,7 +42,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.WordWrap
         }
-        Button {
+        TextButton {
             id: action
             anchors.top: prompt.bottom
             anchors.topMargin: 16

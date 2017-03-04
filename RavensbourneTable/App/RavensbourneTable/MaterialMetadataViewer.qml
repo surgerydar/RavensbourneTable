@@ -2,12 +2,13 @@ import QtQuick 2.7
 import QtQuick.Controls 1.4
 
 Item {
+    id: container
     x: -1920
-    width: ( parent.width - 128 )
+    width: ( parent.width - 48 )
     anchors.top: parent.top
-    anchors.topMargin: 64
+    anchors.topMargin: 24
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: 64
+    anchors.bottomMargin: 24
     //
     //
     //
@@ -27,7 +28,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.top: parent.top
-        anchors.topMargin: 24
+        anchors.topMargin: 72
         radius: 24
         color: "white"
         ListView {
@@ -89,7 +90,7 @@ Item {
     //
     Rectangle {
         id: productDescriptionBackground
-        width: ( parent.width * .75 ) - 48
+        width: ( parent.width * .66 ) - 48
         anchors.left: parent.left
         anchors.leftMargin: 24
         anchors.top: productNameBackground.bottom
@@ -170,6 +171,7 @@ Item {
                    horizontalAlignment: Text.AlignLeft
                    verticalAlignment: Text.AlignVCenter
                    textFormat: Text.AutoText
+                   baseUrl: "http://library.materialconnexion.com"
                    text: value
                 }
             }
@@ -186,7 +188,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24
+        anchors.bottomMargin: 72
         radius: 24
         color: "white"
         TextInput  {
@@ -215,13 +217,14 @@ Item {
         }
     }
     //
-    //
+    // close buttons
     //
     Rectangle {
         width: 48
         height: 48
-        anchors.right: parent.right
+        anchors.left: parent.left
         anchors.top: parent.top
+        anchors.margins: 12
         radius: width / 2
         color: colourGreen
         Image {
@@ -231,6 +234,66 @@ Item {
                 anchors.fill: parent
                 onClicked : {
                     hide();
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/close-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    hide();
+                }
+            }
+        }
+    }
+    //
+    // rotate buttons
+    //
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/rotate-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/rotate-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
                 }
             }
         }
@@ -287,7 +350,7 @@ Item {
         //
         //
         //
-        x = 64;
+        x = 24;
     }
 
     function hide() {

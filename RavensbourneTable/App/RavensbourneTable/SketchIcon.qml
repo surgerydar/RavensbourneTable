@@ -148,7 +148,7 @@ Blob {
             color: "#00D2C2"
             Image {
                 anchors.fill: parent
-                source: "icons/forward_arrow-white.png"
+                source: "icons/open-white.png"
             }
             MouseArea {
                 anchors.fill: parent
