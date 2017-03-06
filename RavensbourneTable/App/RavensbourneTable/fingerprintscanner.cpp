@@ -403,7 +403,7 @@ void FingerprintScanner::handleValidation(QString device, DPFPDD_CAPTURE_CALLBAC
 
 void FingerprintScanner::endEnrollment( QString device, int status ) {
     dpfj_finish_enrollment();
-    if ( status ) {
+    if ( status != 0 ) {
         emit enrollmentFailed(device, status);
     } else {
         emit enrolled(device, m_templates[m_templates.size()-1].m_name);

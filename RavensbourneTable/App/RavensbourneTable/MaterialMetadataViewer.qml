@@ -1,20 +1,20 @@
 import QtQuick 2.7
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.0
+import QtQuick.Controls.Styles 1.4
 
 Item {
     id: container
     x: -1920
-    width: ( parent.width - 48 )
-    anchors.top: parent.top
+    width: parent.width//( parent.width - 48 )
+    anchors.top: inputPanelTop.bottom //parent.top
     anchors.topMargin: 24
-    anchors.bottom: parent.bottom
+    anchors.bottom: inputPanelBottom.top //parent.bottom
     anchors.bottomMargin: 24
     //
     //
     //
     Rectangle {
         anchors.fill: parent
-        radius: 48
         color: colourGreen
     }
     //
@@ -67,6 +67,29 @@ Item {
         height: 48
         anchors.left: parent.left
         anchors.leftMargin: 24
+        anchors.right: parent.horizontalCenter
+        anchors.rightMargin: 12
+        anchors.top: imageListBackground.bottom
+        anchors.topMargin: 24
+        radius: 24
+        color: "white"
+        Text {
+            id: productName
+            anchors.left: parent.left
+            anchors.leftMargin: 24
+            anchors.right: parent.right
+            anchors.rightMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: ravensbourneRegular.name
+            font.pixelSize: 18
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+    Rectangle {
+        id: productManufacturerBackground
+        height: 48
+        anchors.left: parent.horizontalCenter
+        anchors.leftMargin: 12
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.top: imageListBackground.bottom
@@ -74,7 +97,7 @@ Item {
         radius: 24
         color: "white"
         Text {
-            id: productName
+            id: productManufacturer
             anchors.left: parent.left
             anchors.leftMargin: 24
             anchors.right: parent.right
@@ -95,7 +118,8 @@ Item {
         anchors.leftMargin: 24
         anchors.top: productNameBackground.bottom
         anchors.topMargin: 24
-        anchors.bottom: productTagsBackground.top
+        //anchors.bottom: productTagsBackground.top
+        anchors.bottom: productTags.top
         anchors.bottomMargin: 24
         radius: 24
         color: "white"
@@ -122,7 +146,8 @@ Item {
         anchors.rightMargin: 24
         anchors.top: productNameBackground.bottom
         anchors.topMargin: 24
-        anchors.bottom: productTagsBackground.top
+        //anchors.bottom: productTagsBackground.top
+        anchors.bottom: productTags.top
         anchors.bottomMargin: 24
         radius: 24
         color: "white"
@@ -180,6 +205,33 @@ Item {
     //
     //
     //
+    TextField  {
+        id: productTags
+        height: 48
+        anchors.left: parent.left
+        anchors.leftMargin: 24
+        anchors.right: parent.right
+        anchors.rightMargin: 24
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 72
+        background: Rectangle {
+            radius: height / 2
+            color: "white"
+            border.color: "transparent"
+        }
+        font.family: ravensbourneRegular.name
+        font.pixelSize: 18
+        //verticalAlignment: Text.AlignVCenter
+        placeholderText: "comma separated list of tags ..."
+        //
+        //
+        //
+        onAccepted: {
+            material.tags = text.split(',');
+            focus = false;
+        }
+    }
+    /*
     Rectangle {
         id: productTagsBackground
         height: 48
@@ -191,6 +243,7 @@ Item {
         anchors.bottomMargin: 72
         radius: 24
         color: "white"
+
         TextInput  {
             id: productTags
             anchors.left: parent.left
@@ -215,7 +268,9 @@ Item {
             color: "lightGray"
             text: "comma separated list of tags ..."
         }
+
     }
+    */
     //
     // close buttons
     //
@@ -332,9 +387,15 @@ Item {
                 imageList.model.append( {url: image} );
             });
         }
+        productName.text = "";
         if ( material.name ) {
             productName.text = material.name;
         }
+        productManufacturer.text = "";
+        if ( material.manufacturer ) {
+            productManufacturer.text = material.manufacturer;
+        }
+        productDescription.text = "";
         if ( material.description ) {
             productDescription.text = material.description;
         }
@@ -344,16 +405,18 @@ Item {
                 productAttributes.model.append({"name":attribute.name,"value":attribute.value});
             });
         }
+        productTags.text = "";
         if ( material.tags ) {
             productTags.text = material.tags.join();
         }
         //
         //
         //
-        x = 24;
+        x = 0;
     }
 
     function hide() {
-        x = - 1920
+        x = -width
+        productTags.focus = false;
     }
 }

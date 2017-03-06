@@ -3,13 +3,16 @@ import QtWebEngine 1.4
 import QtQuick.Controls 2.0
 
 Item {
+    id: container
     //
     // geometry
     //
-    x: -( 24 + 1920 / 2 )
-    width: parent.width / 2
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    x: -1920
+    width: parent.width//( parent.width - 48 )
+    anchors.top: inputPanelTop.bottom //parent.top
+    anchors.topMargin: 24
+    anchors.bottom: inputPanelBottom.top //parent.bottom
+    anchors.bottomMargin: 24
     //
     //
     //
@@ -23,8 +26,8 @@ Item {
     WebEngineView {
         id: webBrowser
         anchors.fill: parent
-        anchors.rightMargin: parent.rotation === 0 ? 32 : 0
-        anchors.leftMargin: parent.rotation === 0 ? 0 : 32
+        anchors.topMargin: 72
+        anchors.bottomMargin: 72
         backgroundColor: "transparent"
         onNewViewRequested: function(request) { // open all in same pane TODO: tabs
             request.openIn(webBrowser);
@@ -43,6 +46,7 @@ Item {
             switch( loadRequest.status ) {
             case WebEngineView.LoadStartedStatus :
                 busyIndicator.visible = true;
+                addTop.visible = addBottom.visible = false;
                 break;
             case WebEngineView.LoadStoppedStatus :
             case WebEngineView.LoadFailedStatus :
@@ -58,71 +62,57 @@ Item {
                     console.log( "loaded" );
                     webBrowser.runJavaScript("var _login_bar = document.querySelector('#ctl00_tblHeader'); if ( _login_bar ) _login_bar.style.display='none';");
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_imgMain').src;", function( image ) {
-                        console.log( 'Material Browser : image: ' + image );
+                        //console.log( 'Material Browser : image: ' + image );
                         material.image = image;
                         if ( image ) {
-                            add.visible = true;
+                            addTop.visible = addBottom.visible = true;
                         }
                     });
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_lblProductName').innerHTML;", function( name ) {
-                        console.log( 'Material Browser : name: ' + name );
-                        material.name = name;
+                        //console.log( 'Material Browser : name: ' + name );
+                        material.name = name.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
                     });
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_lblManufacturerName').innerHTML;", function( manufacturer ) {
                         console.log( 'Material Browser : manufacturer: ' + manufacturer );
-                        material.manufacturer = manufacturer;
+                        material.manufacturer = manufacturer.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
                     });
                     webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_lblDesc').innerHTML;", function( description ) {
-                        console.log( 'Material Browser : description: ' + description );
-                        material.description = description;
+                        //console.log( 'Material Browser : description: ' + description );
+                        material.description = description.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
                     });
                     webBrowser.runJavaScript("var imageArray = []; document.querySelectorAll('.preload').forEach( function( image ) { imageArray.push(image.src); } ); imageArray.join();", function( productImages ) {
                         material.images = productImages.split(',');
                     });
                     webBrowser.runJavaScript("var attribNames = document.querySelectorAll('.physAttribName'); var attribValues = document.querySelectorAll('.physAttribValue'); var attribList = []; for ( var i = 0; i < attribNames.length; i++ ) { attribList.push( attribNames[ i ].innerHTML.trim() + '|' + attribValues[ i ].innerHTML.trim() ) }; attribList.join('~');", function( productAttributes ) {
                         material.attributes = [];
-                        console.log( 'productAttributes=' + productAttributes );
+                        //console.log( 'productAttributes=' + productAttributes );
                         if ( productAttributes.length > 0 ) {
                             productAttributes.split('~').forEach( function( attribute ) {
-                                console.log( 'attribute=' + attribute );
+                                //console.log( 'attribute=' + attribute );
                                 var attributeArray = attribute.split('|');
                                 if ( attributeArray.length > 0 ) {
-                                    material.attributes.push( { name: attributeArray[ 0 ], value: attributeArray[ 1 ] } );
+                                    material.attributes.push( { name: attributeArray[ 0 ].replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, ''), value: attributeArray[ 1 ].replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '') } );
                                 }
                             });
                         }
-                        console.log( 'attribute list=' + JSON.stringify(material.attributes));
+                        //console.log( 'attribute list=' + JSON.stringify(material.attributes));
                     });
                 }
                 break;
             }
         }
-        Behavior on anchors.rightMargin {
-            NumberAnimation {
-                duration: 500
-            }
-        }
-        Behavior on anchors.leftMargin {
-            NumberAnimation {
-                duration: 500
-            }
-        }
     }
-    /*
+    //
+    // add buttons
+    //
     Rectangle {
-        id: activityIndicator
-        width: 48
-        height: 48
-        anchors.verticalCenter: we
-    }
-    */
-    Rectangle {
-        id: add
+        id: addTop
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
-        anchors.bottom: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 12
         color: colourGreen
         Image {
             anchors.fill: parent
@@ -132,68 +122,114 @@ Item {
             anchors.fill: parent
             onClicked: {
                 if ( material.image ) {
-                    parent.parent.addMaterial(material);
-                    parent.parent.hide();
+                    container.addMaterial(material);
+                    container.hide();
                 }
             }
         }
     }
-
     Rectangle {
+        id: addBottom
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
-        anchors.top: parent.verticalCenter
-        color: colourGreen
-        Image {
-            anchors.fill: parent
-            source: parent.parent.rotation === 0 ? "icons/back_arrow-black.png" : "icons/forward_arrow-black.png"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                parent.parent.hide();
-            }
-        }
-    }
-
-    Rectangle {
-        width: 48
-        height: 48
-        radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
-        anchors.top: parent.top
-        anchors.topMargin: 16
-        color: colourGreen
-        Image {
-            anchors.fill: parent
-            source: "icons/rotate-black.png"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                parent.parent.rotation = parent.parent.rotation === 0 ? parent.parent.rotation = 180 : parent.parent.rotation = 0;
-            }
-        }
-    }
-
-    Rectangle {
-        width: 48
-        height: 48
-        radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 16
+        anchors.bottomMargin: 12
         color: colourGreen
         Image {
             anchors.fill: parent
-            source: "icons/rotate-black.png"
+            source: "icons/add-black.png"
         }
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                parent.parent.rotation = parent.parent.rotation === 0 ? parent.parent.rotation = 180 : parent.parent.rotation = 0;
+                if ( material.image ) {
+                    container.addMaterial(material);
+                    container.hide();
+                }
+            }
+        }
+    }
+    //
+    // close buttons
+    //
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/close-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    hide();
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/close-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    hide();
+                }
+            }
+        }
+    }
+    //
+    // rotate buttons
+    //
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/rotate-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
+                }
+            }
+        }
+    }
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/rotate-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
+                }
             }
         }
     }
@@ -227,7 +263,7 @@ Item {
     //
     //
     Component.onCompleted: {
-        x = -(width+24);
+        x = -width;
     }
     //
     // signals
@@ -252,7 +288,7 @@ Item {
                 material = newMaterial;
                 webBrowser.url = newMaterial.url;
             }
-            add.visible = false;
+            addTop.visible = addBottom.visible = false;
             x = 0;
         } else {
             console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode)
@@ -260,17 +296,13 @@ Item {
     }
 
     function hide() {
-        x = -(width+24);
+        x = -width;
         //
         // hide current materal
         //
-        /*
-        var html = '<html><head></head><body></body></html>';
-        var base = 'file://';
-        webBrowser.loadHtml(html,base);
-        */
         webBrowser.url = "blank.html";
         material = null;
         webBrowser.focus = false;
+        addTop.visible = addBottom.visible = false;
     }
 }

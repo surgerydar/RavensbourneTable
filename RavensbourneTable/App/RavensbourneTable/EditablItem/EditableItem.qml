@@ -99,7 +99,7 @@ Item {
         property string scaleMode: "both"
 
         onGestureStarted: {
-            gesture.grab();
+            if ( enabled ) gesture.grab();
         }
 
         onTouchUpdated : {
@@ -107,6 +107,10 @@ Item {
         }
 
         onUpdated: {
+            if ( !enabled ) {
+                return;
+            }
+
             var mp, sp, md, ma, sd, sa, da, s;
             if ( TouchUtilities.hasTouchScreen() ) {
                 //
@@ -141,7 +145,7 @@ Item {
             case 'pan' :
                 container.x = mp.x - container.width / 2;
                 container.y = mp.y - container.height / 2;
-                editTimer.restart();
+                editTimer.stop();
                 break;
             case 'pinch' :
                 container.rotation = GU.wrapAngle(startRotation,da);
@@ -168,8 +172,11 @@ Item {
         }
 
         onPressed: {
+            if ( !enabled ) {
+                return;
+            }
             if ( tool === "delete" ) {
-                destroy();
+                setActiveEditor(container); // let sketch delete it
                 return;
             }
             startRotation = container.rotation;
@@ -221,6 +228,9 @@ Item {
         }
 
         onReleased: {
+            if ( !enabled ) {
+                return;
+            }
             if ( mode == "pinch") {
                 fitContent();
                 container.x = startX - container.width / 2;
@@ -339,10 +349,12 @@ Item {
     //
     //
     function enableEditing() {
+        console.log("editing enabled");
         multiTouchArea.enabled = true;
     }
 
-    function diableEditing() {
+    function disableEditing() {
+        console.log("editing disabled");
         multiTouchArea.enabled = false;
     }
     //

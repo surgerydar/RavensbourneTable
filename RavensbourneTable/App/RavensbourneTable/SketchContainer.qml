@@ -29,7 +29,7 @@ Item {
 
                 onReleased: {
                     console.log('sketchContainer.onReleased');
-                    if ( tool === "draw" ) {
+                    if ( tool === "draw" && drawingLine ) {
                         drawingLine = false;
                         var lineId = drawing.endLine(Qt.point(mouse.x,mouse.y));
                         var sessionCommand = {
@@ -40,7 +40,6 @@ Item {
                             data: drawing.getLine(lineId)
                         };
                         SessionClient.sendMessage(JSON.stringify(sessionCommand));
-
                         appWindow.requestUpdate();
                     }
                 }
@@ -55,7 +54,6 @@ Item {
                             drawing.addPoint(Qt.point(mouse.x,mouse.y));
                             appWindow.requestUpdate();
                         }
-
                     }
                 }
 
@@ -588,14 +586,16 @@ Item {
     function enableSketchItems() {
         var count = sketch.children.length;
         for ( var i = 0; i < count; i++ ) {
-            sketch.children[ 0 ].enabled = true;
+            if ( sketch.children[ 0 ].enableEditing ) sketch.children[ 0 ].enableEditing();
+            //sketch.children[ 0 ].enabled = true;
         }
     }
 
     function disableSketchItems() {
         var count = sketch.children.length;
         for ( var i = 0; i < count; i++ ) {
-            sketch.children[ 0 ].enabled = false;
+            if ( sketch.children[ 0 ].disableEditing ) sketch.children[ 0 ].disableEditing();
+            //sketch.children[ 0 ].enabled = false;
         }
     }
     //
@@ -726,9 +726,8 @@ Item {
         //
         var lines = drawing.save();
         //
-        // TODO: other sketch metadata
         //
-
+        //
         sketchContainer.grabToImage(function(icon) {
             //console.log( 'sketch icon url:' + icon.url );
             icon.saveToFile("icon-temp.png");
@@ -736,13 +735,14 @@ Item {
                 id: sketchId,
                 user_id: user.id,
                 group: group,
-                //icon: material.image,
                 icon: ImageEncoder.uriEncode("icon-temp.png","PNG"),
                 material: material,
                 items: items,
                 drawing: lines
             };
-            console.log( 'sketch icon:' + object.icon );
+            //object.material.description = "Removed for debugging";
+            //console.log( 'sketch icon:' + object.icon );
+            console.log( 'sketch data : ' + JSON.stringify(object) );
             if ( !newSketch ) {
                 console.log('updating sketch : ' + sketchId );
                 WebDatabase.updateSketch(object);

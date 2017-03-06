@@ -43,7 +43,9 @@ RotatableDialog {
                 width: parent.height
                 height: parent.height
                 radius: width / 2
-                color: "white"
+                color: "transparent"
+                border.width: 4
+                border.color: "black"
                 Image {
                     anchors.fill: parent
                     anchors.margins: 8
@@ -55,7 +57,9 @@ RotatableDialog {
                 width: parent.height
                 height: parent.height
                 radius: width / 2
-                color: "white"
+                color: "transparent"
+                border.width: 4
+                border.color: "black"
                 Image {
                     anchors.fill: parent
                     anchors.margins: 8
@@ -67,7 +71,9 @@ RotatableDialog {
                 width: parent.height
                 height: parent.height
                 radius: width / 2
-                color: "white"
+                color: "transparent"
+                border.width: 4
+                border.color: "black"
                 Image {
                     anchors.fill: parent
                     anchors.margins: 8
@@ -79,7 +85,9 @@ RotatableDialog {
                 width: parent.height
                 height: parent.height
                 radius: width / 2
-                color: "white"
+                color: "transparent"
+                border.width: 4
+                border.color: "black"
                 Image {
                     anchors.fill: parent
                     anchors.margins: 8
@@ -108,8 +116,10 @@ RotatableDialog {
                 color: "white"
                 border.color: "transparent"
             }
+            font.family: ravensbourneRegular.name
             font.pixelSize: textFieldFontsize
         }
+
         TextField {
             id: email
             width: parent.width - parent.width / 6
@@ -124,6 +134,7 @@ RotatableDialog {
                 color: "white"
                 border.color: "transparent"
             }
+            font.family: ravensbourneRegular.name
             font.pixelSize: textFieldFontsize
         }
     }
@@ -131,7 +142,7 @@ RotatableDialog {
     TextButton {
         id: action
         anchors.top: parent.verticalCenter
-        anchors.topMargin: ( parent.height / 12 ) + 16
+        anchors.topMargin: ( parent.height / 12 ) + 32
         anchors.horizontalCenter: parent.horizontalCenter
         text: "Cancel"
         onClicked: {

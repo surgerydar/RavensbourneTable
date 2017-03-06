@@ -17,8 +17,8 @@ EditableItem {
 
     Rectangle {
         id: info
-        width: 24
-        height: 24
+        width: 36
+        height: 36
         anchors.horizontalCenter: content.right
         anchors.verticalCenter: content.top
         radius: width / 2

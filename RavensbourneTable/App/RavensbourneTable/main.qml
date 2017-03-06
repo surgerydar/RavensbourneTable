@@ -58,28 +58,34 @@ ApplicationWindow {
     //
     // mail scenes
     //
+    /*
     Item {
         id: swipeView
         anchors.fill: parent
-
-        Attractor {
-            id: attractor
-            anchors.fill: parent
-            visible: false
-        }
-
-        Home {
-            id: home
-            anchors.fill: parent
-            visible: false
-        }
-
-        SketchContainer {
-            id: sketch
-            anchors.fill: parent
-            visible: false
-        }
+    */
+    Attractor {
+        id: attractor
+        anchors.fill: parent
+        visible: false
     }
+
+    Home {
+        id: home
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: inputPanelTop.bottom
+        anchors.bottom: inputPanelBottom.top
+        visible: false
+    }
+
+    SketchContainer {
+        id: sketch
+        anchors.fill: parent
+        visible: false
+    }
+    /*
+    }
+    */
     //
     //
     //

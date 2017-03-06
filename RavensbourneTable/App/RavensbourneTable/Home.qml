@@ -1,5 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Styles 1.4
+
 import "Utils.js" as Utils
 
 Item {
@@ -72,11 +74,65 @@ Item {
     //
     //
     //
+    TextField {
+        id: searchFieldTop
+        width: parent.width / 4
+        height: 48
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        rotation: 180
+        background: Rectangle {
+            radius: height / 2
+            color: "white"
+            border.color: "transparent"
+        }
+        font.family: ravensbourneRegular.name
+        font.pixelSize: 18
+        placeholderText: "search ..."
+        //
+        //
+        //
+        onAccepted: {
+            searchFieldBottom.text = text;
+            searchSketches( text );
+            focus = false;
+        }
+    }
+    TextField {
+        id: searchFieldBottom
+        width: parent.width / 4
+        height: 48
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8
+        background: Rectangle {
+            radius: height / 2
+            color: "white"
+            border.color: "transparent"
+        }
+        font.family: ravensbourneRegular.name
+        font.pixelSize: 18
+        placeholderText: "search ..."
+        //
+        //
+        //
+        onAccepted: {
+            searchFieldTop.text = text;
+            searchSketches( text );
+            focus = false;
+        }
+    }
+
+    //
+    //
+    //
     property var user: null;
     property var userSketches: null;
     function setup(param) {
         user = null;
         userSketches = null;
+        searchFieldBottom.text = searchFieldTop.text = "";
         clearSketches();
         if ( param && param.user ) {
             //
@@ -151,8 +207,41 @@ Item {
         */
         WebDatabase.getUserSketches(userId);
     }
+    function searchSketchMetadata( material, regex ) {
+        //console.log('searching for :' + regex.toString() );
+        if ( material.name && material.name.search(regex) >= 0 ) return true;
+        if ( material.manufacturer && material.manufacturer.search(regex) >= 0 ) return true;
+        if ( material.description && material.description.search(regex) >= 0 ) return true;
+        if ( material.tags ) {
+            var found = false;
+            material.tags.forEach( function( tag ) {
+                found = tag.search(regex) >= 0;
+            });
+            if ( found ) return true;
+        }
+        return false;
+    }
+
+    function searchSketches( text ) {
+        var count = sketches.children.length;
+        if ( text.length > 0 ) {
+            var regex = new RegExp(text, "i");
+            for ( var i = 0; i < count; i++ ) {
+                if( sketches.children[ i ].sketch ) {
+                    sketches.children[ i ].visible = searchSketchMetadata(sketches.children[ i ].sketch.material,regex);
+                }
+            }
+        } else {
+            for ( var i = 0; i < count; i++ ) {
+                if( sketches.children[ i ].sketch ) {
+                    sketches.children[ i ].visible = true;
+                }
+            }
+        }
+    }
+
     function setPromptText() {
-        var welcomeText = "Hi " + user.username + '\n';
+        var welcomeText = "Hi " + user.username;
         var sketchText = userSketches && userSketches.length > 0 ? '\nor select one of your previous sketches' : ''
         var promptText = welcomeText + "\nPlace a material under a scanner to create a new sketch" + sketchText;
         prompt.text = promptText;

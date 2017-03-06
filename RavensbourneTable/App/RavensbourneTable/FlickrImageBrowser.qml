@@ -3,24 +3,22 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
 Item {
+    id: container
     //
     // geometry
     //
-    x: -( 24 + 1920 / 2 )
-    width: parent.width / 2
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    x: -1920
+    width: parent.width
+    anchors.top: inputPanelTop.bottom
+    anchors.topMargin: 24
+    anchors.bottom: inputPanelBottom.top
+    anchors.bottomMargin: 24
     //
     //
     //
     Rectangle {
         anchors.fill: parent
         color: colourGreen
-        MouseArea {
-            onClicked: {
-
-            }
-        }
     }
 
     RowLayout {
@@ -31,7 +29,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: parent.rotation === 0 ? 32 : 8
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: 72
 
         Rectangle {
             id: previousPage
@@ -95,7 +93,7 @@ Item {
                 var term = encodeURIComponent(text);
                 if ( term.length > 0 ) {
                     console.log( 'image search : ' + term );
-                    FlickrImageListModel.search(term,1,pageSize); // TODO: implement paging
+                    FlickrImageListModel.search(term,1,pageSize);
                 }
             }
 
@@ -104,20 +102,22 @@ Item {
 
     Label {
         id: pageCount
-        anchors.left: parent.left
-        anchors.leftMargin: 16
-        anchors.right: parent.right
-        anchors.rightMargin: 16
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: controls.bottom
+
     }
 
     GridView {
         id: imageList
-        anchors.fill: parent
-        anchors.rightMargin: parent.rotation === 0 ? 32 : 8
-        anchors.leftMargin: parent.rotation === 0 ? 8 : 32
-        anchors.topMargin: 8
-        anchors.bottomMargin: 68
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: controls.top
+        anchors.leftMargin: 12
+        anchors.rightMargin: 12
+        anchors.topMargin: 64
+        anchors.bottomMargin: 24
+
         clip: true
         //
         //
@@ -129,7 +129,6 @@ Item {
         //
         model: FlickrImageListModel
         delegate: Rectangle {
-            id: container
             height: imageList.cellWidth - 16
             width: imageList.cellWidth - 16
 
@@ -165,68 +164,88 @@ Item {
         }
 
     }
-
-    Rectangle {
-        width: 48
-        height: 48
-        radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
-        anchors.top: parent.verticalCenter
-        color: colourGreen
-        Image {
-            anchors.fill: parent
-            source: parent.parent.rotation === 0 ? "icons/back_arrow-black.png" : "icons/forward_arrow-black.png"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                parent.parent.hide();
-            }
-        }
-    }
     //
-    // Rotation controls
+    // close buttons
     //
     Rectangle {
         width: 48
         height: 48
-        radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
+        anchors.left: parent.left
         anchors.top: parent.top
-        anchors.topMargin: 16
+        anchors.margins: 12
+        radius: width / 2
         color: colourGreen
         Image {
             anchors.fill: parent
-            source: "icons/rotate-black.png"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                parent.parent.rotation = parent.parent.rotation === 0 ? parent.parent.rotation = 180 : parent.parent.rotation = 0;
+            source: "icons/close-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    hide();
+                }
             }
         }
     }
-
     Rectangle {
         width: 48
         height: 48
-        radius: 24
-        anchors.horizontalCenter: parent.rotation === 0 ? parent.right : parent.left
+        anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 16
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/close-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    hide();
+                }
+            }
+        }
+    }
+    //
+    // rotate buttons
+    //
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 12
+        radius: width / 2
         color: colourGreen
         Image {
             anchors.fill: parent
             source: "icons/rotate-black.png"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                parent.parent.rotation = parent.parent.rotation === 0 ? parent.parent.rotation = 180 : parent.parent.rotation = 0;
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
+                }
             }
         }
     }
-
+    Rectangle {
+        width: 48
+        height: 48
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 12
+        radius: width / 2
+        color: colourGreen
+        Image {
+            anchors.fill: parent
+            source: "icons/rotate-black.png"
+            MouseArea {
+                anchors.fill: parent
+                onClicked : {
+                    container.rotation = container.rotation === 0 ? 180 : 0;
+                }
+            }
+        }
+    }
     Behavior on x {
         NumberAnimation {
             duration: 500
@@ -243,7 +262,7 @@ Item {
     Component.onCompleted: {
         var cellDim = imageList.width / 6;
         imageList.cellWidth = imageList.cellHeight = cellDim;
-        pageSize = Math.floor(imageList.height / cellDim) * 6;
+        pageSize = Math.max( 6, Math.floor(parent.height / cellDim) * 6 );
     }
     //
     //

@@ -1,11 +1,13 @@
 import QtQuick 2.0
 
 ListModel {
+    /*
     ListElement {
         name: "pan"
         icon: "icons/pan-white.png"
         action: "pan"
     }
+    */
     ListElement {
         name: "draw"
         icon: "icons/create.png"
