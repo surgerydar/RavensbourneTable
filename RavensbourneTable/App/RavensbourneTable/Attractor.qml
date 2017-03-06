@@ -57,7 +57,7 @@ Item {
         source: "icons/rectangular-frame.svg"
     }
     //
-    // TODO: move these into external qml
+    // prompts
     //
     Rectangle {
         height: 120//parent.height / 6

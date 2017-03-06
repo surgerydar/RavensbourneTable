@@ -81,5 +81,6 @@
         <file>icons/lock-white.png</file>
         <file>MaterialMetadataViewer.qml</file>
         <file>TextButton.qml</file>
+        <file>placeholder.qml</file>
     </qresource>
 </RCC>

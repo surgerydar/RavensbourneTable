@@ -22,6 +22,8 @@
 #include "touchutilities.h"
 #include "imageencoder.h"
 
+#define _PLACEHOLDER 1
+
 void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
     QString txt;
     QString time = QDateTime::currentDateTime().toString();
@@ -63,7 +65,7 @@ int main(int argc, char *argv[]) {
     //
     //
     //
-    //qInstallMessageHandler(LogFileMessageHandler);
+    qInstallMessageHandler(LogFileMessageHandler);
     //
     //
     //
@@ -98,7 +100,11 @@ int main(int argc, char *argv[]) {
     //
     //
     //
+#ifdef _PLACEHOLDER
+    engine.load(QUrl(QLatin1String("qrc:/placeholder.qml")));
+#else
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+#endif
 
     return app.exec();
 }

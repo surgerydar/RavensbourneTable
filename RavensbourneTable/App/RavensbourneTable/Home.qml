@@ -8,7 +8,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "orange"
+        color: colourYellow
     }
 
     Image {

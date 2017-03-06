@@ -19,8 +19,8 @@ ApplicationWindow {
     //
     //
     visible: true
-    width: 1024
-    height: 768
+    width: 1920
+    height: 1080
     //
     // Fonts
     //
@@ -56,13 +56,15 @@ ApplicationWindow {
     //
     title: qsTr("Ravensbourne Table")
     //
-    // mail scenes
     //
-    /*
-    Item {
-        id: swipeView
+    //
+    Rectangle {
         anchors.fill: parent
-    */
+        color: colourYellow
+    }
+    //
+    // main scenes
+    //
     Attractor {
         id: attractor
         anchors.fill: parent
@@ -83,9 +85,6 @@ ApplicationWindow {
         anchors.fill: parent
         visible: false
     }
-    /*
-    }
-    */
     //
     //
     //

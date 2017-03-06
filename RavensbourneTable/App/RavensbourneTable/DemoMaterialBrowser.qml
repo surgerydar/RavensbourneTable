@@ -4,28 +4,23 @@ import QtQuick.Controls 2.0
 
 Item {
     //
-    // geometry
-    //
-    width: parent.height - 64
-    height: parent.height - 64
-    x: -(parent.height+64);
-    y: (parent.height / 2)-((parent.height - 64)/2)
     //
     //
-    //
+    /*
     Rectangle {
         anchors.fill: parent
         radius: width / 2
-        color: colourTurquoise
+        color: "white"
     }
+    */
 
     WebEngineView {
         id: webBrowser
-        width: Math.sqrt( (parent.width*parent.width) / 2. )
-        height: Math.sqrt( (parent.width*parent.width) / 2. )
+        width: parent.width * .5
+        height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        backgroundColor: colourTurquoise
+        backgroundColor: "white"
         //
         //
         //
@@ -35,26 +30,40 @@ Item {
         onLoadingChanged: {
             // default image id "ctl00_phMain_imgMain"
             switch( loadRequest.status ) {
-                case WebEngineView.LoadSucceededStatus : {
-                    console.log( "loaded" );
-                    webBrowser.runJavaScript("var _login_bar = document.querySelector('#ctl00_tblHeader'); if ( _login_bar ) _login_bar.style.display='none';");
-                    webBrowser.runJavaScript("document.querySelector('#ctl00_phMain_imgMain').src;", function( image ) {
-                        console.log( 'Material Browser : image: ' + image );
-                        materialImage = image;
-                    });
-                }
+            case WebEngineView.LoadStartedStatus :
+                busyIndicator.visible = true;
+                break;
+            case WebEngineView.LoadStoppedStatus :
+            case WebEngineView.LoadFailedStatus :
+                busyIndicator.visible = false;
+                break;
+            case WebEngineView.LoadSucceededStatus :
+                busyIndicator.visible = false;
+                webBrowser.runJavaScript("var _login_bar = document.querySelector('#ctl00_tblHeader'); if ( _login_bar ) _login_bar.style.display='none';");
+                break;
             }
         }
     }
-
-
+    AnimatedImage {
+        id: busyIndicator
+        width: 48
+        height: 48
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        visible: false
+        source:"icons/spinner.gif"
+    }
+    //
+    // navigation
+    //
     Rectangle {
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.left
+        anchors.right: rotateLeft.left
         anchors.verticalCenter: parent.verticalCenter
-        color: colourTurquoise
+        anchors.rightMargin: 16
+        color: "white"
         visible: webBrowser.canGoBack
         Image {
             anchors.fill: parent
@@ -72,9 +81,10 @@ Item {
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.right
+        anchors.left: rotateRight.right
         anchors.verticalCenter: parent.verticalCenter
-        color: colourTurquoise
+        anchors.leftMargin: 16
+        color: "white"
         visible: webBrowser.canGoForward
         Image {
             anchors.fill: parent
@@ -86,16 +96,19 @@ Item {
                webBrowser.goForward();
             }
         }
-    }
-
+    }    
+    //
+    // rotation buttons
+    //
     Rectangle {
+        id: rotateLeft
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.top
-        anchors.topMargin: 16
-        color: colourTurquoise
+        anchors.right: webBrowser.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 16
+        color: "white"
         Image {
             anchors.fill: parent
             source: "icons/rotate-black.png"
@@ -109,13 +122,14 @@ Item {
     }
 
     Rectangle {
+        id: rotateRight
         width: 48
         height: 48
         radius: 24
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.bottom
-        anchors.topMargin: 16
-        color: colourTurquoise
+        anchors.left: webBrowser.right
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: 16
+        color: "white"
         Image {
             anchors.fill: parent
             source: "icons/rotate-black.png"
@@ -128,7 +142,7 @@ Item {
         }
     }
     //
-    // behavious
+    // behaviours
     //
     Behavior on x {
         NumberAnimation {
@@ -143,31 +157,22 @@ Item {
     //
     //
     //
-    property var me: null
-    //
-    //
-    //
-    Component.onCompleted: {
-        me = this;
-    }
     //
     //
     //
     function show(barcode) {
-        var url =  "http://" + barcode;
-        console.log( 'url:' + url);
-        console.log( 'webBrowser.url:' + webBrowser.url );
-        if ( webBrowser.url != url ) {
-            webBrowser.url = "http://" + barcode;
+        if ( barcode.indexOf('library.materialconnexion.com') >= 0 ) {
+            var url =  "http://" + barcode;
+            webBrowser.url = url;
+            x = 0;
+        } else {
+            console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode)
         }
-        me.x = (parent.width/2) - (width/2);
     }
 
     function hide() {
-        me.x = -(me.width+64);
-        var html = '<html><head></head><body></body></html>';
-        var base = 'file://';
-        webBrowser.loadHtml(html,base);
-
+        x = -width;
+        webBrowser.url = "blank.html";
+        webBrowser.focus = false;
     }
 }

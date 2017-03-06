@@ -37,11 +37,11 @@ bool KeyboardFocusListener::eventFilter(QObject *obj, QEvent *event) {
     if ( process ) {
          if ( obj ) {
              QString className = obj->metaObject()->className();
-             //qDebug() << "Focus object class : " << className;
+             qDebug() << "Focus object class : " << className;
              QFocusEvent *focusEvent = static_cast<QFocusEvent *>(event);
              if ( className == "QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick" ) {
                  //
-                 // check focus item is a
+                 // check focus item is a text field
                  //
                  /*
                  QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick* browser = static_cast<QtWebEngineCore::RenderWidgetHostViewQtDelegateQuick *>(obj);

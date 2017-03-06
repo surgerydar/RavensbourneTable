@@ -18,7 +18,6 @@ WindowControl* WindowControl::shared() {
 }
 
 void WindowControl::setAlwaysOnTop( bool onTop ) {
-    return;
 #ifdef Q_OS_WIN
     HWND hwnd = GetActiveWindow();
     if ( hwnd ) {
