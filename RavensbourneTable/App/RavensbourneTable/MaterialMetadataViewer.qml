@@ -5,11 +5,9 @@ import QtQuick.Controls.Styles 1.4
 Item {
     id: container
     x: -1920
-    width: parent.width//( parent.width - 48 )
-    anchors.top: inputPanelTop.bottom //parent.top
-    anchors.topMargin: 24
-    anchors.bottom: inputPanelBottom.top //parent.bottom
-    anchors.bottomMargin: 24
+    width: parent.width
+    anchors.top: inputPanelTop.bottom
+    anchors.bottom: inputPanelBottom.top
     //
     //
     //
@@ -17,13 +15,30 @@ Item {
         anchors.fill: parent
         color: colourGreen
     }
+    Rectangle {
+        id: mainImageBackground
+        width: parent.width / 3
+        height: parent.height / 2
+        anchors.left: parent.left
+        anchors.leftMargin: 24
+        anchors.top: parent.top
+        anchors.topMargin: 72
+        radius: 24
+        color: "white"
+        Image {
+            id: mainImage
+            anchors.fill: parent
+            anchors.margins: 12
+            fillMode: Image.PreserveAspectFit
+        }
+    }
     //
     //
     //
     Rectangle {
-        id: imageListBackground
-        height: 128
-        anchors.left: parent.left
+        id: productNameBackground
+        height: 48
+        anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
         anchors.rightMargin: 24
@@ -31,10 +46,60 @@ Item {
         anchors.topMargin: 72
         radius: 24
         color: "white"
+        Text {
+            id: productName
+            anchors.left: parent.left
+            anchors.leftMargin: 24
+            anchors.right: parent.right
+            anchors.rightMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: ravensbourneRegular.name
+            font.pixelSize: 18
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+    Rectangle {
+        id: productManufacturerBackground
+        height: 48
+        anchors.left: mainImageBackground.right
+        anchors.leftMargin: 24
+        anchors.right: parent.right
+        anchors.rightMargin: 24
+        anchors.top: productNameBackground.bottom
+        anchors.topMargin: 24
+        radius: 24
+        color: "white"
+        Text {
+            id: productManufacturer
+            anchors.left: parent.left
+            anchors.leftMargin: 24
+            anchors.right: parent.right
+            anchors.rightMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: ravensbourneRegular.name
+            font.pixelSize: 18
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+    //
+    //
+    //
+    Rectangle {
+        id: imageListBackground
+        height: 128
+        anchors.left: mainImageBackground.right
+        anchors.leftMargin: 24
+        anchors.right: parent.right
+        anchors.rightMargin: 24
+        anchors.bottom: mainImageBackground.bottom
+        //anchors.topMargin: 24
+        radius: 24
+        color: "white"
         ListView {
             id: imageList
             anchors.fill: parent
             anchors.margins: 12
+            clip: true
             //
             //
             //
@@ -55,59 +120,17 @@ Item {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
                     source: url
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            mainImage.source = parent.source;
+                        }
+                    }
                 }
             }
         }
     }
-    //
-    //
-    //
-    Rectangle {
-        id: productNameBackground
-        height: 48
-        anchors.left: parent.left
-        anchors.leftMargin: 24
-        anchors.right: parent.horizontalCenter
-        anchors.rightMargin: 12
-        anchors.top: imageListBackground.bottom
-        anchors.topMargin: 24
-        radius: 24
-        color: "white"
-        Text {
-            id: productName
-            anchors.left: parent.left
-            anchors.leftMargin: 24
-            anchors.right: parent.right
-            anchors.rightMargin: 24
-            anchors.verticalCenter: parent.verticalCenter
-            font.family: ravensbourneRegular.name
-            font.pixelSize: 18
-            verticalAlignment: Text.AlignVCenter
-        }
-    }
-    Rectangle {
-        id: productManufacturerBackground
-        height: 48
-        anchors.left: parent.horizontalCenter
-        anchors.leftMargin: 12
-        anchors.right: parent.right
-        anchors.rightMargin: 24
-        anchors.top: imageListBackground.bottom
-        anchors.topMargin: 24
-        radius: 24
-        color: "white"
-        Text {
-            id: productManufacturer
-            anchors.left: parent.left
-            anchors.leftMargin: 24
-            anchors.right: parent.right
-            anchors.rightMargin: 24
-            anchors.verticalCenter: parent.verticalCenter
-            font.family: ravensbourneRegular.name
-            font.pixelSize: 18
-            verticalAlignment: Text.AlignVCenter
-        }
-    }
+
     //
     //
     //
@@ -116,7 +139,7 @@ Item {
         width: ( parent.width * .66 ) - 48
         anchors.left: parent.left
         anchors.leftMargin: 24
-        anchors.top: productNameBackground.bottom
+        anchors.top: imageListBackground.bottom
         anchors.topMargin: 24
         //anchors.bottom: productTagsBackground.top
         anchors.bottom: productTags.top
@@ -136,15 +159,12 @@ Item {
     //
     //
     //
-    //
-    //
-    //
     Rectangle {
         anchors.left: productDescriptionBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
         anchors.rightMargin: 24
-        anchors.top: productNameBackground.bottom
+        anchors.top: imageListBackground.bottom
         anchors.topMargin: 24
         //anchors.bottom: productTagsBackground.top
         anchors.bottom: productTags.top
@@ -381,8 +401,10 @@ Item {
         //
         //
         //
+        mainImage.source = "";
         imageList.model.clear();
         if ( material.images ) {
+            mainImage.source = material.images[0];
             material.images.forEach( function( image ) {
                 imageList.model.append( {url: image} );
             });

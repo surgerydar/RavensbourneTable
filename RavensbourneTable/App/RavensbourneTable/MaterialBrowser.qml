@@ -10,9 +10,7 @@ Item {
     x: -1920
     width: parent.width//( parent.width - 48 )
     anchors.top: inputPanelTop.bottom //parent.top
-    anchors.topMargin: 24
     anchors.bottom: inputPanelBottom.top //parent.bottom
-    anchors.bottomMargin: 24
     //
     //
     //

@@ -29,7 +29,9 @@ SOURCES += main.cpp \
     windowcontrol.cpp \
     flickrimagelistmodel.cpp \
     touchutilities.cpp \
-    imageencoder.cpp
+    imageencoder.cpp \
+    filemessagelogger.cpp \
+    websocketmessagelogger.cpp
 
 RESOURCES += qml.qrc
 
@@ -81,7 +83,9 @@ HEADERS += \
     windowcontrol.h \
     flickrimagelistmodel.h \
     touchutilities.h \
-    imageencoder.h
+    imageencoder.h \
+    filemessagelogger.h \
+    websocketmessagelogger.h
 
 DISTFILES += \
     Request.js \

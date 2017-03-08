@@ -11,6 +11,7 @@ class SessionClient : public QObject
 public:
     explicit SessionClient(const QString& url, QObject *parent = 0);
     static SessionClient* shared();
+    void log( const QString& message );
 signals:
     void connected();
     void closed();
@@ -19,6 +20,7 @@ signals:
 public slots:
     void sendMessage(QString message);
     void open();
+
 private slots:
     void onConnected();
     void onClosed();

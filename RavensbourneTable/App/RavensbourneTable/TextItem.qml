@@ -128,6 +128,7 @@ EditableItem {
         content.enabled = true;
         content.readOnly = false;
         content.clip = false;
+        content.forceActiveFocus();
         //textBounds.visible = true;
     }
 

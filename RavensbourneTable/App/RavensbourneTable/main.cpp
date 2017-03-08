@@ -21,33 +21,17 @@
 #include "windowcontrol.h"
 #include "touchutilities.h"
 #include "imageencoder.h"
+#include "filemessagelogger.h"
+#include "websocketmessagelogger.h"
 
-#define _PLACEHOLDER 1
-
-void LogFileMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & msg) {
-    QString txt;
-    QString time = QDateTime::currentDateTime().toString();
-    switch (type) {
-    case QtDebugMsg:
-        txt = QString("%1 : DEBUG : %2\r\n").arg(time,msg);
-        break;
-    case QtWarningMsg:
-        txt = QString("%1 : WARNING : %2\r\n").arg(time,msg);
-        break;
-    case QtCriticalMsg:
-        txt = QString("%1 : CRITICAL : %2\r\n").arg(time,msg);
-        break;
-    case QtFatalMsg:
-        txt = QString("%1 : FATAL : %2\r\n").arg(time,msg);
-        break;
-    }
-    QFile logFile("log.txt");
-    logFile.open(QFile::WriteOnly | QFile::Append);
-    QTextStream ts(&logFile);
-    ts << txt << endl;
-}
+//#define _PLACEHOLDER 1
 
 int main(int argc, char *argv[]) {
+    //
+    // chain logging
+    //
+    FileMessageLogger::setup();
+    WebSocketMessageLogger::setup();
     //
     //
     //
@@ -62,10 +46,6 @@ int main(int argc, char *argv[]) {
     //
     app.installEventFilter(Timeout::shared());
     app.installEventFilter(KeyboardFocusListener::shared());
-    //
-    //
-    //
-    qInstallMessageHandler(LogFileMessageHandler);
     //
     //
     //

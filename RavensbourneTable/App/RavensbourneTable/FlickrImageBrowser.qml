@@ -8,11 +8,9 @@ Item {
     // geometry
     //
     x: -1920
-    width: parent.width
+    width: parent.width * ( 2./3. )
     anchors.top: inputPanelTop.bottom
-    anchors.topMargin: 24
     anchors.bottom: inputPanelBottom.top
-    anchors.bottomMargin: 24
     //
     //
     //

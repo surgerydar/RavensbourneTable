@@ -27,7 +27,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             fillMode: Image.PreserveAspectFit
-            source: "icons/user.png"
+            source: "icons/fingerprint-white.png"
         }
         MouseArea {
             anchors.fill: parent

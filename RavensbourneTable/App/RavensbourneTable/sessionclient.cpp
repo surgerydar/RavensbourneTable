@@ -20,6 +20,11 @@ SessionClient* SessionClient::shared() {
     return s_shared;
 }
 
+void SessionClient::log( const QString& message ) {
+    QString command = QString( "{ \"command\": \"log\", \"message\" : \"%1\" }" ).arg(message);
+    m_webSocket.sendTextMessage(command);
+}
+
 void SessionClient::sendMessage(QString message) {
     m_webSocket.sendTextMessage(message);
 }

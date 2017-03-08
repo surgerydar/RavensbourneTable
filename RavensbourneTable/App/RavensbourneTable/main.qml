@@ -9,7 +9,6 @@ ApplicationWindow {
     //
     //
     property ApplicationWindow appWindow : appWindow
-    //property InputPanel inputPanel : inputPanelTop
     property EnrollFingerprint enrollFingerprint : enrollFingerprint
     property MaterialBrowser materialBrowser: materialBrowser
     property FontLoader ravensbourneRegular: ravensbourneRegular
@@ -115,7 +114,8 @@ ApplicationWindow {
     //
     InputPanel {
         id: inputPanelBottom
-        y: parent.height;
+        y: active ? parent.height - height : parent.height;
+        //y: parent.height;
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 3
         anchors.right: parent.right
@@ -125,12 +125,14 @@ ApplicationWindow {
         //
         //
         //
+        /*
         function show( itemBounds, itemOrientation ) {
             y = parent.height - height;
         }
         function hide() {
             y = parent.height;
         }
+        */
         Behavior on x {
             NumberAnimation {
                 duration: 250
@@ -145,7 +147,8 @@ ApplicationWindow {
 
     InputPanel {
         id: inputPanelTop
-        y: parent.y - height;
+        //y: parent.y - height;
+        y: active ? parent.y : parent.y - height;
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 3
         anchors.right: parent.right
@@ -155,12 +158,14 @@ ApplicationWindow {
         //
         //
         //
+        /*
         function show( itemBounds, itemOrientation ) {
             y = parent.y;
         }
         function hide() {
             y = parent.y - height;
         }
+        */
         Behavior on x {
             NumberAnimation {
                 duration: 250
@@ -323,8 +328,8 @@ ApplicationWindow {
                     enrollFingerprint.cancel();
                     materialBrowser.hide();
                     imageBrowser.hide();
-                    inputPanelTop.hide();
-                    inputPanelBottom.hide();
+                    //inputPanelTop.hide();
+                    //inputPanelBottom.hide();
                     go( 'Attractor' );
                 });
             }
@@ -339,12 +344,13 @@ ApplicationWindow {
             //
             // TODO: prevent keyboard from overlapping focus item
             //
+            //inputPanelBottom.active = inputPanelTop.active = hasFocus;
             if ( hasFocus ) {
-                inputPanelTop.show(itemBounds,itemOrientation);
-                inputPanelBottom.show(itemBounds,itemOrientation);
+                //inputPanelTop.show(itemBounds,itemOrientation);
+                //inputPanelBottom.show(itemBounds,itemOrientation);
             } else {
-                inputPanelTop.hide();
-                inputPanelBottom.hide();
+                //inputPanelTop.hide();
+                //inputPanelBottom.hide();
             }
         }
     }

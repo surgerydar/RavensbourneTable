@@ -188,10 +188,12 @@ Item {
                 //
                 // handle multipoint
                 //
-                mode = touchPoints.length > 1 ? 'pan' : 'pinch';
+                mode = touchPoints.length > 1 ? 'pinch' : 'pan';
                 var p0 = GU.point(touchPoints[ 0 ].x, touchPoints[ 0 ].y);
-                var p1 = GU.point(touchPoints[ 1 ].x, touchPoints[ 1 ].y);
-                startAngle = GU.angleBetween( p0, p1 );
+                if ( mode === 'pinch' ) {
+                    var p1 = GU.point(touchPoints[ 1 ].x, touchPoints[ 1 ].y);
+                    startAngle = GU.angleBetween( p0, p1 );
+                }
             } else {
                 var cp = GU.point( container.x + container.width / 2, container.y + container.height / 2 );
                 var gp = container.mapToItem(sketch,touchPoints[ 0 ].x, touchPoints[ 0 ].y);
@@ -218,9 +220,9 @@ Item {
                     scaleMode = "both";
                 }
                 */
-                pinchIndicator.visible = true;
                 editTimer.stop();
             }
+            pinchIndicator.visible = true;
             //
             // close any active editors
             //

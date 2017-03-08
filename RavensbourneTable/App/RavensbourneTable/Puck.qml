@@ -5,9 +5,12 @@ Rectangle {
     x: 120
     y: parent.height / 2
     z: 2
-    width: 324
-    height: 324
+    //width: 324
+    //height: 324
+    width: 248
+    height: 248
     color: "transparent"
+    //color: "red"
     //
     // exported properties
     //
@@ -27,9 +30,9 @@ Rectangle {
     //
     Rectangle {
         anchors.centerIn: parent;
-        width: 240
-        height: 240
-        radius: 120
+        width: parent.width - 84
+        height: parent.width - 84
+        radius: width / 2
         color: colourTurquoise
     }
     //
@@ -122,24 +125,25 @@ Rectangle {
         //anchors.margins: 42
         //anchors.fill: parent
         anchors.centerIn: parent
-        width: 240
-        height: 240
+        width: parent.width - 84
+        height: parent.width - 84
         model: MenuModel {}
         delegate: delegate
         dragMargin: 32
         transformOrigin: Item.Center
         path: Path {
-            startX: 120; startY: 0
+            startX: menu.width / 2; startY: 0
             PathAttribute { name: "itemRotation"; value: -180 }
             PathArc {
-                   x: 120; y: 240
-                   radiusX: 120; radiusY: 120
+                   x: menu.width / 2; y: menu.width
+                   radiusX: menu.width / 2
+                   radiusY: menu.width / 2
                    useLargeArc: true
             }
             PathAttribute { name: "itemRotation"; value: 0 }
             PathArc {
-                   x: 120; y: 0
-                   radiusX: 120; radiusY: 120
+                   x: menu.width / 2; y: 0
+                   radiusX: menu.width / 2; radiusY: menu.width / 2
                    useLargeArc: true
             }
             PathAttribute { name: "itemRotation"; value: 180 }
@@ -149,8 +153,11 @@ Rectangle {
     //
     //
     Image {
+        width: 48
+        height: 48
         anchors.centerIn: parent
         source: 'icons/move.png'
+        fillMode: Image.PreserveAspectFit
         MouseArea {
             anchors.fill: parent
             preventStealing: true

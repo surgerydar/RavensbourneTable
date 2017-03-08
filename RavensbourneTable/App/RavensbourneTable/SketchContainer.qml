@@ -402,7 +402,7 @@ Item {
         }
         onAction: {
             console.log( "action from puck : " + action )
-            setActiveEditor(null)
+            setActiveEditor()
             setTool(action);
         }
     }
@@ -511,7 +511,7 @@ Item {
                 SessionClient.sendMessage( JSON.stringify(sessionCommand) );
             } else {
                 activeEditor.state = "display";
-                activeEditor.commitEditing(); // Should this be cancelEditing
+                activeEditor.commitEditing(); // JONS: Should this be cancelEditing?
                 sessionCommand.command = 'updateitem';
                 sessionCommand.data = activeEditor.save();
                 SessionClient.sendMessage( JSON.stringify(sessionCommand) );
@@ -742,7 +742,7 @@ Item {
             };
             //object.material.description = "Removed for debugging";
             //console.log( 'sketch icon:' + object.icon );
-            console.log( 'sketch data : ' + JSON.stringify(object) );
+            //console.log( 'sketch data : ' + JSON.stringify(object) );
             if ( !newSketch ) {
                 console.log('updating sketch : ' + sketchId );
                 WebDatabase.updateSketch(object);

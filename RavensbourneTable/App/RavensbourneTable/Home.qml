@@ -15,6 +15,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 0
         source: "icons/rectangular-frame.svg"
+        fillMode: Image.PreserveAspectFit
     }
 
     Item {
@@ -123,7 +124,6 @@ Item {
             focus = false;
         }
     }
-
     //
     //
     //
