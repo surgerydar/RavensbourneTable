@@ -59,6 +59,10 @@ db.connect(
     env.MONGODB_DB_USERNAME,
 	env.MONGODB_DB_PASSWORD
 ).then( function( db_connection ) {
+    //
+    //
+    //
+    bodyParser.json( {limit:'5mb'} );
 	//
 	// configure express
 	//

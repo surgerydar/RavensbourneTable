@@ -20,6 +20,10 @@ SketchSessions.prototype.processMessage = function( wss, ws, message ) {
     }
 }
 
+SketchSessions.prototype.log = function( wss, ws, command ) {
+    console.log( 'SketchSessions.log : ' + command.message );
+}
+
 SketchSessions.prototype.join = function( wss, ws, command ) {
     console.log( 'SketchSessions.join : sktechid:' + command.sketchid + ' userid:' + command.userid );
     this.relay(wss, ws, command);
