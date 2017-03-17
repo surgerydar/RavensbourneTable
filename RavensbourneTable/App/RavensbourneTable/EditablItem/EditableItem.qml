@@ -87,6 +87,7 @@ Item {
         anchors.fill: parent
         mouseEnabled: true
         maximumTouchPoints: 2
+        //maximumTouchPoints: 2
 
         property string mode: 'none'
         property real startRotation: container.rotation

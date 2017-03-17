@@ -289,7 +289,8 @@ RotatableDialog {
         registered = false;
         userId = '';
         user = null;
-        parent.rotation = 0
+        action.text = "Cancel";
+        parent.rotation = 0;
         prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
         var count = printIndicators.children.length;
         for ( var i = 0; i < count; i++ ) {

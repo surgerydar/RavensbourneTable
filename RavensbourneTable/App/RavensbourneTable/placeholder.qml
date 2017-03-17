@@ -132,7 +132,7 @@ ApplicationWindow {
                 font.pixelSize: parent.height / 2
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                text: "Coming soon - Collaborative Sketch"
+                text: "place a material under a scanner to begin"
             }
         }
         Rectangle {
@@ -150,7 +150,7 @@ ApplicationWindow {
                 font.pixelSize: parent.height / 2
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                text: "Coming soon - Collaborative Sketch"
+                text: "place a material under a scanner to begin"
             }
         }
         //
@@ -233,7 +233,7 @@ ApplicationWindow {
     //
     InputPanel {
         id: inputPanelBottom
-        y: parent.height;
+        y: active ? parent.height - height : parent.height;
         anchors.left: parent.left
         anchors.leftMargin: parent.width * .75//parent.width / 3
         anchors.right: parent.right
@@ -246,13 +246,14 @@ ApplicationWindow {
         //
         //
         //
+        /*
         function show( itemBounds, itemOrientation ) {
             y = parent.height - height;
         }
         function hide() {
             y = parent.height;
         }
-
+        */
         Behavior on x {
             NumberAnimation {
                 duration: 250
@@ -266,7 +267,8 @@ ApplicationWindow {
     }
     InputPanel {
         id: inputPanelTop
-        y: parent.y - height;
+        //y: parent.y - height
+        y: active ? parent.y : parent.y - height
         anchors.left: parent.left
         anchors.leftMargin: 0//parent.width / 3
         anchors.right: parent.right
@@ -276,12 +278,14 @@ ApplicationWindow {
         //
         //
         //
+        /*
         function show( itemBounds, itemOrientation ) {
             y = parent.y;
         }
         function hide() {
             y = parent.y - height;
         }
+        */
         Behavior on x {
             NumberAnimation {
                 duration: 250
@@ -328,8 +332,8 @@ ApplicationWindow {
             if ( materialBrowser.x >= 0 ) {
                 timeoutDialog.show( function() {
                     materialBrowser.hide();
-                    inputPanelTop.hide();
-                    inputPanelBottom.hide();
+                    //inputPanelTop.hide();
+                    //inputPanelBottom.hide();
                 });
             }
         }
@@ -343,6 +347,7 @@ ApplicationWindow {
             //
             // TODO: prevent keyboard from overlapping focus item
             //
+            /*
             if ( hasFocus ) {
                 inputPanelTop.show(itemBounds,itemOrientation);
                 inputPanelBottom.show(itemBounds,itemOrientation);
@@ -350,6 +355,7 @@ ApplicationWindow {
                 inputPanelTop.hide();
                 inputPanelBottom.hide();
             }
+            */
         }
     }
 }

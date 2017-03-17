@@ -16,6 +16,7 @@ TouchUtilities* TouchUtilities::shared() {
 }
 
 bool TouchUtilities::hasTouchScreen() {
+    return false;
     QList<const QTouchDevice *> devices = QTouchDevice::devices();
     for ( const QTouchDevice* device : devices ) {
         if ( device->type() == QTouchDevice::TouchScreen ) {

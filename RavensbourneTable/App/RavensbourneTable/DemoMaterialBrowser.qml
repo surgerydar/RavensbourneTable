@@ -46,8 +46,8 @@ Item {
     }
     AnimatedImage {
         id: busyIndicator
-        width: 48
-        height: 48
+        width: parent.width / 2
+        height: parent.width / 2
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         visible: false

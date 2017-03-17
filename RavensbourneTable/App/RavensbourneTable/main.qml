@@ -57,123 +57,127 @@ ApplicationWindow {
     //
     //
     //
-    Rectangle {
+    Item {
+        id: sceneContainer
         anchors.fill: parent
-        color: colourYellow
-    }
-    //
-    // main scenes
-    //
-    Attractor {
-        id: attractor
-        anchors.fill: parent
-        visible: false
-    }
+        Rectangle {
+            anchors.fill: parent
+            color: colourYellow
+        }
+        //
+        // main scenes
+        //
+        Attractor {
+            id: attractor
+            anchors.fill: parent
+            visible: false
+        }
 
-    Home {
-        id: home
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: inputPanelTop.bottom
-        anchors.bottom: inputPanelBottom.top
-        visible: false
-    }
+        Home {
+            id: home
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: inputPanelTop.bottom
+            anchors.bottom: inputPanelBottom.top
+            visible: false
+        }
 
-    SketchContainer {
-        id: sketch
-        anchors.fill: parent
-        visible: false
-    }
-    //
-    //
-    //
-    MaterialBrowser {
-        id: materialBrowser
-        onAddMaterial: {
-            console.log( 'onAddMaterial : ' + JSON.stringify(material) )
-            if ( currentScene.addMaterial ) {
-                currentScene.addMaterial(material);
+        SketchContainer {
+            id: sketch
+            anchors.fill: parent
+            visible: false
+        }
+        //
+        //
+        //
+        MaterialBrowser {
+            id: materialBrowser
+            onAddMaterial: {
+                console.log( 'onAddMaterial : ' + JSON.stringify(material) )
+                if ( currentScene.addMaterial ) {
+                    currentScene.addMaterial(material);
+                }
             }
         }
-    }
 
-    FlickrImageBrowser {
-        id: imageBrowser
-    }
-
-    MaterialMetadataViewer {
-        id: metadataViewer
-    }
-
-    EnrollFingerprint {
-        id: enrollFingerprint
-        z: 2
-    }
-    //
-    // input panels
-    //
-    InputPanel {
-        id: inputPanelBottom
-        y: active ? parent.height - height : parent.height;
-        //y: parent.height;
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width / 3
-        anchors.right: parent.right
-        anchors.rightMargin: parent.width / 3
-        rotation: 0
-        z: 4
-        //
-        //
-        //
-        /*
-        function show( itemBounds, itemOrientation ) {
-            y = parent.height - height;
+        FlickrImageBrowser {
+            id: imageBrowser
         }
-        function hide() {
-            y = parent.height;
+
+        MaterialMetadataViewer {
+            id: metadataViewer
         }
-        */
-        Behavior on x {
-            NumberAnimation {
-                duration: 250
+
+        EnrollFingerprint {
+            id: enrollFingerprint
+            z: 2
+        }
+        //
+        // input panels
+        //
+        InputPanel {
+            id: inputPanelBottom
+            y: active ? parent.height - height : parent.height;
+            //y: parent.height;
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width / 3
+            anchors.right: parent.right
+            anchors.rightMargin: parent.width / 3
+            rotation: 0
+            z: 4
+            //
+            //
+            //
+            /*
+            function show( itemBounds, itemOrientation ) {
+                y = parent.height - height;
+            }
+            function hide() {
+                y = parent.height;
+            }
+            */
+            Behavior on x {
+                NumberAnimation {
+                    duration: 250
+                }
+            }
+            Behavior on y {
+                NumberAnimation {
+                    duration: 250
+                }
             }
         }
-        Behavior on y {
-            NumberAnimation {
-                duration: 250
-            }
-        }
-    }
 
-    InputPanel {
-        id: inputPanelTop
-        //y: parent.y - height;
-        y: active ? parent.y : parent.y - height;
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width / 3
-        anchors.right: parent.right
-        anchors.rightMargin: parent.width / 3
-        rotation: 180
-        z: 4
-        //
-        //
-        //
-        /*
-        function show( itemBounds, itemOrientation ) {
-            y = parent.y;
-        }
-        function hide() {
-            y = parent.y - height;
-        }
-        */
-        Behavior on x {
-            NumberAnimation {
-                duration: 250
+        InputPanel {
+            id: inputPanelTop
+            //y: parent.y - height;
+            y: active ? parent.y : parent.y - height;
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width / 3
+            anchors.right: parent.right
+            anchors.rightMargin: parent.width / 3
+            rotation: 180
+            z: 4
+            //
+            //
+            //
+            /*
+            function show( itemBounds, itemOrientation ) {
+                y = parent.y;
             }
-        }
-        Behavior on y {
-            NumberAnimation {
-                duration: 250
+            function hide() {
+                y = parent.y - height;
+            }
+            */
+            Behavior on x {
+                NumberAnimation {
+                    duration: 250
+                }
+            }
+            Behavior on y {
+                NumberAnimation {
+                    duration: 250
+                }
             }
         }
     }
@@ -191,6 +195,11 @@ ApplicationWindow {
         WindowControl.setAlwaysOnTop(true);
         Timeout.registerEvent();
         go('Attractor');
+        var s = appWindow.width / 1920.;
+        sceneContainer.children.forEach( function( item ) {
+            item.scale = s;
+        });
+        //sceneContainer.scale = appWindow.width / 1920.;
     }
 
     Component.onDestruction: {
