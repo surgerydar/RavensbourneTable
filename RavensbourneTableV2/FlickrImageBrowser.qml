@@ -6,12 +6,12 @@ Editor {
     //
     // navigation
     //
-    RowLayout { // TODO: remove this
+    RowLayout { // TODO: remove RowLayout
         id: controls
         height: 48
-        anchors.left: parent.left
+        anchors.left: previousPage.right
         anchors.leftMargin: 12
-        anchors.right: parent.right
+        anchors.right: nextPage.left
         anchors.rightMargin: 12
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 72
@@ -106,6 +106,7 @@ Editor {
         id: pageCount
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: imageList.bottom
+        verticalAlignment: Label.AlignVCenter
         visible: false
     }
 

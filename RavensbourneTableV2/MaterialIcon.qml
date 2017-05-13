@@ -1,25 +1,35 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 
-StandardButton {
-    id: button
-    visible: device.length > 0 && barcode.length > 0
-    enabled: visible
-    icon: "icons/open-black.png"
+Rectangle {
+    id: container
+    width: 58
+    height: 58
+    radius: height / 2.
     //
     //
     //
-    /*
-    SequentialAnimation {
-        running: button.visible
-        loops: Animation.Infinite
-        NumberAnimation { target: button; property: "radius"; from: 23; to: 32; duration: 750 }
-        NumberAnimation { target: button; property: "radius"; from: 32; to: 23; duration: 1000 }
+    StandardButton {
+        id: scanner0
+        anchors.centerIn: container
+        icon: "icons/open-black.png"
+        onClicked: {
+            container.showMaterial(barcode)
+        }
+        //
+        // TODO: AnimatedImage
+        //
+        AnimatedImage {
+            id: animatedImage
+            anchors.fill: parent
+            anchors.margins: 4
+            fillMode: Image.PreserveAspectFit
+        }
     }
-    */
     //
     //
     //
+    signal showMaterial(string barcode)
     //
     //
     //

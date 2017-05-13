@@ -79,79 +79,52 @@ ApplicationWindow {
         //
         // universal material icons
         //
-        Rectangle {
-            width: 58
-            height: 58
+        MaterialIcon {
+            id: scanner0
             anchors.left: parent.left
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: parent.height / 3
-            radius: height / 2.
-            color: currentScene === sketch && scanner0.visible ? colourGreen : "transparent"
-            MaterialIcon {
-                id: scanner0
-                anchors.centerIn: parent
-                visible: currentScene !== attractor && barcode.length > 0
-                onClicked: {
-                    materialBrowser.show(barcode)
-                }
+            color: currentScene === sketch ? colourGreen : "transparent"
+            visible: currentScene !== attractor && barcode.length > 0
+            onShowMaterial: {
+                materialBrowser.show(barcode)
             }
         }
-        Rectangle {
-            width: 58
-            height: 58
+        MaterialIcon {
+            id: scanner1
             anchors.left: parent.left
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -parent.height / 3
-            radius: height / 2.
-            color: currentScene === sketch && scanner1.visible ? colourGreen : "transparent"
-            MaterialIcon {
-                id: scanner1
-                anchors.centerIn: parent
-                visible: currentScene !== attractor && barcode.length > 0
-                onClicked: {
-                    materialBrowser.show(barcode)
-                }
+            color: currentScene === sketch ? colourGreen : "transparent"
+            visible: currentScene !== attractor && barcode.length > 0
+            onShowMaterial: {
+                materialBrowser.show(barcode)
             }
         }
-        Rectangle {
-            width: 58
-            height: 58
+        MaterialIcon {
+            id: scanner2
             anchors.right: parent.right
             anchors.rightMargin: 16
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: parent.height / 3
-            radius: height / 2.
-            color: currentScene === sketch && scanner2.visible ? colourGreen : "transparent"
-            MaterialIcon {
-                id: scanner2
-                anchors.centerIn: parent
-                visible: currentScene !== attractor && barcode.length > 0
-                onClicked: {
-                    materialBrowser.show(barcode)
-                }
+            color: currentScene === sketch ? colourGreen : "transparent"
+            visible: currentScene !== attractor && barcode.length > 0
+            onShowMaterial: {
+                materialBrowser.show(barcode)
             }
         }
-        Rectangle {
-            width: 58
-            height: 58
+        MaterialIcon {
+            id: scanner3
             anchors.right: parent.right
             anchors.rightMargin: 16
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: parent.height / 3
-            radius: height / 2.
-            color: currentScene === sketch && scanner3.visible ? colourGreen : "transparent"
-            MaterialIcon {
-                id: scanner3
-                anchors.right: parent.right
-                anchors.rightMargin: 16
-                anchors.verticalCenter: parent.bottom
-                anchors.verticalCenterOffset: -parent.height / 3
-                visible: currentScene !== attractor && barcode.length > 0
-                onClicked: {
-                    materialBrowser.show(barcode)
-                }
+            color: currentScene === sketch ? colourGreen : "transparent"
+            visible: currentScene !== attractor && barcode.length > 0
+            onShowMaterial: {
+                materialBrowser.show(barcode)
             }
         }
         //
@@ -159,6 +132,7 @@ ApplicationWindow {
         //
         MaterialBrowser {
             id: materialBrowser
+            z: 1
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.bottom
@@ -175,6 +149,7 @@ ApplicationWindow {
         //
         MaterialMetadataViewer {
             id: metadataViewer
+            z: 1
             anchors.top: parent.bottom
             anchors.topMargin: 16
             anchors.left: parent.left
@@ -194,6 +169,7 @@ ApplicationWindow {
         Rectangle {
             width: 58
             height: 58
+            z: 2
             radius: height / 2.
             color: currentScene === sketch ? colourGreen : "transparent"
             anchors.right: parent.right
@@ -209,6 +185,7 @@ ApplicationWindow {
         }
         HelpViewer {
             id: helpViewer
+            z: 3
             anchors.top: parent.bottom
             anchors.topMargin: 16
             anchors.left: parent.left
@@ -222,6 +199,7 @@ ApplicationWindow {
         // universal rotate
         //
         Rectangle {
+            z: 3
             width: 58
             height: 58
             radius: height / 2.
@@ -413,20 +391,48 @@ ApplicationWindow {
         }
     }
     Shortcut {
-          sequence: "Ctrl+B"
-          onActivated: {
-              var codes = [
-                          "library.materialconnexion.com/ProductPage.aspx?mc=754501",
-                          "library.materialconnexion.com/ProductPage.aspx?mc=697702",
-                          "library.materialconnexion.com/ProductPage.aspx?mc=754502",
-                          "library.materialconnexion.com/ProductPage.aspx?mc=256712"
-                      ];
-              var scanner = Math.floor(Math.random() * ( materialScanners.length - 1 ));
-              var code = Math.floor(Math.random() * ( codes.length - 1 ));
-              materialScanners[ scanner ].barcode = codes[ code ];
-              console.log( 'setting scanner:' + scanner + ' to:' + codes[ code ] );
-          }
-      }
+        sequence: "Ctrl+B"
+        onActivated: {
+            var codes = [
+                        "library.materialconnexion.com/ProductPage.aspx?mc=754501",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=697702",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=754502",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=256712"
+                    ];
+            var scanner = Math.floor(Math.random() * ( materialScanners.length - 1 ));
+            var code = Math.floor(Math.random() * ( codes.length - 1 ));
+            materialScanners[ scanner ].barcode = codes[ code ];
+            console.log( 'setting scanner:' + scanner + ' to:' + codes[ code ] );
+        }
+    }
+    Shortcut {
+        sequence: "Ctrl+F"
+        onActivated: {
+            var fingerprints = [
+                        "{fb8592f5-7e49-49ba-b190-77e39381cfbd}",
+                        "{558d676c-6849-4a30-8ab3-156f01a82c7b}",
+                        "{4e03829b-c8d2-4928-8ac9-0edc61f1364e}",
+                        "{3128772e-51c5-4955-8a87-0e71114a90e3}",
+                        "{e3e635cc-100a-4465-83df-b99c7314b8bc}",
+                        "{d71341c3-9849-4546-93a1-7bfa6eb094da}",
+                        "{78b28cad-bd7a-4c08-bb6b-b7cea6d7be89}",
+                        "{f26081e3-0df2-4d91-91e0-c4c232eac2e9}",
+                        "{49a1c250-ed0b-4260-b691-faffac4eb3c3}",
+                        "{c84560ea-4704-477c-aaa8-0f9c9b164636}",
+                        "{ef5851ce-de64-4659-9251-faf138bf8756}",
+                        "{a579ee68-420b-44a2-812f-69387539ecde}",
+                        "{509c6b8d-319e-46a2-a398-a0680dfadf44}",
+                        "{101adb71-eb00-4a04-a17d-7e7d51121dd9}",
+                        "{0d99989b-1175-417d-9344-1371ae635017}",
+                        "{1dee3ff9-bcb2-4cd0-8777-2f1c2a647562}"
+                    ];
+            var fingerprint = Math.floor(Math.random() * ( fingerprints.length - 1 ));
+            if ( currentScene.fingerPrintValidated) {
+                currentScene.fingerPrintValidated("simulation",fingerprints[fingerprint]);
+            }
+        }
+    }
+
     //
     //
     //

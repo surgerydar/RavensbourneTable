@@ -257,7 +257,7 @@ Rectangle {
     function selectTool( newTool, newTarget ) {
         console.log( 'selectTool: ' + newTool + ' newTarget: ' + newTarget );
         //
-        // TODO: how to open content editor?
+        // TODO: how to open content editor? Second press and hold not really good
         //
         var forceEditor = false;
         tool = newTool;

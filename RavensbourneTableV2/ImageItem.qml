@@ -28,7 +28,7 @@ EditableItem {
             }
         }
     }
-/*
+
     Rectangle {
         id: info
         width: 36
@@ -52,7 +52,7 @@ EditableItem {
             }
         }
     }
-*/
+
     HueSaturation {
         id: colour
         anchors.fill: parent

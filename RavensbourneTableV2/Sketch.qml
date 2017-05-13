@@ -617,8 +617,9 @@ Item {
                     if (  param.new_sketch ) {
                         addItem({
                                     type: "image",
-                                    content: material.image
-                                });
+                                    content: material.image,
+                                    metadata: material
+                                },true);
                     }
                 }
             }

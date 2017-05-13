@@ -171,10 +171,10 @@ Rectangle {
         };
     }
     function setGeometry(param) {
-        container.x = param.x || parent.width / 2;
-        container.y = param.y || parent.height / 2;
         container.width = param.width || 256;
         container.height = param.height || 256;
+        container.x = param.x || container.width / 2;
+        container.y = param.y || container.height / 2;
         container.rotation = param.rotation || 0;
         container.scale = param.scale || 1;
         container.itemId = param.itemid || GUIDGenerator.generate();

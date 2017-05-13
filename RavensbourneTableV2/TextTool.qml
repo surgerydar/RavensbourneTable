@@ -10,7 +10,6 @@ Tool {
     property font font: Qt.font({ family: "Arial", pointSize: 32, weight: Font.Normal })
     property color colour: "black"
     property int alignment: TextEdit.AlignLeft
-    //property real opacity: 1.
     property TextItem target: null
     //
     //

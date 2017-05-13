@@ -26,9 +26,9 @@ Editor {
     TextEdit {
         id: editor
         anchors.left: parent.left
-        anchors.leftMargin: 12
+        anchors.leftMargin: 64
         anchors.right: parent.right
-        anchors.rightMargin: 12
+        anchors.rightMargin: 64
         anchors.top: parent.top
         anchors.topMargin: 64
         anchors.bottom: parent.bottom
@@ -38,13 +38,13 @@ Editor {
         onTextChanged: {
             contentChanged();
         }
-        onHorizontalAlignmentChanged: {
-            console.log( 'horizontalAlignment changed to:' + horizontalAlignment);
-        }
     }
     //
     //
     //
+    onAlignmentChanged: {
+        editor.update();
+    }
 
     //
     //
