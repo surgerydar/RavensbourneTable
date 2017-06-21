@@ -26,6 +26,7 @@ static void Logger(QtMsgType type, const QMessageLogContext & context, const QSt
     //
     //
     //
+    txt.replace("\"","\\\"");
     SessionClient::shared()->log(txt);
     if ( previousHandler ) previousHandler(type, context, msg);
 }

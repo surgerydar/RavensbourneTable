@@ -26,6 +26,7 @@ WebDatabase* WebDatabase::s_shared = nullptr;
 static const QString k_base_url = "http://178.62.110.55:3000";
 
 WebDatabase::WebDatabase(QObject *parent) : QObject(parent) {
+    m_baseURL = k_base_url;
     m_net = new QNetworkAccessManager(this);
     connect(m_net, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
@@ -179,7 +180,7 @@ void WebDatabase::deleteResource( const QString& command, const QStringList para
 }
 
 void WebDatabase::send( const HTTPMethod method, const QString& command, const QStringList parameters, const QString& data ) {
-    QString endpoint = k_base_url;
+    QString endpoint = m_baseURL;
     endpoint += '/';
     endpoint += command;
     endpoint += formatParameters(parameters);

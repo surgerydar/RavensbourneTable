@@ -10,32 +10,13 @@ var jsonParser = bodyParser.json();
 //		
 var app = express();
 var io = null;
+var mailer = require('./mailer.js');
 //
 // start app
 //
 var server = app.listen(env.NODE_PORT || 3000, env.NODE_IP || 'localhost', function () {
   console.log('Application worker ' + process.pid + ' started...');
 });
-/*
-//
-// start socket io
-//
-try {
-    io = require('socket.io').listen(server);
-    console.log( 'SocketIO started')
-    io.sockets.on('connection', function (socket) {
-        console.log('client connected!');
-        //
-        // relay messages to all clients
-        //
-        socket.on('message', function (message) {
-            socket.broadcast.emit('message',message)
-        });
-    });
-} catch( err ) {
-    console.log( 'Unable to start SocketIO : ' + err );
-}
-*/
 //
 // start ws
 //
@@ -59,6 +40,7 @@ db.connect(
     env.MONGODB_DB_USERNAME,
 	env.MONGODB_DB_PASSWORD
 ).then( function( db_connection ) {
+    console.log('initialising express');
     //
     //
     //
@@ -67,7 +49,7 @@ db.connect(
 	// configure express
 	//
 	app.set('view engine', 'pug');
-	app.use(express.static(__dirname+'/static'));
+    app.use(express.static(__dirname+'/public',{dotfiles:'allow'}));
     //
     // express routes
     //
@@ -82,15 +64,26 @@ db.connect(
         console.log( 'user : ' + JSON.stringify(req.body) );
         db.putUser( req.body ).then( function( response ) {
             //
+            // email confirmation
             //
-            //
-            res.json( {status: 'OK'} );
+            var message = 'Hi ' + req.body.username + ', welcome to collaborative sketch at Ravensbourne<br/>';
+            message += 'You can access your sketches using the mobile app available at:<br/>';
+            message += 'Android: http://ravensbournetable.co.uk/android/<br/>';
+            message += 'iOS: http://store<br/>';
+            message += 'enter the following code when you first launch the app:<br/>'
+            message += req.body.id;
+            mailer.send( req.body.email, 'Welcome to collaborative sketch at Ravensbourne', message ).then( function( response ) {
+                res.json( {status: 'OK'} );
+            }).catch( function( error ) {
+                res.json( {status: 'ERROR', message: JSON.stringify( error ) } );
+            });
+             
         } ).catch( function( error ) {
             res.json( {status: 'ERROR', message: JSON.stringify( error ) } );
         });
     });
     app.put('/user/:id', jsonParser, function (req, res) {
-        // create new user
+        // update user
         db.updateUser( req.params.id, req.body ).then( function( response ) {
             //
             //
@@ -211,6 +204,13 @@ db.connect(
         // get single route
         db.setDefaults();
         res.json( {status: 'OK'} );
+    });
+    app.get('/testemail/:message', function(req,res) {
+        mailer.send( 'jons@soda.co.uk', 'Testing collaborative sketch at Ravensbourne', req.params.message ).then( function( response ) {
+            res.json( {status: 'OK'} );
+        }).catch( function( error ) {
+            res.json( {status: 'ERROR', message: JSON.stringify( error ) } );
+        });
     });
 }).catch( function( err ) {
 	console.log( 'unable to connect to database : ' + err );

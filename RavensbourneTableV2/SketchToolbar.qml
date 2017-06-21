@@ -8,7 +8,8 @@ Rectangle {
     anchors.right: parent.right
     anchors.margins: 16
     radius: height / 2
-    color: colourGreen
+    //color: colourGreen
+    color: colourTurquoise
     clip: true
     //
     //
@@ -20,6 +21,7 @@ Rectangle {
     property Editor currentEditor: null
     property var drawing: null
     property alias undoManager: undoManager
+    property alias group: groupTool
     //
     //
     //
@@ -247,6 +249,27 @@ Rectangle {
     //
     //
     //
+    GroupTool {
+        id: groupTool
+        anchors.left: redoButton.right
+        anchors.leftMargin: 16
+        anchors.verticalCenter: parent.verticalCenter
+        onStateChanged: {
+            if ( state === "open" ) {
+                currentEditor = null;
+            }
+        }
+        onSelected: {
+            state = "open";
+            tool = "group";
+        }
+        onClosed: {
+            tool = "select";
+        }
+    }
+    //
+    //
+    //
     onToolChanged: {
         console.log('tool has changed to:' + tool ); // ????
     }
@@ -256,6 +279,11 @@ Rectangle {
     //
     function selectTool( newTool, newTarget ) {
         console.log( 'selectTool: ' + newTool + ' newTarget: ' + newTarget );
+        //
+        //
+        //
+        if ( imageTool.target ) SessionClient.sendMessage(imageTool.target.sessionCommand('unlock',sketchId,user.id));
+        if ( textTool.target ) SessionClient.sendMessage(textTool.target.sessionCommand('unlock',sketchId,user.id));
         //
         // TODO: how to open content editor? Second press and hold not really good
         //
@@ -267,6 +295,8 @@ Rectangle {
                 forceEditor = true;
             } else {
                 imageTool.target = newTarget;
+                if ( imageTool.target ) SessionClient.sendMessage(imageTool.target.sessionCommand('lock',sketchId,user.id));
+
             }
             imageTool.state = "open";
             break;
@@ -275,6 +305,7 @@ Rectangle {
                 forceEditor = true;
             } else {
                 textTool.target = newTarget;
+                if ( textTool.target ) SessionClient.sendMessage(textTool.target.sessionCommand('lock',sketchId,user.id));
             }
             textTool.state = "open";
             break;

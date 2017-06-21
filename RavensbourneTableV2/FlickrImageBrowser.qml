@@ -37,6 +37,7 @@ Editor {
                 var term = encodeURIComponent(text);
                 if ( term.length > 0 ) {
                     console.log( 'image search : ' + term );
+                    previewImage.hide();
                     FlickrImageListModel.search(term,1,pageSize);
                 }
             }
@@ -106,6 +107,7 @@ Editor {
         id: pageCount
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: imageList.bottom
+        anchors.bottom: controls.top
         verticalAlignment: Label.AlignVCenter
         visible: false
     }
@@ -190,9 +192,9 @@ Editor {
             // swap navigation mode to item
             //
             previousPage.enabled = imageList.currentIndex > 0;
-            previousPage.color = "white"
+            //previousPage.color = "white"
             nextPage.enabled = imageList.currentIndex < imageList.count - 1;
-            nextPage.color = "white"
+            //nextPage.color = "white"
             //nextPage.borderColor = "black"
         }
         function hide() {
@@ -218,7 +220,8 @@ Editor {
         id: previousPage
         anchors.left: parent.left
         anchors.leftMargin: 12
-        anchors.verticalCenter: imageList.verticalCenter
+        anchors.bottom: imageList.bottom
+        //anchors.verticalCenter: imageList.verticalCenter
         radius: 24
         icon: "icons/back_arrow-black.png"
         color: "transparent"
@@ -245,7 +248,8 @@ Editor {
         id: nextPage
         anchors.right: parent.right
         anchors.rightMargin: 12
-        anchors.verticalCenter: imageList.verticalCenter
+        anchors.bottom: imageList.bottom
+        //anchors.verticalCenter: imageList.verticalCenter
         radius: 24
         icon: "icons/forward_arrow-black.png"
         color: "transparent"
@@ -315,7 +319,7 @@ Editor {
         target: FlickrImageListModel
         onModelReset: {
             previousPage.enabled = FlickrImageListModel.page() > 1;
-            nextPage.enabled = FlickrImageListModel.page() < FlickrImageListModel.pageCount() - 1;
+            nextPage.enabled = FlickrImageListModel.page() < FlickrImageListModel.pageCount();// - 1;
             pageCount.visible = FlickrImageListModel.pageCount() > 1;
             pageCount.text = 'page ' + FlickrImageListModel.page() + ' of ' + FlickrImageListModel.pageCount();
         }

@@ -25,7 +25,7 @@ SketchSessions.prototype.log = function( wss, ws, command ) {
 }
 
 SketchSessions.prototype.join = function( wss, ws, command ) {
-    console.log( 'SketchSessions.join : sktechid:' + command.sketchid + ' userid:' + command.userid );
+    console.log( 'SketchSessions.join : sketchid:' + command.sketchid + ' userid:' + command.userid );
     this.relay(wss, ws, command);
     //
     // add user
@@ -41,52 +41,57 @@ SketchSessions.prototype.join = function( wss, ws, command ) {
 }
 
 SketchSessions.prototype.leave = function( wss, ws, command ) {
-    console.log( 'SketchSessions.leave : sktechid:' + command.sketchid + ' userid:' + command.userid );
+    console.log( 'SketchSessions.leave : sketchid:' + command.sketchid + ' userid:' + command.userid );
     this.relay(wss, ws, command);
     this.releaseUserLocks( wss, ws, command.sketchid, command.userid );
     this.removeUser( command.sketchid, command.userid );
 }
 
 SketchSessions.prototype.additem = function( wss, ws, command ) {
-    console.log( 'SketchSessions.add : sktechid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
+    console.log( 'SketchSessions.add : sketchid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
     this.relay(wss, ws, command);
 }
 
 SketchSessions.prototype.deleteitem = function( wss, ws, command ) {
-    console.log( 'SketchSessions.delete : sktechid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
+    console.log( 'SketchSessions.delete : sketchid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
     this.relay(wss, ws, command);
 }
 
 SketchSessions.prototype.updateitem = function( wss, ws, command ) {
-    console.log( 'SketchSessions.updateitem : sktechid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
+    console.log( 'SketchSessions.updateitem : sketchid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
     this.relay(wss, ws, command);
 }
 
 
 SketchSessions.prototype.lock = function( wss, ws, command ) {
-    console.log( 'SketchSessions.lock : sktechid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
+    console.log( 'SketchSessions.lock : sketchid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
     this.relay(wss, ws, command);
     this.addLock( command.sketchid, command.userid, command.itemid );
 }
 
 SketchSessions.prototype.unlock = function( wss, ws, command ) {
-    console.log( 'SketchSessions.unlock : sktechid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
+    console.log( 'SketchSessions.unlock : sketchid:' + command.sketchid + ' userid:' + command.userid + ' itemid:' + command.itemid );
     this.relay(wss, ws, command);
     this.releaseLock( command.sketchid, command.userid, command.itemid );
 }
 
 SketchSessions.prototype.addline = function( wss, ws, command ) {
-    console.log( 'SketchSessions.addline : sktechid:' + command.sketchid + ' userid:' + command.userid + ' lineid:' + command.lineid );
+    console.log( 'SketchSessions.addline : sketchid:' + command.sketchid + ' userid:' + command.userid + ' lineid:' + command.lineid );
     this.relay(wss, ws, command);
 }
 
 SketchSessions.prototype.deleteline = function( wss, ws, command ) {
-    console.log( 'SketchSessions.deleteline : sktechid:' + command.sketchid + ' userid:' + command.userid + ' lineid:' + command.lineid );
+    console.log( 'SketchSessions.deleteline : sketchid:' + command.sketchid + ' userid:' + command.userid + ' lineid:' + command.lineid );
+    this.relay(wss, ws, command);
+}
+
+SketchSessions.prototype.updateline = function( wss, ws, command ) {
+    console.log( 'SketchSessions.updateline : sketchid:' + command.sketchid + ' userid:' + command.userid + ' lineid:' + command.lineid );
     this.relay(wss, ws, command);
 }
 
 SketchSessions.prototype.userlist = function( wss, ws, command ) {
-    console.log( 'SketchSessions.userlist : sktechid:' + command.sketchid );
+    console.log( 'SketchSessions.userlist : sketchid:' + command.sketchid );
     var sketch = this.getSketch( command.sketchid );
     if ( sketch ) {
         command.users = sketch.users;
@@ -167,7 +172,7 @@ SketchSessions.prototype.releaseLock = function( sketchid, userid, itemid ) {
 }
 
 SketchSessions.prototype.releaseUserLocks = function( wss, ws, sketchid, userid ) {
-    console.log( 'SketchSessions.releaseUserLocks : sktechid:' + sketchid + ' userid:' + userid );
+    console.log( 'SketchSessions.releaseUserLocks : sketchid:' + sketchid + ' userid:' + userid );
     //
     // 
     //

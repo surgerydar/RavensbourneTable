@@ -7,7 +7,8 @@ Rectangle {
     //
     radius: 29
     clip: true
-    color: colourGreen
+    //color: colourGreen
+    color: colourTurquoise
     //
     //
     //

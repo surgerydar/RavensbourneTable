@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QMap>
-#include <QSerialPort>
 
+#if !defined(Q_OS_IOS) && !defined(Q_OS_ANDROID)
+#include <QSerialPort>
 class BarcodeScanner : public QObject
 {
     Q_OBJECT
@@ -24,5 +25,7 @@ signals:
 public slots:
     quint32 count();
 };
+
+#endif
 
 #endif // BARCODESCANNER_H

@@ -19,6 +19,7 @@ signals:
 
 public slots:
     void sendMessage(QString message);
+    void sendBinaryMessage(QByteArray& message);
     void open();
 
 private slots:

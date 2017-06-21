@@ -14,7 +14,7 @@ SessionClient::SessionClient(const QString& url, QObject *parent) : QObject(pare
 
 SessionClient* SessionClient::shared() {
     if ( !s_shared ) {
-        const QString defaultUrl = "ws://178.62.110.55:3000";
+        const QString defaultUrl = "wss://localhost:3000";
         s_shared = new SessionClient(defaultUrl);
     }
     return s_shared;
@@ -28,6 +28,10 @@ void SessionClient::log( const QString& message ) {
 void SessionClient::sendMessage(QString message) {
     m_webSocket.sendTextMessage(message);
 }
+void SessionClient::sendBinaryMessage(QByteArray& message) {
+    m_webSocket.sendBinaryMessage(message);
+}
+
 void SessionClient::open() {
    m_webSocket.open(QUrl(m_url));
 }

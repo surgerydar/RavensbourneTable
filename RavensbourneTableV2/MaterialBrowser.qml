@@ -2,8 +2,14 @@ import QtQuick 2.7
 import QtWebEngine 1.4
 import QtQuick.Controls 2.0
 
-Editor {
+Rectangle {
     id: container
+    //
+    // geometry
+    //
+    radius: 29
+    clip: true
+    color: colourTurquoise
     //
     //
     //
@@ -18,8 +24,8 @@ Editor {
     WebEngineView {
         id: webBrowser
         anchors.fill: parent
-        anchors.leftMargin: 8
-        anchors.rightMargin: 8
+        anchors.leftMargin: 64
+        anchors.rightMargin: 64
         anchors.topMargin: 64
         anchors.bottomMargin: 64
         backgroundColor: "transparent"
@@ -139,6 +145,23 @@ Editor {
     //
     //
     //
+    state: "closed"
+    states: [
+        State {
+            name: "open"
+            AnchorChanges { target: container; anchors.top: parent.top; }
+            PropertyChanges { target: container; anchors.topMargin: 16; }
+        },
+        State {
+            name: "closed"
+        }
+    ]
+    transitions: Transition {
+        AnchorAnimation { duration: 500; easing.type: Easing.InOutQuad; }
+    }
+    //
+    //
+    //
     function show(barcode) {
         //
         // TODO: rationalise this
@@ -148,7 +171,7 @@ Editor {
             newMaterial.url =  "http://" + barcode;
             var productCodeIndex = newMaterial.url.lastIndexOf('mc=');
             if ( productCodeIndex >= 0 ) {
-                newMaterial.code = newMaterial.url.substring(productCodeIndex);
+                newMaterial.code = newMaterial.url.substring(productCodeIndex+3);
                 console.log( 'material code : ' + newMaterial.code );
             }
             if ( !material || material.url !== newMaterial.url ) {
@@ -156,7 +179,7 @@ Editor {
                 webBrowser.url = newMaterial.url;
             }
             addButton.visible = false;
-            state = "open";
+            state = "open"
         } else {
             console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode)
         }
@@ -171,5 +194,9 @@ Editor {
         material = null;
         webBrowser.focus = false;
         addButton.visible = false;
+    }
+
+    function isOpen() {
+        return state === "open";
     }
 }

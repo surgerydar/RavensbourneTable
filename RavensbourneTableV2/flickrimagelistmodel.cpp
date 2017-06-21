@@ -126,6 +126,22 @@ void FlickrImageListModel::replyFinished(QNetworkReply* reply) {
                                     QString imageUrl = buildImageUrl(farmId,serverId,imageId,imageSecret);
                                     m_results.append(imageUrl);
                                     //qDebug() << imageUrl;
+                                    //
+                                    // TODO:
+                                    // metadata
+                                    //
+                                    QString owner = photo.value("ownername").toString();
+                                    QString title = photo.value("title").toString();
+                                    QJsonObject descriptionObject = photo.value("description").toObject();
+                                    QString description;
+                                    if ( !descriptionObject.isEmpty() ) {
+                                        description = descriptionObject.value("_content").toString();
+                                    }
+                                    QString licenseId = photo.value("license").toString();
+                                    qDebug() << "License id:" << licenseId;
+                                    QString license = getLicenseText( licenseId.toInt() );
+                                    qDebug() << "owner:" << owner << " title:" << title << " description:" << description << " license:" << license;
+
                                 }
                             }
                         } else {
@@ -151,10 +167,30 @@ void FlickrImageListModel::replyFinished(QNetworkReply* reply) {
 }
 
 QString FlickrImageListModel::buildRequest( QString searchTerm, int page, int perPage ) {
-    return QString("https://api.flickr.com/services/rest/?api_key=%1&method=flickr.photos.search&name=value&text=%2&page=%3&per_page=%4&sort=relevance&format=json" ).arg( apiKey, searchTerm, QString::number(page), QString::number(perPage) );
+    //return QString("https://api.flickr.com/services/rest/?api_key=%1&method=flickr.photos.search&name=value&text=%2&page=%3&per_page=%4&sort=relevance&format=json" ).arg( apiKey, searchTerm, QString::number(page), QString::number(perPage) );
+    return QString("https://api.flickr.com/services/rest/?api_key=%1&method=flickr.photos.search&name=value&text=%2&page=%3&per_page=%4&sort=relevance&format=json&extras=description,license,owner_name" ).arg( apiKey, searchTerm, QString::number(page), QString::number(perPage) );
 }
 
 QString FlickrImageListModel::buildImageUrl( QString farmID, QString serverId, QString imageId, QString secret ) {
     return QString("https://farm%1.staticflickr.com/%2/%3_%4_m.jpg" ).arg( farmID, serverId, imageId, secret );
     //return QString("https://farm%1.staticflickr.com/%2/%3_%4_c.jpg" ).arg( farmID, serverId, imageId, secret );
+}
+
+QString FlickrImageListModel::getLicenseText( int index ) {
+    const QList<QString> kLicenseText = {
+        "All Rights Reserved",
+        "Attribution-NonCommercial-ShareAlike License",
+        "Attribution-NonCommercial License",
+        "Attribution-NonCommercial-NoDerivs License",
+        "Attribution License",
+        "Attribution-ShareAlike License",
+        "Attribution-NoDerivs License",
+        "No known copyright restrictions",
+        "United States Government Work"
+    };
+    if ( index >= 0 && index < kLicenseText.size() ) {
+        return kLicenseText[ index ];
+    }
+    qDebug() << "License index:" << index;
+    return "Unknown";
 }

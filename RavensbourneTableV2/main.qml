@@ -10,7 +10,10 @@ ApplicationWindow {
     visible: true
     width: 1920
     height: 1080
-    title: qsTr("Pinch Test")
+    //
+    //
+    //
+    title: qsTr("Ravensbourne Table")
     //
     // Colours
     //
@@ -34,7 +37,7 @@ ApplicationWindow {
         source: "fonts/RavensbourneSans-ExtraBold.otf"
     }
     //
-    //
+    // Styles
     //
     property int  textFieldHeight: 48
     property int textFieldFontsize: 18
@@ -77,62 +80,10 @@ ApplicationWindow {
             anchors.bottomMargin: inputPanel  ? 32 : 0
         }
         //
-        // universal material icons
-        //
-        MaterialIcon {
-            id: scanner0
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: parent.height / 3
-            color: currentScene === sketch ? colourGreen : "transparent"
-            visible: currentScene !== attractor && barcode.length > 0
-            onShowMaterial: {
-                materialBrowser.show(barcode)
-            }
-        }
-        MaterialIcon {
-            id: scanner1
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.verticalCenter: parent.bottom
-            anchors.verticalCenterOffset: -parent.height / 3
-            color: currentScene === sketch ? colourGreen : "transparent"
-            visible: currentScene !== attractor && barcode.length > 0
-            onShowMaterial: {
-                materialBrowser.show(barcode)
-            }
-        }
-        MaterialIcon {
-            id: scanner2
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: parent.height / 3
-            color: currentScene === sketch ? colourGreen : "transparent"
-            visible: currentScene !== attractor && barcode.length > 0
-            onShowMaterial: {
-                materialBrowser.show(barcode)
-            }
-        }
-        MaterialIcon {
-            id: scanner3
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: parent.height / 3
-            color: currentScene === sketch ? colourGreen : "transparent"
-            visible: currentScene !== attractor && barcode.length > 0
-            onShowMaterial: {
-                materialBrowser.show(barcode)
-            }
-        }
-        //
-        //
+        // universal material browser
         //
         MaterialBrowser {
             id: materialBrowser
-            z: 1
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.bottom
@@ -142,6 +93,59 @@ ApplicationWindow {
                 if ( currentScene.addMaterial ) {
                     currentScene.addMaterial( material );
                 }
+            }
+        }
+        //
+        // universal material icons
+        //
+        MaterialIcon {
+            id: scanner0
+            anchors.left: parent.left
+            //anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -( 28 + height / 2 )
+            //color: currentScene === sketch ? colourGreen : "transparent"
+            visible: callibrationMode || ( currentScene !== attractor && barcode.length > 0 )
+            onShowMaterial: {
+                showMaterialBrowser(barcode,0)
+            }
+        }
+        MaterialIcon {
+            id: scanner1
+            anchors.left: parent.left
+            //anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: ( 28 + height / 2 )
+            //color: currentScene === sketch ? colourGreen : "transparent"
+            visible: callibrationMode || ( currentScene !== attractor && barcode.length > 0 )
+            onShowMaterial: {
+                showMaterialBrowser(barcode,1)
+            }
+        }
+        MaterialIcon {
+            id: scanner2
+            anchors.right: parent.right
+            //anchors.rightMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -( 28 + height / 2 )
+            //color: currentScene === sketch ? colourGreen : "transparent"
+            alignment: "right"
+            visible: callibrationMode || ( currentScene !== attractor && barcode.length > 0 )
+            onShowMaterial: {
+                showMaterialBrowser(barcode,2)
+            }
+        }
+        MaterialIcon {
+            id: scanner3
+            anchors.right: parent.right
+            //anchors.rightMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: ( 28 + height / 2 )
+            //color: currentScene === sketch ? colourGreen : "transparent"
+            alignment: "right"
+            visible: callibrationMode || ( currentScene !== attractor && barcode.length > 0 )
+            onShowMaterial: {
+                showMaterialBrowser(barcode,3)
             }
         }
         //
@@ -159,28 +163,32 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.rightMargin: 16
         }
+        //
+        //
+        //
         EnrollFingerprint {
             id: enrollFingerprint
             z: 2
         }
         //
+        // universal confirm dialog
+        //
+        ConfirmDialog {
+            id: confirmDialog
+            backgroundColour: colourRed //currentScene === sketch ? colourGreen : "white"
+        }
+        //
         // universal help
         //
-        Rectangle {
-            width: 58
-            height: 58
+        StandardButton {
             z: 2
-            radius: height / 2.
-            color: currentScene === sketch ? colourGreen : "transparent"
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.margins: 16
-            StandardButton {
-                anchors.centerIn: parent
-                icon: "icons/help-black.png"
-                onClicked: {
-                    helpViewer.show(currentScene.help);
-                }
+            anchors.margins: 22
+            icon: "icons/help-black.png"
+            color: colourTurquoise
+            onClicked: {
+                helpViewer.show(currentScene.help);
             }
         }
         HelpViewer {
@@ -198,21 +206,15 @@ ApplicationWindow {
         //
         // universal rotate
         //
-        Rectangle {
+        StandardButton {
             z: 3
-            width: 58
-            height: 58
-            radius: height / 2.
-            color: currentScene === sketch ? colourGreen : "transparent"
             anchors.left: parent.left
             anchors.top: parent.top
-            anchors.margins: 16
-            StandardButton {
-                anchors.centerIn: parent
-                icon: "icons/rotate-black.png"
-                onClicked: {
-                    container.rotation = container.rotation === 0. ? 180. : 0.;
-                }
+            anchors.margins: 22
+            icon: "icons/rotate-black.png"
+            color: colourTurquoise
+            onClicked: {
+                container.rotation = container.rotation === 0. ? 180. : 0.;
             }
         }
         //
@@ -265,6 +267,18 @@ ApplicationWindow {
     //
     //
     Component.onCompleted: {
+        //
+        // setup WebDatabase
+        //
+        var baseURL = Settings.get('webdatabase/url','http://178.62.110.55:3000');
+        WebDatabase.setBaseURL(baseURL);
+        //
+        // setup barcode scanners
+        //
+        setupBarcodeScanners();
+        //
+        //
+        //
         go('Attractor');
     }
     //
@@ -330,7 +344,7 @@ ApplicationWindow {
             console.log( 'Invalid scene : ' + sceneName );
         }
     }
-    /*
+    /* TODO: re-enable for release
     //
     // fingerprint signal handling
     //
@@ -377,17 +391,54 @@ ApplicationWindow {
     // Barcode signal handling
     //
     property var materialScanners: [scanner0, scanner1, scanner2, scanner3]
+    function setupBarcodeScanners() {
+        for ( var i = 0; i < materialScanners.length; i++ ) {
+            var scannerName = 'scanner' + i;
+            var device = Settings.get('barcode/' + scannerName, 'COM0');
+            console.log( scannerName + ':device:' + device);
+            materialScanners[i].device = device;
+        }
+    }
+    function showMaterialBrowser(barcode,scanner) {
+        selectBarcodeScanner(scanner);
+        materialBrowser.show(barcode);
+    }
+    function selectBarcodeScanner( scanner ) {
+        for ( var i = 0; i < materialScanners.length; i++ ) {
+            materialScanners[ i ].selected = i === scanner;
+        }
+    }
+
     Connections {
         target: BarcodeScanner
         onNewCode: {
             Timeout.registerEvent();
             console.log( 'barcode:' + barcode + ' device:' + portname );
-            for ( var scanner = 0; scanner < materialScanners.length; scanner++ ) {
-                if ( materialScanners[scanner].device === portname ) {
-                    materialScanners[scanner].barcode = barcode;
-                    break;
+            if ( callibrationMode ) {
+                var scannerName = 'scanner' + callibrationScanner;
+                Settings.set('barcode/' + scannerName, portname);
+                materialScanners[callibrationScanner].device = portname;
+                callibrationScanner++;
+                if ( callibrationScanner >= materialScanners.length ) callibrationScanner = 0;
+                selectBarcodeScanner(callibrationScanner);
+            } else {
+                for ( var scanner = 0; scanner < materialScanners.length; scanner++ ) {
+                    if ( materialScanners[scanner].device === portname ) {
+                        materialScanners[scanner].barcode = barcode;
+                        break;
+                    }
                 }
             }
+        }
+    }
+    property bool callibrationMode: false
+    property int callibrationScanner: 0
+    Shortcut {
+        sequence: "Ctrl+C"
+        onActivated: {
+            callibrationMode = !callibrationMode;
+            callibrationScanner = 0;
+            selectBarcodeScanner(callibrationMode?callibrationScanner:-1);
         }
     }
     Shortcut {
@@ -399,7 +450,7 @@ ApplicationWindow {
                         "library.materialconnexion.com/ProductPage.aspx?mc=754502",
                         "library.materialconnexion.com/ProductPage.aspx?mc=256712"
                     ];
-            var scanner = Math.floor(Math.random() * ( materialScanners.length - 1 ));
+            var scanner = Math.floor(Math.random() * 100.) % 4;
             var code = Math.floor(Math.random() * ( codes.length - 1 ));
             materialScanners[ scanner ].barcode = codes[ code ];
             console.log( 'setting scanner:' + scanner + ' to:' + codes[ code ] );
@@ -432,7 +483,12 @@ ApplicationWindow {
             }
         }
     }
-
+    Shortcut {
+        sequence: "Ctrl+S"
+        onActivated: {
+            go('Sketch',{ user: { id: 'test' } });
+        }
+    }
     //
     //
     //
@@ -468,7 +524,7 @@ ApplicationWindow {
         }
         onError: {
             console.log( 'WebDatabase : error : ' + command + ':' + error );
-            if (currentScene.webDatabaseError) currentScene.webDatabaseSuccess( command, error );
+            if (currentScene.webDatabaseError) currentScene.webDatabaseError( command, error );
         }
 
     }

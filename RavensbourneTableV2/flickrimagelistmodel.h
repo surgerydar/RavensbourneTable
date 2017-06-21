@@ -34,7 +34,10 @@ signals:
 private:
     QString buildRequest( QString searchTerm, int page, int perPage );
     QString buildImageUrl( QString farmID, QString serverId, QString imageId, QString secret );
-
+    QString getLicenseText( int index );
+    //
+    //
+    //
     static FlickrImageListModel*    s_shared;
     QNetworkAccessManager*          m_net;
     QStringList                     m_results;

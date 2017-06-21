@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Controls.Styles 1.4
+//import QtQuick.Controls.Styles 1.4
 
 Editor {
     id: container
@@ -140,6 +140,7 @@ Editor {
             id: productDescription
             anchors.fill: parent
             anchors.margins: 12
+            clip: true
             font.family: ravensbourneRegular.name
             font.pixelSize: 14
             textFormat: Text.AutoText

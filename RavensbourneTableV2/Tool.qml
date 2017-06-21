@@ -6,7 +6,7 @@ Rectangle {
     height: 58
     width: 58
     radius: height / 2.
-    color: "#6EDD17" // TODO: colours.green in constants
+    color: colourTurquoise
     clip: true
     //
     //
@@ -87,9 +87,16 @@ Rectangle {
         //source: options
         start: Qt.point(0,0)
         end: Qt.point(width,0)
+        /* GREEN
         gradient: Gradient {
             GradientStop { position: 0.0; color: Qt.rgba(110./255.,221./255.,23./255,1.) }
             GradientStop { position: 1.0; color: Qt.rgba(110./255.,221./255.,23./255,0.) }
+        }
+        */
+        // TURQUOISE
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(0./255.,210./255.,194./255,1.) }
+            GradientStop { position: 1.0; color: Qt.rgba(0./255.,210./255.,194./255,0.) }
         }
     }
     LinearGradient {
@@ -100,9 +107,16 @@ Rectangle {
         //source: options
         start: Qt.point(0,0)
         end: Qt.point(width,0)
+        /*
         gradient: Gradient {
             GradientStop { position: 0.0; color: Qt.rgba(110./255.,221./255.,23./255,0.) }
             GradientStop { position: 1.0; color: Qt.rgba(110./255.,221./255.,23./255,1.) }
+        }
+        */
+        // TURQUOISE
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(0./255.,210./255.,194./255,0.) }
+            GradientStop { position: 1.0; color: Qt.rgba(0./255.,210./255.,194./255,1.) }
         }
     }
     //

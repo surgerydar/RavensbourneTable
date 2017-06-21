@@ -16,6 +16,7 @@ signals:
     void success( QString command, QVariant result );
     void error( QString command, QString error );
 public slots:
+    void setBaseURL( const QString& baseURL ) { m_baseURL = baseURL; }
     void putUser( const QVariant& user );
     void getUser( QString id, QString identifier = "byid" );
     void findUser( const QVariant& filter );
@@ -48,6 +49,7 @@ private:
     //
     //
     //
+    QString m_baseURL;
     QNetworkAccessManager* m_net;
     //
     //

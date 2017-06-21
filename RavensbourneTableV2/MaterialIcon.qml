@@ -1,19 +1,27 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 
-Rectangle {
+Image {
     id: container
-    width: 58
-    height: 58
-    radius: height / 2.
+    width: 150 / 2
+    height: 200 / 2
+    fillMode: Image.PreserveAspectFit
+    source: alignment === "left" ? "icons/add-material-left-black.png" : "icons/add-material-right-black.png"
     //
     //
     //
+    //property alias selected: scanner.checked
+    //
+    //
+    //
+    /*
     StandardButton {
-        id: scanner0
+        id: scanner
         anchors.centerIn: container
-        icon: "icons/open-black.png"
+        icon: container.left < 64 ? "icons/add-material-left.png" :  "icons/add-material-right.png"
+        checkable: true
         onClicked: {
+            selected = true;
             container.showMaterial(barcode)
         }
         //
@@ -26,6 +34,14 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
         }
     }
+    */
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            container.newBarcode = false;
+            container.showMaterial(container.barcode);
+        }
+    }
     //
     //
     //
@@ -33,7 +49,20 @@ Rectangle {
     //
     //
     //
+    function setBarcode( code ) {
+        if ( container.barcode !== code ) {
+            container.barcode = code;
+            container.newBarcode = true;
+        }
+    }
+
+    //
+    //
+    //
+    property bool newBarcode: false
+    property bool selected: false
     property string device: "test"
     property string barcode: ""
+    property string alignment: "left"
 }
 

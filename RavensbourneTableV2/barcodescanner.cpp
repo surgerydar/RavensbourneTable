@@ -1,6 +1,7 @@
 #include "barcodescanner.h"
-#include <QSerialPortInfo>
 #include <QDebug>
+#if !defined(Q_OS_IOS) && !defined(Q_OS_ANDROID)
+#include <QSerialPortInfo>
 
 BarcodeScanner* BarcodeScanner::s_shared = nullptr;
 
@@ -118,3 +119,4 @@ quint32 BarcodeScanner::count() {
     return m_ports.size();
 }
 
+#endif

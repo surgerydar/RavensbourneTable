@@ -198,4 +198,37 @@ Rectangle {
         container.x += by.x;
         container.y += by.y;
     }
+    //
+    // session commands
+    //
+    function sessionCommand( command, sketchId, userId ) {
+        //
+        // base command
+        //
+        var param = {
+            command: command,
+            sketchid: sketchId,
+            userid: userId,
+            itemid: itemId,
+        };
+        //
+        // command specific data
+        //
+        switch ( command ) {
+        case 'additem' :
+        case 'updateitem' :
+            param.data = save();
+            break;
+        }
+        //
+        // return sting
+        //
+        try {
+            console.log( 'session command: ' + JSON.stringify(param) );
+            return JSON.stringify(param);
+        } catch( err ) {
+            console.log( "unable to build session command '" + command + "' error : " + err );
+            return '{ "command" : "void"  }';
+        }
+    }
 }

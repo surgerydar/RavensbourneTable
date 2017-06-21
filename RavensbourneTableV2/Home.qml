@@ -54,7 +54,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: 29
-                color: colourGreen
+                color: colourTurquoise
                 opacity: 0.75
             }
             Image {
@@ -109,13 +109,18 @@ Item {
                 anchors.margins: 8
                 icon:"icons/delete-black.png"
                 onClicked: {
-                    container.deleteSketch(model.sketch.id);
+                    var sketchId = model.sketch.id
+                    confirmDialog.show( "are you sure you want to delete sketch '" + model.sketch.material.name + "' ?", function() {
+                        container.deleteSketch(sketchId);
+                    });
+
                 }
             }
             Behavior on height {
                 NumberAnimation { duration: 250 }
             }
         }
+        /*
         //
         //
         //
@@ -144,6 +149,7 @@ Item {
                 GradientStop { position: 1.0; color: Qt.rgba(255./255.,179./255.,0./255,1.) }
             }
         }
+        */
     }
     //
     //

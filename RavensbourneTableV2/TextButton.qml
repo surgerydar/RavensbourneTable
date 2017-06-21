@@ -3,12 +3,12 @@ import QtQuick 2.7
 Rectangle {
     property alias text: label.text
     signal clicked()
-    width: 96
+    width: 96 //Math.max( 48, label.contentWidth + height / 2 )
     height: 48
     radius: height / 2
-    color: "transparent"
-    border.width: 4
-    border.color: "black"
+    color: colourGrey
+    //border.width: 2
+    //border.color: "black"
     Text {
         id: label
         anchors.fill: parent
@@ -18,7 +18,7 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         color: "black"
         onLineLaidOut: {
-            parent.width = line.width + 32;
+            //parent.width = line.width + 32;
         }
     }
     MouseArea {

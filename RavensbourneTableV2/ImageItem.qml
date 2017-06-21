@@ -53,6 +53,26 @@ EditableItem {
         }
     }
 
+    AnimatedImage {
+        id: busyIndicator
+        width: 36
+        height: 36
+        anchors.centerIn: parent
+        visible: image.status === Image.Loading
+        source:"icons/spinner.gif"
+        fillMode: AnimatedImage.PreserveAspectFit
+    }
+
+    Image {
+        id: errorIndicator
+        width: 36
+        height: 36
+        anchors.centerIn: parent
+        visible: image.status === Image.Error
+        source:"icons/broken-image-white.png"
+        fillMode: Image.PreserveAspectFit
+    }
+
     HueSaturation {
         id: colour
         anchors.fill: parent
@@ -76,7 +96,7 @@ EditableItem {
     function save() {
         var object = getGeometry();
         object.type             = "image";
-        object.content          = content;
+        object.content          = content.toString();
         object.hue              = colour.hue;
         object.saturation       = colour.saturation;
         object.lightness        = colour.lightness;

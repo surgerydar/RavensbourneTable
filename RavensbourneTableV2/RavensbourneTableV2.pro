@@ -1,5 +1,22 @@
-QT += qml quick serialport webengine websockets
-QTPLUGIN += qtvirtualkeyboardplugin
+QT += qml quick websockets
+
+win32 {
+    QT += serialport webengine
+    QTPLUGIN += qtvirtualkeyboardplugin
+}
+
+macx {
+    QT += serialport webengine
+    QTPLUGIN += qtvirtualkeyboardplugin
+}
+
+android {
+    QT += androidextras
+}
+
+ios {
+
+}
 
 CONFIG += c++11
 
@@ -14,7 +31,18 @@ SOURCES += main.cpp \
     webdatabase.cpp \
     websocketmessagelogger.cpp \
     imageencoder.cpp \
-    timeout.cpp
+    timeout.cpp \
+    settings.cpp \
+    imagepicker.cpp
+
+android {
+    HEADERS += androidgallery.h
+    SOURCES += androidgallery.cpp
+}
+
+ios {
+    OBJECTIVE_SOURCES += cameraroll.mm
+}
 
 RESOURCES += qml.qrc
 
@@ -51,6 +79,16 @@ HEADERS += \
     webdatabase.h \
     websocketmessagelogger.h \
     imageencoder.h \
-    timeout.h
+    timeout.h \
+    settings.h \
+    imagepicker.h
 
 DISTFILES +=
+
+ios {
+    QMAKE_INFO_PLIST = ios/Info.plist
+}
+
+macx {
+    QMAKE_INFO_PLIST = osx/Info.plist
+}

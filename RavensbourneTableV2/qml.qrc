@@ -133,6 +133,15 @@
         <file>blank.html</file>
         <file>MaterialIcon.qml</file>
         <file>icons/add-white.png</file>
-        <file>ChoiceDialog.qml</file>
+        <file>GroupTool.qml</file>
+        <file>ConfirmDialog.qml</file>
+        <file>InfoDialog.qml</file>
+        <file>TextDialog.qml</file>
+        <file>MobileHome.qml</file>
+        <file>MobileAttractor.qml</file>
+        <file>icons/add-material-left.png</file>
+        <file>icons/add-material-right.png</file>
+        <file>icons/add-material-left-black.png</file>
+        <file>icons/add-material-right-black.png</file>
     </qresource>
 </RCC>

@@ -13,9 +13,7 @@ Button {
         width: button.height
         height: button.height
         radius: button.height / 2.
-        color: "#EEEDEB"
-        border.width: 2
-        border.color: button.checked ? "black" : "transparent"
+        color: button.checked ? colourRed : colourGrey
     }
     //
     //
