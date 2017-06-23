@@ -143,5 +143,7 @@
         <file>icons/add-material-right.png</file>
         <file>icons/add-material-left-black.png</file>
         <file>icons/add-material-right-black.png</file>
+        <file>icons/broken-image-black.png</file>
+        <file>icons/broken-image-white.png</file>
     </qresource>
 </RCC>

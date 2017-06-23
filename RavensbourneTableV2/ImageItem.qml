@@ -63,15 +63,21 @@ EditableItem {
         fillMode: AnimatedImage.PreserveAspectFit
     }
 
-    Image {
+    Rectangle {
         id: errorIndicator
         width: 36
         height: 36
+        radius: 18
         anchors.centerIn: parent
         visible: image.status === Image.Error
-        source:"icons/broken-image-white.png"
-        fillMode: Image.PreserveAspectFit
+        color: "#FF6666"
+        Image {
+            anchors.fill: parent
+            source:"icons/broken-image-white.png"
+            fillMode: Image.PreserveAspectFit
+        }
     }
+
 
     HueSaturation {
         id: colour
