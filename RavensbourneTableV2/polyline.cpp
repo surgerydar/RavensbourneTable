@@ -198,14 +198,11 @@ void PolyLine::load( const QVariant& line ) {
     QVariantMap lineMap = line.toMap();
     m_id = lineMap.contains("id") ? lineMap["id"].value<QString>() : QUuid::createUuid().toString();
     if ( lineMap.contains("colour") ) {
-        qDebug() << "PolyLine::load : setting colour";
         QVariantMap colourMap = lineMap["colour"].toMap();
         if ( colourMap.contains("r") && colourMap.contains("g") && colourMap.contains("b") ) {
-            qDebug() << "PolyLine::load : colour has rgb";
             qreal r = colourMap["r"].value<qreal>();
             qreal g = colourMap["g"].value<qreal>();
             qreal b = colourMap["b"].value<qreal>();
-            qDebug() << "PolyLine::load : rgb = [" << r << "," << g << "," << b << "]";
             m_colour.setRgbF(r,g,b);
         } else if ( lineMap["colour"].canConvert<QColor>() ) {
             m_colour = lineMap["colour"].value<QColor>();
@@ -213,12 +210,10 @@ void PolyLine::load( const QVariant& line ) {
             qDebug() << "PolyLine::load : unknown colour format : " << lineMap["colour"].toString();
             m_colour = lineMap["colour"].value<QColor>();
         }
-        qDebug() << "PolyLine::load : m_colour = [" << m_colour.redF() << "," << m_colour.greenF() << "," << m_colour.blueF() << "]";
     }
     m_lineWidth = lineMap.contains("linewidth") ? lineMap["linewidth"].value<int>() : m_lineWidth;
     QVariantList points = lineMap["points"].toList();
     int count = points.size();
-    qDebug() << "PolyLine::load : " << count << " points";
     m_points.resize(count);
     for ( int i = 0; i < count; i++ ) {
         QVariantMap pointMap = points[ i ].toMap();
@@ -291,7 +286,7 @@ void PolyLine::simplify(float tol){
     if(m_points.size() < 2) return;
 
     int n = m_points.size();
-    qDebug() << "PolyLine::simplify : before : " << n;
+    //qDebug() << "PolyLine::simplify : before : " << n;
 
     QVector<QVector2D> sV;
     sV.resize(n);
@@ -327,7 +322,7 @@ void PolyLine::simplify(float tol){
         //get rid of the unused points
         m_points.resize(m);
     }
-    qDebug() << "PolyLine::simplify : after : " << m;
+    //qDebug() << "PolyLine::simplify : after : " << m;
 }
 
 

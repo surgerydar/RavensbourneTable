@@ -85,6 +85,7 @@ Rectangle {
                                          function( param ) { // undo
                                             param.item.setup(param.previous);
                                          });
+                    SessionClient.sendMessage(target.sessionCommand('updateitem',sketchId,user.id));
                 }
                 target.clearStoredState();
             }
@@ -132,6 +133,7 @@ Rectangle {
                                          function( param ) { // undo
                                             param.item.setup(param.previous);
                                          });
+                    SessionClient.sendMessage(target.sessionCommand('updateitem',sketchId,user.id));
                 }
                 target.clearStoredState();
             }
@@ -175,6 +177,7 @@ Rectangle {
                                          function( param ) { // undo
                                             param.drawing.load(param.previous);
                                          });
+                    SessionClient.sendMessage(drawing.sessionCommand('updateline',sketchId,user.id));
                 }
                 drawing.clearStoredState();
             }

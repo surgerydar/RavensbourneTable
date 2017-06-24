@@ -296,7 +296,7 @@ Item {
                     command: command,
                     sketchid: sketchId,
                     userid: userId,
-                    lineid: lineId,
+                    lineid: lineId || getLineId(selectedLine),
                 };
                 //
                 // command specific data
@@ -305,12 +305,12 @@ Item {
                 case 'insertline' :
                 case 'addline' :
                 case 'updateline' :
-                    param.lineindex = getLineIndex(lineId);
-                    param.data = getLine(lineId);
+                    param.lineindex = getLineIndex(param.lineid);
+                    param.data = getLine(param.lineid);
                     break;
                 }
                 //
-                // return sting
+                // return string
                 //
                 try {
                     //console.log( 'session command: ' + JSON.stringify(param) );
@@ -784,12 +784,14 @@ Item {
         sketch.grabToImage(function(icon) {
             //console.log( 'sketch icon done' );
             //sketch.contentItem.grabToImage(function(icon) {
-            icon.saveToFile("icon-temp.png");
+            var iconPath = PathUtils.temporaryDirectory() + '/icon-temp.png';
+            console.log( 'saving icon to : ' + iconPath );
+            icon.saveToFile(iconPath);
             var object = {
                 id: sketchId,
                 user_id: user.id,
                 group: toolBar.group.getUsers(),
-                icon: ImageEncoder.uriEncode("icon-temp.png","PNG"),
+                icon: ImageEncoder.uriEncode(iconPath,"PNG"),
                 material: material,
                 items: items,
                 drawing: lines

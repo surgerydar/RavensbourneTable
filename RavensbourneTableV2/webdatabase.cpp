@@ -190,8 +190,10 @@ void WebDatabase::send( const HTTPMethod method, const QString& command, const Q
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::UserAgentHeader, "Collaborative Sketch v0.1");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QByteArray payload;
     if ( data.length() > 0 ) {
-        request.setHeader(QNetworkRequest::ContentLengthHeader,(int)data.length());
+        payload = data.toUtf8();
+        request.setHeader(QNetworkRequest::ContentLengthHeader,(int)payload.size());
         //qDebug() << "WebDatabase::send : data : " << data.toUtf8();
     }
     switch ( method ) {
@@ -199,10 +201,10 @@ void WebDatabase::send( const HTTPMethod method, const QString& command, const Q
         m_net->get(request);
         break;
     case HTTP_PUT :
-        m_net->put(request,data.toUtf8());
+        m_net->put(request,payload);
         break;
     case HTTP_POST :
-        m_net->post(request,data.toUtf8());
+        m_net->post(request,payload);
         break;
     case HTTP_DELETE :
         m_net->deleteResource(request);

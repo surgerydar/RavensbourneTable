@@ -96,6 +96,21 @@ ApplicationWindow {
             }
         }
         //
+        // universal material metadata viewer
+        //
+        MaterialMetadataViewer {
+            id: metadataViewer
+            //z: 1
+            anchors.top: parent.bottom
+            anchors.topMargin: 16
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            anchors.bottom: inputPanel ? inputPanel.top : parent.bottom
+            anchors.bottomMargin: inputPanel  ? 48 : 16
+            anchors.right: parent.right
+            anchors.rightMargin: 16
+        }
+        //
         // universal material icons
         //
         MaterialIcon {
@@ -147,21 +162,6 @@ ApplicationWindow {
             onShowMaterial: {
                 showMaterialBrowser(barcode,3)
             }
-        }
-        //
-        //
-        //
-        MaterialMetadataViewer {
-            id: metadataViewer
-            z: 1
-            anchors.top: parent.bottom
-            anchors.topMargin: 16
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.bottom: inputPanel ? inputPanel.top : parent.bottom
-            anchors.bottomMargin: inputPanel  ? 48 : 16
-            anchors.right: parent.right
-            anchors.rightMargin: 16
         }
         //
         //

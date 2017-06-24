@@ -56,7 +56,7 @@ void SessionClient::onErrorReceived(QAbstractSocket::SocketError error) {
 }
 
 void SessionClient::onMessageReceived(QString message) {
-    qDebug() << "SessionClient::onMessageReceived : " << message;
+    //qDebug() << "SessionClient::onMessageReceived : " << message;
     emit messageReceived(message);
 }
 

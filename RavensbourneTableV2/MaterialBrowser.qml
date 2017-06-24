@@ -34,15 +34,6 @@ Rectangle {
         }
         onLoadingChanged: {
             console.log( 'material url : ' + loadRequest.url );
-            //
-            // default image id "ctl00_phMain_imgMain"
-            // product name "ctl00_phMain_lblProductName" / "ctl00_phMain_lblProductName"
-            // product manufacturer "ctl00_phMain_lblManufacturerName" /
-            // product code "ctl00_phMain_lblMCNumber" library code
-            // product description "ctl00_phMain_lblDesc"
-            // physical attributes : name "physAttribName" value "physAttribValue"
-            // product images "img" class "preload"
-            //
             switch( loadRequest.status ) {
             case WebEngineView.LoadStartedStatus :
                 busyIndicator.visible = true;
@@ -55,8 +46,7 @@ Rectangle {
             case WebEngineView.LoadSucceededStatus :
                 busyIndicator.visible = false;
                 var url = webBrowser.url.toString();
-                if ( url.indexOf('www.materialconnexion.com') >= 0 ) {
-                //if ( url.indexOf('library.materialconnexion.com') >= 0 ) {
+                if ( url.indexOf('www.materialconnexion.com') >= 0 || url.indexOf('library.materialconnexion.com') >= 0 ) {
                     //
                     // scrape metadata
                     //
@@ -91,8 +81,8 @@ Rectangle {
                                     //
                                     var scrapeProductDescription = function() {
                                         return {
-                                            name: document.querySelector('.product-name:not(.secondary)').children[ 0 ].innerHTML,
-                                            description: document.querySelector('[itemprop=\"description\"]').innerHTML
+                                            name: document.querySelector('.product-name:not(.secondary)').children[ 0 ].innerHTML.trim(),
+                                            description: document.querySelector('[itemprop=\"description\"]').innerHTML.trim()
                                         }
                                     }
                                     //
@@ -234,16 +224,15 @@ Rectangle {
                                     };
                                     JSON.stringify(product);
                                     ";
-                    console.log( "loaded" );
-
                     webBrowser.runJavaScript(script, function( product ) {
                         var metadata = JSON.parse(product);
                         material.name = metadata.description.name;
+                        console.log('material name:' + material.name);
                         material.description = metadata.description.description;
                         material.image = metadata.images[0];
                         material.images = metadata.images;
                         material.manufacturer = metadata.metadata.manufacturer.name;
-                        material.contact = metadata.metadata.manufacturer.address;
+                        material.contact = { address: metadata.metadata.manufacturer.address, email: metadata.metadata.manufacturer.email };
                         material.processing = metadata.metadata.processing;
                         material.properties = metadata.metadata.properties;
                         material.attributes = [];

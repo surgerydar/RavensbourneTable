@@ -77,8 +77,91 @@ Editor {
     //
     //
     Rectangle {
+        id: productManufacturerContactBackground
+        anchors.left: mainImageBackground.right
+        anchors.leftMargin: 24
+        anchors.right: parent.right
+        anchors.rightMargin: 24
+        anchors.top: productManufacturerBackground.bottom
+        anchors.topMargin: 24
+        anchors.bottom: imageListBackground.top
+        anchors.bottomMargin: 24
+        radius: 24
+        color: "white"
+        ListView {
+            id: productManufacturerContact
+            anchors.fill: parent
+            anchors.margins: productManufacturerContactBackground.radius / 2
+            clip: true
+            //
+            //
+            //
+            orientation: ListView.Vertical
+            //snapMode: ListView.SnapOneItem
+            spacing: 8
+            //
+            //
+            //
+            model: ListModel {}
+            //
+            //
+            //
+            delegate: Item {
+                width: productManufacturerContact.width
+                height: 18
+                Text {
+                   anchors.left: parent.left
+                   anchors.right: parent.right
+                   anchors.top: parent.top
+                   anchors.bottom: parent.bottom
+                   anchors.leftMargin: 8
+                   anchors.rightMargin: 8
+                   font.family: ravensbourneRegular.name
+                   font.pixelSize: 12
+                   horizontalAlignment: Text.AlignLeft
+                   verticalAlignment: Text.AlignVCenter
+                   textFormat: Text.AutoText
+                   text: value
+                }
+            }
+            //
+            //
+            //
+            section.property: "category"
+            section.delegate: Item {
+                id: productManufacturerContactSectionHeader
+                width: productManufacturerContact.width
+                height: 48
+                Rectangle {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    color: colourGrey
+                    Text {
+                       anchors.left: parent.left
+                       anchors.right: parent.right
+                       anchors.top: parent.top
+                       anchors.bottom: parent.bottom
+                       anchors.leftMargin: 8
+                       anchors.rightMargin: 8
+                       font.family: ravensbourneBold.name
+                       font.pixelSize: 18
+                       horizontalAlignment: Text.AlignLeft
+                       verticalAlignment: Text.AlignVCenter
+                       textFormat: Text.AutoText
+                       text: section
+                    }
+                }
+            }
+        }
+    }
+    //
+    //
+    //
+    Rectangle {
         id: imageListBackground
-        height: parent.height / 4
+        height: parent.height / 8
         anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
@@ -105,8 +188,8 @@ Editor {
             //
             //
             delegate: Item {
-                width: 104
-                height: 104
+                width: imageList.height
+                height: imageList.height
                 Image {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
@@ -151,6 +234,7 @@ Editor {
     //
     //
     Rectangle {
+        id: productAttributesBackground
         anchors.left: productDescriptionBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
@@ -165,12 +249,13 @@ Editor {
         ListView {
             id: productAttributes
             anchors.fill: parent
+            anchors.margins: productAttributesBackground.radius / 2
             clip: true
             //
             //
             //
             orientation: ListView.Vertical
-            snapMode: ListView.SnapOneItem
+            //snapMode: ListView.SnapOneItem
             spacing: 8
             //
             //
@@ -181,24 +266,10 @@ Editor {
             //
             delegate: Item {
                 width: productAttributes.width
-                height: 48
+                height: 18
                 Text {
                    anchors.left: parent.left
                    anchors.right: parent.horizontalCenter
-                   anchors.top: parent.top
-                   anchors.bottom: parent.bottom
-                   anchors.rightMargin: 8
-                   font.family: ravensbourneRegular.name
-                   font.pixelSize: 12
-                   horizontalAlignment: Text.AlignRight
-                   verticalAlignment: Text.AlignVCenter
-                   textFormat: Text.AutoText
-                   color: "darkGray"
-                   text: name
-                }
-                Text {
-                   anchors.left: parent.horizontalCenter
-                   anchors.right: parent.right
                    anchors.top: parent.top
                    anchors.bottom: parent.bottom
                    anchors.leftMargin: 8
@@ -207,8 +278,52 @@ Editor {
                    horizontalAlignment: Text.AlignLeft
                    verticalAlignment: Text.AlignVCenter
                    textFormat: Text.AutoText
-                   baseUrl: "http://library.materialconnexion.com"
+                   text: name
+                }
+                Text {
+                   anchors.left: parent.horizontalCenter
+                   anchors.right: parent.right
+                   anchors.top: parent.top
+                   anchors.bottom: parent.bottom
+                   anchors.rightMargin: 8
+                   font.family: ravensbourneRegular.name
+                   font.pixelSize: 12
+                   horizontalAlignment: Text.AlignRight
+                   verticalAlignment: Text.AlignVCenter
+                   textFormat: Text.AutoText
                    text: value
+                }
+            }
+            //
+            //
+            //
+            section.property: "category"
+            section.delegate: Item {
+                id: productAttributesSectionHeader
+                width: productAttributes.width
+                height: 48
+                Rectangle {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    //anchors.leftMargin: productDescriptionBackground.radius
+                    //anchors.rightMargin: productDescriptionBackground.radius
+                    color: colourGrey
+                    Text {
+                       anchors.left: parent.left
+                       anchors.right: parent.right
+                       anchors.top: parent.top
+                       anchors.bottom: parent.bottom
+                       anchors.leftMargin: 8
+                       anchors.rightMargin: 8
+                       font.family: ravensbourneBold.name
+                       font.pixelSize: 18
+                       horizontalAlignment: Text.AlignLeft
+                       verticalAlignment: Text.AlignVCenter
+                       textFormat: Text.AutoText
+                       text: section
+                    }
                 }
             }
         }
@@ -285,14 +400,36 @@ Editor {
         if ( material.manufacturer ) {
             productManufacturer.text = material.manufacturer;
         }
+        productManufacturerContact.model.clear();
+        if ( material.contact ) {
+            if ( material.contact.address ) {
+                material.contact.address.forEach( function( value ) {
+                    productManufacturerContact.model.append({"value":value, "category":"ADDRESS"});
+                });
+            }
+            if ( material.contact.email ) {
+                material.contact.email.forEach( function( value ) {
+                    productManufacturerContact.model.append({"value":value, "category":"EMAIL"});
+                });
+            }
+        }
         productDescription.text = "";
         if ( material.description ) {
             productDescription.text = material.description;
         }
         productAttributes.model.clear();
-        if ( material.attributes ) {
-            material.attributes.forEach( function( attribute ) {
-                productAttributes.model.append({"name":attribute.name,"value":attribute.value});
+        if ( material.processing ) {
+            material.processing.forEach( function( category ) {
+                category.properties.forEach( function( property ) {
+                    productAttributes.model.append({"name":property.name,"value":property.value, "category":category.name});
+                });
+            });
+        }
+        if ( material.properties ) {
+            material.properties.forEach( function( category ) {
+                category.properties.forEach( function( property ) {
+                    productAttributes.model.append({"name":property.name,"value":property.value, "category":category.name});
+                });
             });
         }
         productTags.text = "";

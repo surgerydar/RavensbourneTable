@@ -108,6 +108,7 @@ Item {
                 anchors.right: parent.right
                 anchors.margins: 8
                 icon:"icons/delete-black.png"
+                visible: model.sketch.user_id === user.id
                 onClicked: {
                     var sketchId = model.sketch.id
                     confirmDialog.show( "are you sure you want to delete sketch '" + model.sketch.material.name + "' ?", function() {
@@ -313,12 +314,6 @@ Item {
     //
     // Barcode
     //
-    /*
-    function barcodeNewCode(port,barcode) {
-        console.log( 'Home.barcodeNewCode(' + barcode + ')');
-        materialBrowser.show(barcode);
-    }
-    */
     function addMaterial( material ) {
         if ( material ) {
             var param = {

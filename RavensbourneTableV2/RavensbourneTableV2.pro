@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     imageencoder.cpp \
     timeout.cpp \
     settings.cpp \
-    imagepicker.cpp
+    imagepicker.cpp \
+    pathutils.cpp
 
 android {
     HEADERS += androidgallery.h
@@ -81,7 +82,8 @@ HEADERS += \
     imageencoder.h \
     timeout.h \
     settings.h \
-    imagepicker.h
+    imagepicker.h \
+    pathutils.h
 
 DISTFILES +=
 

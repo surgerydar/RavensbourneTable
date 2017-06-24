@@ -15,6 +15,7 @@
 #include "timeout.h"
 #include "settings.h"
 #include "imagepicker.h"
+#include "pathutils.h"
 
 int main(int argc, char *argv[]) {
     //
@@ -53,6 +54,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("ImageEncoder", ImageEncoder::shared());
     engine.rootContext()->setContextProperty("Timeout", Timeout::shared());
     engine.rootContext()->setContextProperty("Settings", Settings::shared());
+    engine.rootContext()->setContextProperty("PathUtils", PathUtils::shared());
 #if !defined(Q_OS_IOS) && !defined(Q_OS_ANDROID)
     engine.rootContext()->setContextProperty("BarcodeScanner", BarcodeScanner::shared());
 #else
