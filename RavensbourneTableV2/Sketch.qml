@@ -11,6 +11,7 @@ Item {
     //
     property var user: null
     property string sketchId: ""
+    property string sketchUserId: ""
     property var material: null
     //
     // runtime variable
@@ -705,14 +706,13 @@ Item {
                 //
                 // store id for save
                 //
-                sketchId    = param.sketch.id;
-                material    = param.sketch.material;
+                sketchId        = param.sketch.id;
+                sketchUserId    = param.sketch.user_id;
+                material        = param.sketch.material;
                 if ( param.sketch.group ) {
                     param.sketch.group.forEach( function(u) {
-                        //console.log('group member : ' + JSON.stringify(u));
                         toolBar.group.addUser(u,u.id === user.id);
                     });
-
                 }
                 //
                 // rebuild sketch
@@ -724,6 +724,7 @@ Item {
                 // add sketch creator to group
                 //
                 newSketch = true;
+                sketchUserId = user.id;
                 sketchId = GUIDGenerator.generate();
                 toolBar.group.addUser(user,true);
             }
@@ -789,7 +790,7 @@ Item {
             icon.saveToFile(iconPath);
             var object = {
                 id: sketchId,
-                user_id: user.id,
+                user_id: sketchUserId,
                 group: toolBar.group.getUsers(),
                 icon: ImageEncoder.uriEncode(iconPath,"PNG"),
                 material: material,
@@ -837,7 +838,6 @@ Item {
         }
         drawing.clear();
         toolBar.group.clear();
-
     }
     //
     // WebDatabase
@@ -886,12 +886,6 @@ Item {
     //
     // Barcode / material
     //
-    /*
-    function barcodeNewCode(port,barcode) {
-        console.log( 'Sketch.barcodeNewCode(' + barcode + ')');
-        materialBrowser.show(barcode);
-    }
-    */
     function addMaterial( material ) {
         //
         // TODO: add image or create new sketch

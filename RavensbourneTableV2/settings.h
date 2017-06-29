@@ -17,6 +17,7 @@ signals:
 public slots:
     QVariant get( const QString& key, QVariant defaultValue );
     void set( const QString& key, QVariant value );
+    bool contains( const QString& key );
 private:
     QSettings m_settings;
     //

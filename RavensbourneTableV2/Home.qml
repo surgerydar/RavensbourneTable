@@ -221,7 +221,8 @@ Item {
         //
         WebDatabase.getUserSketches(userId);
     }
-    function searchSketchMetadata( material, regex ) {
+
+    function searchMaterialMetadata( material, regex ) {
         //console.log('searching for :' + regex.toString() );
         if ( material.name && material.name.search(regex) >= 0 ) return true;
         if ( material.manufacturer && material.manufacturer.search(regex) >= 0 ) return true;
@@ -236,6 +237,18 @@ Item {
         return false;
     }
 
+    function searchItemMetadata( items, regex ) {
+        if ( items ) {
+            var count = items.length;
+            for ( var i = 0; i < count; i++ ) {
+                if ( items[ i ].metadata ) {
+                    if ( searchMaterialMetadata(items[ i ].metadata,regex) ) return true;
+                }
+            }
+        }
+        return false;
+    }
+
     function searchSketches( text ) {
         var count = sketchModel.count;
         var i;
@@ -243,7 +256,7 @@ Item {
             var regex = new RegExp(text, "i");
             for ( i = 0; i < count; i++ ) {
                 var item = sketchModel.get(i);
-                item.collapse = !searchSketchMetadata(item.sketch.material,regex);
+                item.collapse = !(searchMaterialMetadata(item.sketch.material,regex)||searchItemMetadata(item.sketch.items, regex));
             }
         } else {
             for ( i = 0; i < count; i++ ) {

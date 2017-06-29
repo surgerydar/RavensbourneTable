@@ -145,5 +145,7 @@
         <file>icons/add-material-right-black.png</file>
         <file>icons/broken-image-black.png</file>
         <file>icons/broken-image-white.png</file>
+        <file>ErrorDialog.qml</file>
+        <file>ChoiceDialog.qml</file>
     </qresource>
 </RCC>

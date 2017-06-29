@@ -12,7 +12,7 @@ Editor {
         width: parent.width / 3
         height: parent.height / 2
         anchors.left: parent.left
-        anchors.leftMargin: 24
+        anchors.leftMargin: 64
         anchors.top: parent.top
         anchors.topMargin: 72
         radius: 24
@@ -33,7 +33,7 @@ Editor {
         anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.top: parent.top
         anchors.topMargin: 72
         radius: 24
@@ -56,7 +56,7 @@ Editor {
         anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.top: productNameBackground.bottom
         anchors.topMargin: 24
         radius: 24
@@ -81,7 +81,7 @@ Editor {
         anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.top: productManufacturerBackground.bottom
         anchors.topMargin: 24
         anchors.bottom: imageListBackground.top
@@ -97,7 +97,6 @@ Editor {
             //
             //
             orientation: ListView.Vertical
-            //snapMode: ListView.SnapOneItem
             spacing: 8
             //
             //
@@ -117,7 +116,7 @@ Editor {
                    anchors.leftMargin: 8
                    anchors.rightMargin: 8
                    font.family: ravensbourneRegular.name
-                   font.pixelSize: 12
+                   font.pixelSize: 14
                    horizontalAlignment: Text.AlignLeft
                    verticalAlignment: Text.AlignVCenter
                    textFormat: Text.AutoText
@@ -165,7 +164,7 @@ Editor {
         anchors.left: mainImageBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.bottom: mainImageBackground.bottom
         radius: 24
         color: "white"
@@ -211,7 +210,7 @@ Editor {
         id: productDescriptionBackground
         width: ( parent.width * .66 ) - 48
         anchors.left: parent.left
-        anchors.leftMargin: 24
+        anchors.leftMargin: 64
         anchors.top: imageListBackground.bottom
         anchors.topMargin: 24
         //anchors.bottom: productTagsBackground.top
@@ -222,10 +221,10 @@ Editor {
         Text {
             id: productDescription
             anchors.fill: parent
-            anchors.margins: 12
+            anchors.margins: 14
             clip: true
             font.family: ravensbourneRegular.name
-            font.pixelSize: 14
+            font.pixelSize: 16
             textFormat: Text.AutoText
             wrapMode: Text.WordWrap
         }
@@ -238,7 +237,7 @@ Editor {
         anchors.left: productDescriptionBackground.right
         anchors.leftMargin: 24
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.top: imageListBackground.bottom
         anchors.topMargin: 24
         //anchors.bottom: productTagsBackground.top
@@ -274,7 +273,7 @@ Editor {
                    anchors.bottom: parent.bottom
                    anchors.leftMargin: 8
                    font.family: ravensbourneRegular.name
-                   font.pixelSize: 12
+                   font.pixelSize: 16
                    horizontalAlignment: Text.AlignLeft
                    verticalAlignment: Text.AlignVCenter
                    textFormat: Text.AutoText
@@ -287,7 +286,7 @@ Editor {
                    anchors.bottom: parent.bottom
                    anchors.rightMargin: 8
                    font.family: ravensbourneRegular.name
-                   font.pixelSize: 12
+                   font.pixelSize: 16
                    horizontalAlignment: Text.AlignRight
                    verticalAlignment: Text.AlignVCenter
                    textFormat: Text.AutoText
@@ -335,9 +334,9 @@ Editor {
         id: productTags
         height: 48
         anchors.left: parent.left
-        anchors.leftMargin: 24
+        anchors.leftMargin: 64
         anchors.right: parent.right
-        anchors.rightMargin: 24
+        anchors.rightMargin: 64
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 72
         background: Rectangle {
@@ -402,15 +401,40 @@ Editor {
         }
         productManufacturerContact.model.clear();
         if ( material.contact ) {
-            if ( material.contact.address ) {
-                material.contact.address.forEach( function( value ) {
-                    productManufacturerContact.model.append({"value":value, "category":"ADDRESS"});
+            try {
+                material.contact.forEach( function(manufacturer) {
+                    productManufacturerContact.model.append({"value":manufacturer.name, "category":manufacturer.region});
+                    if ( manufacturer.address ) {
+                        manufacturer.address.forEach( function(value) {
+                            productManufacturerContact.model.append({"value":value, "category":"ADDRESS"});
+                        });
+                    }
+                    if ( manufacturer.website ) {
+                        manufacturer.website.forEach( function(value) {
+                            productManufacturerContact.model.append({"value":value, "category":"WEBSITE"});
+                        });
+                    }
+                    if ( manufacturer.email ) {
+                        manufacturer.email.forEach( function(value) {
+                            productManufacturerContact.model.append({"value":value, "category":"EMAIL"});
+                        });
+                    }
                 });
-            }
-            if ( material.contact.email ) {
-                material.contact.email.forEach( function( value ) {
-                    productManufacturerContact.model.append({"value":value, "category":"EMAIL"});
-                });
+            } catch( error ) {
+                //
+                // previous format
+                //
+                console.log('MaterialMetatdataViewer : old format metadata');
+                if ( material.contact.address ) {
+                    material.contact.address.forEach( function( value ) {
+                        productManufacturerContact.model.append({"value":value, "category":"ADDRESS"});
+                    });
+                }
+                if ( material.contact.email ) {
+                    material.contact.email.forEach( function( value ) {
+                        productManufacturerContact.model.append({"value":value, "category":"EMAIL"});
+                    });
+                }
             }
         }
         productDescription.text = "";

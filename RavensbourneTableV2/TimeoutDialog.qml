@@ -10,6 +10,7 @@ RotatableDialog {
     anchors.centerIn: parent
     visible: false
     opacity: 1.0
+    colour: colourRed
     //
     // properties
     //

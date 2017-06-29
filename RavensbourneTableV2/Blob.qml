@@ -35,6 +35,7 @@ Rectangle {
         }
         vX = -1 + Math.random() * 2.;
         vY = -1 + Math.random() * 2.;
+        //console.log( 'Blob.setup : parent rect: [' + parent.width + ',' + parent.height + '] x:' + x + ' y:' + y );
     }
     function applyForces( other, t ) {
         var r_a = width / 2.;

@@ -7,4 +7,5 @@ Item {
         radius: width / 2
         color: colourTurquoise
     }
+    property alias colour: background.color
 }

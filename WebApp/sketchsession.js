@@ -1,11 +1,11 @@
-var WebSocket = require('ws');
+//var WebSocket = require('ws');
 //
 // TODO: move sketch session storage to db
 //
 function SketchSessions() {
     this.sketches = [];
 }
-
+/*
 SketchSessions.prototype.processMessage = function( wss, ws, message ) {
     try {
         var command = JSON.parse( message );
@@ -17,6 +17,15 @@ SketchSessions.prototype.processMessage = function( wss, ws, message ) {
         }
     } catch( err ) {
         console.log( 'SketchSessions.processMessage : ' + err + ' : unable to process message ' + message  );
+    }
+}
+*/
+SketchSessions.prototype.connect = function( wsr ) {
+    for ( var key in this ) {
+        if ( key !== 'connect' ) {
+            console.log( 'SketchSessions connecting : ' + key );
+            wsr.json( key, this[ key ] );
+        }
     }
 }
 

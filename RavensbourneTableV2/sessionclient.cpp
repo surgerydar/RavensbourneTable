@@ -4,6 +4,7 @@
 #include "sessionclient.h"
 
 SessionClient* SessionClient::s_shared = nullptr;
+QString SessionClient::s_default_url = "wss://localhost:3000";
 
 SessionClient::SessionClient(const QString& url, QObject *parent) : QObject(parent), m_url( url ) {
     connect(&m_webSocket, &QWebSocket::connected, this, &SessionClient::onConnected);
@@ -14,14 +15,15 @@ SessionClient::SessionClient(const QString& url, QObject *parent) : QObject(pare
 
 SessionClient* SessionClient::shared() {
     if ( !s_shared ) {
-        const QString defaultUrl = "wss://localhost:3000";
-        s_shared = new SessionClient(defaultUrl);
+        s_shared = new SessionClient(s_default_url);
     }
     return s_shared;
 }
 
 void SessionClient::log( const QString& message ) {
     QString command = QString( "{ \"command\": \"log\", \"message\" : \"%1\" }" ).arg(message);
+    //qDebug() << "SessionClient::log : " << message;
+
     m_webSocket.sendTextMessage(command);
 }
 

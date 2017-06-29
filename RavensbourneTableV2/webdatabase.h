@@ -12,6 +12,7 @@ class WebDatabase : public QObject
 public:
     explicit WebDatabase(QObject *parent = 0);
     static WebDatabase* shared();
+    static void setDefaultUrl( QString& url ) { s_default_url = url; }
 signals:
     void success( QString command, QVariant result );
     void error( QString command, QString error );
@@ -55,6 +56,7 @@ private:
     //
     //
     static WebDatabase* s_shared;
+    static QString s_default_url;
 };
 
 #endif // WebDatabase_H

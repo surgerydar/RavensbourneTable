@@ -34,7 +34,9 @@ SOURCES += main.cpp \
     timeout.cpp \
     settings.cpp \
     imagepicker.cpp \
-    pathutils.cpp
+    pathutils.cpp \
+    fingerprintscanner.cpp \
+    windowcontrol.cpp
 
 android {
     HEADERS += androidgallery.h
@@ -83,7 +85,9 @@ HEADERS += \
     timeout.h \
     settings.h \
     imagepicker.h \
-    pathutils.h
+    pathutils.h \
+    fingerprintscanner.h \
+    windowcontrol.h
 
 DISTFILES +=
 
@@ -94,3 +98,20 @@ ios {
 macx {
     QMAKE_INFO_PLIST = osx/Info.plist
 }
+
+win32 {
+    LIBS += -L'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfj
+
+    INCLUDEPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+    DEPENDPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+
+    PRE_TARGETDEPS += 'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfj.lib'
+
+    LIBS += -L'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/' -ldpfpdd
+
+    INCLUDEPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+    DEPENDPATH += 'C:/Program Files/DigitalPersona/U.are.U SDK/Include'
+
+    PRE_TARGETDEPS += 'C:/Program Files/DigitalPersona/U.are.U SDK/Windows/Lib/x64/dpfpdd.lib'
+}
+

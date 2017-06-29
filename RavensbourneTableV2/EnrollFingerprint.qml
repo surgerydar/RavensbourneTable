@@ -17,7 +17,7 @@ RotatableDialog {
         anchors.bottom: parent.verticalCenter
         anchors.bottomMargin: ( parent.height / 12 ) + 16
         anchors.horizontalCenter: parent.horizontalCenter
-        text: "Place your middle finger on the scanner"
+        text: "Place your index finger on the scanner"
         font.pixelSize: 24
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignBottom
@@ -172,14 +172,13 @@ RotatableDialog {
         }
     }
     //
-    //
     // fingerprint handling
     //
     function fingerPrintEnrollmentStage(device,stage) {
         console.log( 'enrollment stage : ' + stage );
         switch( stage ) {
         case 0 :
-            prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
+            prompt.text = 'Fingerprint not recognised, place your index finger on the scanner to begin registration ...';
             break;
         default :
             prompt.text = 'and again...';
@@ -232,8 +231,24 @@ RotatableDialog {
     function webDatabaseError( command, error ) {
         console.log( 'EnrollFingerprint.WebDatabase : error : ' + command + ':' + error );
         if ( command === '/user' ) {
+            choiceDialog.show( error + ' - do you want to try again?',
+                              function() {
+                              },
+                              function() {
+                                  FingerprintScanner.deleteEntry(userId);
+                                  appWindow.go('Attractor');
+                              });
+            /*
+            if ( error.indexOf('Network Error') >= 0 ) {
+                FingerprintScanner.deleteEntry(userId);
+                errorDialog.show( error + ' : please try again later', function() {
+                    appWindow.go('Attractor');
+                });
+            } else {
+                prompt.text = error;
+            }
             user = null;
-            prompt.text = message;
+            */
         }
     }
     //
@@ -257,19 +272,19 @@ RotatableDialog {
         user = null;
         action.text = "Cancel";
         parent.rotation = 0;
-        prompt.text = 'Fingerprint not recognised, place your middle finger on the scanner to begin registration ...';
+        prompt.text = 'Fingerprint not recognised, place your index finger on the scanner to begin registration ...';
         var count = printIndicators.children.length;
         for ( var i = 0; i < count; i++ ) {
             printIndicators.children[ i ].children[0].visible = false;
         }
         if ( param && param.device ) {
-            //FingerprintScanner.enroll(param.device);
+            FingerprintScanner.enroll(param.device);
         }
     }
     function cancel() {
         if ( visible ) {
             visible = false;
-            //FingerprintScanner.cancelEnrollment();
+            FingerprintScanner.cancelEnrollment();
         }
     }
 }

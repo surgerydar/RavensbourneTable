@@ -106,6 +106,7 @@ Item {
     function close() {
         stop();
     }
+    /*
     MouseArea { // TODO: disable for production
         //
         //
@@ -114,9 +115,10 @@ Item {
 
         anchors.fill: parent
         onClicked: {
-            //WebDatabase.getUser(userId);
+            WebDatabase.getUser("blip");
         }
     }
+    */
     //
     // fingerprint handling
     //
@@ -172,10 +174,10 @@ Item {
         }
     }
     function webDatabaseError( command, error ) {
-        /*
         if ( enrollFingerprint.visible ) {
             enrollFingerprint.webDatabaseError( command, error );
+            return true;
         }
-        */
+        return false;
     }
 }

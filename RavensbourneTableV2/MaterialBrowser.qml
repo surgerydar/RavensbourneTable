@@ -28,10 +28,15 @@ Rectangle {
         anchors.rightMargin: 64
         anchors.topMargin: 64
         anchors.bottomMargin: 64
+        visible: false
         backgroundColor: "transparent"
         onNewViewRequested: function(request) { // open all in same pane TODO: tabs
-            request.openIn(webBrowser);
+            //request.openIn(webBrowser);
         }
+        onNavigationRequested: function(request) {
+            request.action = request.navigationType === WebEngineNavigationRequest.LinkClickedNavigation ? WebEngineNavigationRequest.IgnoreRequest : WebEngineNavigationRequest.AcceptRequest;
+        }
+
         onLoadingChanged: {
             console.log( 'material url : ' + loadRequest.url );
             switch( loadRequest.status ) {
@@ -50,180 +55,214 @@ Rectangle {
                     //
                     // scrape metadata
                     //
-                    var script = "//
-                                    // Hide UI
-                                    //
-                                    var hideDecoration = function() {
-                                        try {
-                                            document.querySelector('header').style.display = 'none'; // header
-                                            document.querySelector('.footer-container').style.display = 'none'; // footer
-                                            document.querySelector('#backbutton').style.display = 'none'; // back / search button
-                                            document.querySelector('.addthis_toolbox').style.display = 'none'; // add this / sharing
-                                            document.querySelector('.add-to-cart-wrapper').style.display = 'none'; // add to my materials
-                                            document.querySelector('.show-list').style.display = 'none'; // search
-                                        } catch( error ) {
-                                            //console.log( 'error hiding decorations:' + error );
-                                        }
+                    var script = "
+                        //
+                        // Hide UI
+                        //
+                        var hideDecoration = function() {
+                            try {
+                                document.querySelector('header').style.display = 'none'; // header
+                                document.querySelector('.footer-container').style.display = 'none'; // footer
+                                document.querySelector('#backbutton').style.display = 'none'; // back / search button
+                                document.querySelector('.addthis_toolbox').style.display = 'none'; // add this / sharing
+                                document.querySelector('.add-to-cart-wrapper').style.display = 'none'; // add to my materials
+                                document.querySelector('.show-list').style.display = 'none'; // search
+                            } catch( error ) {
+                                console.log( 'error hiding decorations:' + error );
+                            }
+                        }
+                        //
+                        // login
+                        //
+                        var testLogin = function() {
+                            var loginWindows = document.querySelectorAll('.youama-login-window');
+                            if ( loginWindows.length > 0 ) {
+                                var i;
+                                var emails = document.querySelectorAll('.youama-lemail');
+                                for ( i = 0; i < emails.length; i++ ) {
+                                    emails[ i ].value = 'studyzone@rave.ac.uk'
+                                }
+                                var passwords = document.querySelectorAll('.youama-lpassword');
+                                for ( i = 0; i < passwords.length; i++ ) {
+                                    passwords[ i ].value = 'ravemcx'
+                                }
+                                var submits = document.querySelectorAll('.button.btn-proceed-checkout.btn-checkout.youama-ajaxlogin-button');
+                                for ( i = 0; i < submits.length; i++ ) {
+                                    submits[ i ].click();
+                                }
+                                return true;
+                            }
+                            return false;
+                        }
+                        //
+                        // Scrape product images
+                        //
+                        var scrapeProductImages = function() {
+                            var galleryImages = document.querySelectorAll( 'img.gallery-image:not(.visible)');
+                            var images = [];
+                            for ( var i = 0; i < galleryImages.length; i++ ) {
+                                images.push( galleryImages[ i ].src );
+                            }
+                            return images;
+                        }
+                        //
+                        // Scrape product description
+                        //
+                        var scrapeProductDescription = function() {
+                            return {
+                                name: document.querySelector('.product-name:not(.secondary)').children[ 0 ].innerHTML.trim(),
+                                description: document.querySelector('[itemprop=\"description\"]').innerHTML
+                            }
+                        }
+                        //
+                        // Scrape product metadata
+                        //
+                        var scrapeManufacturer = function( definition ) {
+                            function extractEmail( href ) {
+                                var start = href.indexOf( 'mailto:' );
+                                var end = href.indexOf('?');
+                                if ( start >= 0 ) {
+                                    start += 'mailto:'.length;
+                                    if ( end > start + 1 ) {
+                                        return href.substring(start,end).trim();
+                                    } else if ( end < 0 ) {
+                                        return href.substring(start).trim();
                                     }
-                                    //
-                                    // Scrape product images
-                                    //
-                                    var scrapeProductImages = function() {
-                                        var galleryImages = document.querySelectorAll( 'img.gallery-image:not(.visible)');
-                                        var images = [];
-                                        for ( var i = 0; i < galleryImages.length; i++ ) {
-                                            images.push( galleryImages[ i ].src );
-                                        }
-                                        return images;
-                                    }
-                                    //
-                                    // Scrape product description
-                                    //
-                                    var scrapeProductDescription = function() {
-                                        return {
-                                            name: document.querySelector('.product-name:not(.secondary)').children[ 0 ].innerHTML.trim(),
-                                            description: document.querySelector('[itemprop=\"description\"]').innerHTML.trim()
-                                        }
-                                    }
-                                    //
-                                    // Scrape product metadata
-                                    //
-                                    var scrapeManufacturer = function( definition ) {
-                                        function extractEmail( href ) {
-                                            //mailto:lx870623@hotmail.com?
-                                            var start = href.indexOf( 'mailto:' );
-                                            var end = href.indexOf('?');
-                                            if ( start >= 0 ) {
-                                                start += 'mailto:'.length;
-                                                if ( end > start ) {
-                                                    return href.substring(start+1,end).trim();
-                                                } else {
-                                                    return href.substring(start+1).trim();
-                                                }
-                                            }
-                                            return undefined;
-                                        }
-                                        try {
-                                            var manufacturer = { name: '', address: [], email: []};
-                                            var propertyList = definition.querySelector('ul');
-                                            for ( var i = 0; i < propertyList.children.length; i++ ) {
-                                                if ( propertyList.children[ i ].children.length > 0 ) {
-                                                    if ( propertyList.children[ i ].children[ 0 ].tagName === 'A' ) {
-                                                        var href = propertyList.children[ i ].children[ 0 ].href;
-                                                        if ( href && href.length > 0 ) {
-                                                            var email = extractEmail(href);
-                                                            if ( email && email.length > 0 ) {
-                                                                manufacturer.email.push(email);
-                                                            }
+                                }
+                                return undefined;
+                            }
+                            try {
+                                var contacts = [];
+                                var propertyLists = definition.querySelectorAll('ul');
+                                for ( var i = 0; i < propertyLists.length; i++ ) {
+                                    var manufacturer = { name: '', region: '', address: [], website: [], email: []};
+                                    var propertyList = propertyLists[ i ];
+                                    manufacturer.region = propertyList.previousElementSibling.innerHTML.trim();
+                                    for ( var j = 0; j < propertyList.children.length; j++ ) {
+                                        if ( propertyList.children[ j ].children.length > 0 ) {
+                                            if ( propertyList.children[ j ].children[ 0 ].tagName === 'A' ) {
+                                                var href = propertyList.children[ j ].children[ 0 ].href;
+                                                if ( href && href.length > 0 ) {
+                                                    if ( href.indexOf('http://') === 0 || href.indexOf('https://') === 0 ) {
+                                                        manufacturer.website.push(href);
+                                                    } else {
+                                                        var email = extractEmail(href);
+                                                        if ( email && email.length > 0 ) {
+                                                            manufacturer.email.push(email);
                                                         }
                                                     }
+                                                }
+                                                propertyList.children[ j ].children[ 0 ].href = '';
+                                            }
+                                        } else {
+                                            var value = propertyList.children[ j ].innerHTML.trim();
+                                            if ( value.length > 0 ) {
+                                                if ( j === 0 ) {
+                                                    manufacturer.name = value;
                                                 } else {
-                                                    var value = propertyList.children[ i ].innerHTML.trim();
-                                                    if ( value.length > 0 ) {
-                                                        if ( i === 0 ) {
-                                                            manufacturer.name = value;
-                                                        } else {
-                                                            manufacturer.address.push( value )
-                                                        }
-                                                    }
+                                                    manufacturer.address.push( value )
                                                 }
                                             }
-                                            return manufacturer;
-                                        } catch( error ) {
-                                            //console.log( 'error processing manufacturer : ' + definition + ' : ' + error );
                                         }
                                     }
-                                    //
-                                    // scrape processing metadata
-                                    //
-                                    var scrapeProcessing = function( definition ) {
-                                        var processing = [];
-                                        var propertyLists = definition.querySelectorAll('ul');
-                                        for ( var i = 0; i < propertyLists.length; i++ ) {
-                                            var propertyList = propertyLists[ i ];
-                                            var title = propertyList.previousElementSibling.innerHTML.trim();
-                                            var category = { name: title, properties: [] };
-                                            for ( var j = 0; j < propertyList.children.length; j++ ) {
-                                                var listEntry = propertyList.children[ j ];
-                                                var property = {name:'', value:''};
-                                                try {
-                                                    if( listEntry.childNodes.length >= 2 ) {
-                                                        //console.log( 'tagName:' + listEntry.childNodes[ 0 ].tagName );
-                                                        property.name = listEntry.childNodes[ 0 ].data.trim();
-                                                        property.value = listEntry.childNodes[ 1 ].innerHTML.trim();
-                                                        category.properties.push(property);
-                                                    } else if (listEntry.innerHTML.length > 0) {
-                                                        property.name = listEntry.innerHTML.trim();
-                                                        category.properties.push(property);
-                                                    }
-                                                } catch( error ) {
-                                                    //console.log( 'error processing : ' + listEntry.innerHTML + ' : ' + error );
-                                                }
-                                            }
-                                            processing.push(category);
+                                    contacts.push(manufacturer);
+                                }
+                                return contacts;
+                            } catch( error ) {
+                                console.log( 'error processing manufacturer : ' + definition + ' : ' + error );
+                            }
+                        }
+                        //
+                        // scrape processing metadata
+                        //
+                        var scrapeProcessing = function( definition ) {
+                            var processing = [];
+                            var propertyLists = definition.querySelectorAll('ul');
+                            for ( var i = 0; i < propertyLists.length; i++ ) {
+                                var propertyList = propertyLists[ i ];
+                                var title = propertyList.previousElementSibling.innerHTML.trim();
+                                var category = { name: title, properties: [] };
+                                for ( var j = 0; j < propertyList.children.length; j++ ) {
+                                    var listEntry = propertyList.children[ j ];
+                                    var property = {name:'', value:''};
+                                    try {
+                                        if( listEntry.childNodes.length >= 2 ) {
+                                            property.name = listEntry.childNodes[ 0 ].data.trim();
+                                            property.value = listEntry.childNodes[ 1 ].innerHTML.trim();
+                                            category.properties.push(property);
+                                        } else if (listEntry.innerHTML.length > 0) {
+                                            property.name = listEntry.innerHTML.trim();
+                                            category.properties.push(property);
                                         }
-                                        return processing;
+                                    } catch( error ) {
+                                        console.log( 'error processing : ' + listEntry.innerHTML + ' : ' + error );
                                     }
+                                }
+                                processing.push(category);
+                            }
+                            return processing;
+                        }
 
-                                    var scrapeProperties = function( definition ) {
-                                        var properties = [];
-                                        var propertyLists = definition.querySelectorAll('ul');
-                                        for ( var i = 0; i < propertyLists.length; i++ ) {
-                                            var propertyList = propertyLists[ i ];
-                                            var title = propertyList.previousElementSibling.innerHTML.trim();
-                                            var category = { name: title, properties: [] };
-                                            for ( var j = 0; j < propertyList.children.length; j++ ) {
-                                                var listEntry = propertyList.children[ j ];
-                                                var property = {name:'', value:''};
-                                                try {
-                                                    if ( listEntry.children.length > 0 && listEntry.children[0].tagName === 'DIV' && listEntry.children[0].children.length >= 2 ) {
-                                                        property.name = listEntry.children[0].children[ 0 ].innerHTML.trim();
-                                                        property.value = listEntry.children[0].children[ 1 ].innerHTML.trim();
-                                                        category.properties.push(property);
-                                                    } else if (listEntry.innerHTML.length > 0) {
-                                                        property.name = listEntry.innerHTML.trim();
-                                                        category.properties.push(property);
-                                                    }
-                                                } catch( error ) {
-                                                    //console.log( 'error processing : ' + listEntry.innerHTML + ' : ' + error );
-                                                }
-                                            }
-                                            properties.push(category);
+                        var scrapeProperties = function( definition ) {
+                            var properties = [];
+                            var propertyLists = definition.querySelectorAll('ul');
+                            for ( var i = 0; i < propertyLists.length; i++ ) {
+                                var propertyList = propertyLists[ i ];
+                                var title = propertyList.previousElementSibling.innerHTML.trim();
+                                var category = { name: title, properties: [] };
+                                for ( var j = 0; j < propertyList.children.length; j++ ) {
+                                    var listEntry = propertyList.children[ j ];
+                                    var property = {name:'', value:''};
+                                    try {
+                                        if ( listEntry.children.length > 0 && listEntry.children[0].tagName === 'DIV' && listEntry.children[0].children.length >= 2 ) {
+                                            property.name = listEntry.children[0].children[ 0 ].innerHTML.trim();
+                                            property.value = listEntry.children[0].children[ 1 ].innerHTML.trim();
+                                            category.properties.push(property);
+                                        } else if (listEntry.innerHTML.length > 0) {
+                                            property.name = listEntry.innerHTML.trim();
+                                            category.properties.push(property);
                                         }
-                                        return properties;
+                                    } catch( error ) {
+                                        console.log( 'error processing : ' + listEntry.innerHTML + ' : ' + error );
                                     }
+                                }
+                                properties.push(category);
+                            }
+                            return properties;
+                        }
 
-                                    var scrapeProductMetadata = function() {
-                                        var dl = document.querySelector('dl#collateral-tabs');
-                                        var metadata = {};
-                                        var category = '';
-                                        for ( var i = 0; i < dl.children.length; i++ ) {
-                                            var tagName = dl.children[ i ].tagName;
-                                            if ( tagName === 'DT' ) {
-                                                category = dl.children[ i ].children[ 0 ].innerHTML.toLowerCase();
-                                            } else if ( tagName === 'DD' ) {
-                                                var definition = dl.children[ i ].children[ 0 ];
-                                                //console.log('category:' + category);
-                                                switch( category ) {
-                                                    case 'manufacturer' : metadata.manufacturer = scrapeManufacturer( definition ); break;
-                                                    case 'processing + applications' : metadata.processing = scrapeProcessing( definition ); break;
-                                                    case 'properties' : metadata.properties = scrapeProperties( definition ); break;
-                                                }
-                                            }
-                                        }
-                                        return metadata;
+                        var scrapeProductMetadata = function() {
+                            var dl = document.querySelector('dl#collateral-tabs');
+                            var metadata = {};
+                            var category = '';
+                            for ( var i = 0; i < dl.children.length; i++ ) {
+                                var tagName = dl.children[ i ].tagName;
+                                if ( tagName === 'DT' ) {
+                                    category = dl.children[ i ].children[ 0 ].innerHTML.toLowerCase();
+                                } else if ( tagName === 'DD' ) {
+                                    var definition = dl.children[ i ].children[ 0 ];
+                                    switch( category ) {
+                                        case 'manufacturer' : metadata.manufacturer = scrapeManufacturer( definition ); break;
+                                        case 'processing + applications' : metadata.processing = scrapeProcessing( definition ); break;
+                                        case 'properties' : metadata.properties = scrapeProperties( definition ); break;
                                     }
-                                    //
-                                    //
-                                    //
-                                    hideDecoration();
-                                    var product = {
-                                        description: scrapeProductDescription(),
-                                        images: scrapeProductImages(),
-                                        metadata: scrapeProductMetadata()
-                                    };
-                                    JSON.stringify(product);
-                                    ";
+                                }
+                            }
+                            return metadata;
+                        }
+                        //
+                        //
+                        //
+                        if ( !testLogin() ) {
+                            hideDecoration();
+                            var product = {
+                                description: scrapeProductDescription(),
+                                images: scrapeProductImages(),
+                                metadata: scrapeProductMetadata()
+                            };
+                            JSON.stringify(product);
+                        }
+                            ";
                     webBrowser.runJavaScript(script, function( product ) {
                         var metadata = JSON.parse(product);
                         material.name = metadata.description.name;
@@ -231,12 +270,13 @@ Rectangle {
                         material.description = metadata.description.description;
                         material.image = metadata.images[0];
                         material.images = metadata.images;
-                        material.manufacturer = metadata.metadata.manufacturer.name;
-                        material.contact = { address: metadata.metadata.manufacturer.address, email: metadata.metadata.manufacturer.email };
+                        material.manufacturer = metadata.metadata.manufacturer[0].name;
+                        material.contact = metadata.metadata.manufacturer;//{ address: metadata.metadata.manufacturer.address, email: metadata.metadata.manufacturer.email };
                         material.processing = metadata.metadata.processing;
                         material.properties = metadata.metadata.properties;
-                        material.attributes = [];
+                        material.tags = [];
                         addButton.visible = material.image !== undefined;
+                        webBrowser.visible = true;
                         //console.log(product);
                     });
 
@@ -310,19 +350,25 @@ Rectangle {
         // TODO: rationalise this
         //
         if ( barcode.indexOf('library.materialconnexion.com') >= 0 ) {
-            var newMaterial = {};
-            newMaterial.url =  "http://" + barcode;
-            var productCodeIndex = newMaterial.url.lastIndexOf('mc=');
+            var productCodeIndex = barcode.lastIndexOf('mc=');
             if ( productCodeIndex >= 0 ) {
-                newMaterial.code = newMaterial.url.substring(productCodeIndex+3);
-                console.log( 'material code : ' + newMaterial.code );
+                var code = barcode.substring(productCodeIndex+3);
+                var url = 'https://www.materialconnexion.com/database/' + code + '.html';
+                webBrowser.visible = false;
+                addButton.visible = false;
+                if ( !material || url !== material.url ) {
+                    material = {
+                        code: code,
+                        url: url
+                    };
+                    webBrowser.url = url;
+                } else {
+                    webBrowser.reload();
+                }
+                state = "open";
+            } else {
+                console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode);
             }
-            if ( !material || material.url !== newMaterial.url ) {
-                material = newMaterial;
-                webBrowser.url = newMaterial.url;
-            }
-            addButton.visible = false;
-            state = "open"
         } else {
             console.log( 'MaterialBrowser.show : rejecting barcode : ' + barcode)
         }

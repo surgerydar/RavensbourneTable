@@ -15,6 +15,10 @@ ApplicationWindow {
     //
     title: qsTr("Ravensbourne Table")
     //
+    //
+    //
+    property string baseURL: "ravensbournetable.uk:3000"
+    //
     // Colours
     //
     property string colourBlue: "#4FC3F7"
@@ -80,6 +84,21 @@ ApplicationWindow {
             anchors.bottomMargin: inputPanel  ? 32 : 0
         }
         //
+        // universal material metadata viewer
+        //
+        MaterialMetadataViewer {
+            id: metadataViewer
+            //z: 1
+            anchors.top: parent.bottom
+            anchors.topMargin: 16
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            anchors.bottom: inputPanel ? inputPanel.top : parent.bottom
+            anchors.bottomMargin: inputPanel  ? 48 : 16
+            anchors.right: parent.right
+            anchors.rightMargin: 16
+        }
+        //
         // universal material browser
         //
         MaterialBrowser {
@@ -94,21 +113,13 @@ ApplicationWindow {
                     currentScene.addMaterial( material );
                 }
             }
-        }
-        //
-        // universal material metadata viewer
-        //
-        MaterialMetadataViewer {
-            id: metadataViewer
-            //z: 1
-            anchors.top: parent.bottom
-            anchors.topMargin: 16
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.bottom: inputPanel ? inputPanel.top : parent.bottom
-            anchors.bottomMargin: inputPanel  ? 48 : 16
-            anchors.right: parent.right
-            anchors.rightMargin: 16
+            onStateChanged: {
+                if ( state === "closed" ) {
+                    selectBarcodeScanner(-1);
+                } else {
+                    metadataViewer.hide();
+                }
+            }
         }
         //
         // universal material icons
@@ -168,7 +179,6 @@ ApplicationWindow {
         //
         EnrollFingerprint {
             id: enrollFingerprint
-            z: 2
         }
         //
         // universal confirm dialog
@@ -177,6 +187,11 @@ ApplicationWindow {
             id: confirmDialog
             backgroundColour: colourRed //currentScene === sketch ? colourGreen : "white"
         }
+        ChoiceDialog {
+            id: choiceDialog
+            backgroundColour: colourRed //currentScene === sketch ? colourGreen : "white"
+        }
+
         //
         // universal help
         //
@@ -249,6 +264,13 @@ ApplicationWindow {
             }
         }
         //
+        // universal error dialog
+        //
+        ErrorDialog {
+            id: errorDialog
+            backgroundColour: colourRed //currentScene === sketch ? colourGreen : "white"
+        }
+        //
         //
         //
         TimeoutDialog {
@@ -270,8 +292,13 @@ ApplicationWindow {
         //
         // setup WebDatabase
         //
+        /*
         var baseURL = Settings.get('webdatabase/url','http://178.62.110.55:3000');
         WebDatabase.setBaseURL(baseURL);
+        */
+        //appWindow.showFullScreen();
+        //WindowControl.setAlwaysOnTop(true);
+        Timeout.registerEvent();
         //
         // setup barcode scanners
         //
@@ -344,7 +371,6 @@ ApplicationWindow {
             console.log( 'Invalid scene : ' + sceneName );
         }
     }
-    /* TODO: re-enable for release
     //
     // fingerprint signal handling
     //
@@ -386,7 +412,6 @@ ApplicationWindow {
             }
         }
     }
-    */
     //
     // Barcode signal handling
     //
@@ -424,7 +449,7 @@ ApplicationWindow {
             } else {
                 for ( var scanner = 0; scanner < materialScanners.length; scanner++ ) {
                     if ( materialScanners[scanner].device === portname ) {
-                        materialScanners[scanner].barcode = barcode;
+                        materialScanners[scanner].setBarcode(barcode);
                         break;
                     }
                 }
@@ -448,11 +473,16 @@ ApplicationWindow {
                         "library.materialconnexion.com/ProductPage.aspx?mc=754501",
                         "library.materialconnexion.com/ProductPage.aspx?mc=697702",
                         "library.materialconnexion.com/ProductPage.aspx?mc=754502",
-                        "library.materialconnexion.com/ProductPage.aspx?mc=256712"
+                        "library.materialconnexion.com/ProductPage.aspx?mc=256712",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=495503",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=702703",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=778704",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=739704",
+                        "library.materialconnexion.com/ProductPage.aspx?mc=757801"
                     ];
             var scanner = Math.floor(Math.random() * 100.) % 4;
             var code = Math.floor(Math.random() * ( codes.length - 1 ));
-            materialScanners[ scanner ].barcode = codes[ code ];
+            materialScanners[ scanner ].setBarcode(codes[ code ]);
             console.log( 'setting scanner:' + scanner + ' to:' + codes[ code ] );
         }
     }
@@ -495,13 +525,15 @@ ApplicationWindow {
     Connections {
         target: Timeout
         onTimeout: {
-            /* TODO: re-enable for release
             if ( currentScene !== attractor ) {
                 timeoutDialog.show( function() {
                     go( 'Attractor' );
                 });
+            } else if ( enrollFingerprint.visible ) {
+                timeoutDialog.show( function() {
+                    enrollFingerprint.cancel();
+                });
             }
-            */
         }
     }
     //
@@ -524,7 +556,11 @@ ApplicationWindow {
         }
         onError: {
             console.log( 'WebDatabase : error : ' + command + ':' + error );
-            if (currentScene.webDatabaseError) currentScene.webDatabaseError( command, error );
+            if (currentScene.webDatabaseError) {
+                if ( !currentScene.webDatabaseError( command, error ) ) {
+                    errorDialog.show( "server reports : " + error );
+                }
+            }
         }
 
     }

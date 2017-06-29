@@ -23,12 +23,13 @@
  *
  * */
 WebDatabase* WebDatabase::s_shared = nullptr;
-static const QString k_base_url = "http://178.62.110.55:3000";
+QString WebDatabase::s_default_url = "https://localhost:3000";
 
 WebDatabase::WebDatabase(QObject *parent) : QObject(parent) {
-    m_baseURL = k_base_url;
+    m_baseURL = s_default_url;
     m_net = new QNetworkAccessManager(this);
-    connect(m_net, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+    connect(m_net, &QNetworkAccessManager::finished, this, &WebDatabase::replyFinished);
+
 }
 
 WebDatabase* WebDatabase::shared() {
@@ -148,7 +149,8 @@ void WebDatabase::replyFinished(QNetworkReply* reply) {
             qDebug() << json;
         }
     } else {
-        message = reply->errorString();
+        message = "Network Error : ";
+        message += reply->errorString();
         qDebug() << "WebDatabase error : " << message;
     }
     if ( ok ) {

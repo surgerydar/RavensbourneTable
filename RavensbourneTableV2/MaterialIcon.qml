@@ -35,6 +35,34 @@ Image {
         }
     }
     */
+    Rectangle {
+        width: 24
+        height: 24
+        anchors.verticalCenter: container.top
+        anchors.horizontalCenter: container.alignment === "left" ? parent.right : parent.left
+        anchors.verticalCenterOffset: ( height / 2 );
+        anchors.horizontalCenterOffset: container.alignment === "left" ? -( width / 2 ) : ( width / 2 );
+        radius: 12
+        color: colourRed
+        visible: container.selected
+    }
+    //
+    //
+    //
+    Rectangle {
+        width: 24
+        height: 24
+        anchors.verticalCenter: container.bottom
+        anchors.horizontalCenter: container.alignment === "left" ? parent.right : parent.left
+        anchors.verticalCenterOffset: -( height / 2 );
+        anchors.horizontalCenterOffset: container.alignment === "left" ? -( width / 2 ) : ( width / 2 );
+        radius: 12
+        color: colourYellow
+        visible: container.newBarcode
+    }
+    //
+    //
+    //
     MouseArea {
         anchors.fill: parent
         onClicked: {

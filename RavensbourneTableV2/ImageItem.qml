@@ -36,6 +36,7 @@ EditableItem {
         z: 1
         anchors.horizontalCenter: image.right
         anchors.verticalCenter: image.top
+        scale: 1. / container.scale
         radius: width / 2
         color: "#EEEDEB"
         visible: metadata !== null
@@ -58,6 +59,7 @@ EditableItem {
         width: 36
         height: 36
         anchors.centerIn: parent
+        scale: 1. / container.scale
         visible: image.status === Image.Loading
         source:"icons/spinner.gif"
         fillMode: AnimatedImage.PreserveAspectFit
@@ -69,6 +71,7 @@ EditableItem {
         height: 36
         radius: 18
         anchors.centerIn: parent
+        scale: 1. / container.scale
         visible: image.status === Image.Error
         color: "#FF6666"
         Image {

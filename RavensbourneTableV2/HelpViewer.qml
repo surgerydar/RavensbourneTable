@@ -60,7 +60,7 @@ Editor {
     //
     //
     function show(page) {
-        var url = "http://178.62.110.55:3000/help";
+        var url = "http://" + baseURL + "/help";
         if ( page ) url += page + ".html";
         webBrowser.url = url;
         state = "open";

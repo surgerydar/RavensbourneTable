@@ -121,7 +121,7 @@ Db.prototype.getUser = function( id ) {
                 } else if( result ) {
                     resolve( result );
                 } else {
-                    reject( { error: 'unable to find user : ' + id } );
+                    reject( 'unable to find user : ' + id );
                 }
              });
         } catch( err ) {
@@ -249,7 +249,7 @@ Db.prototype.getUserSketches = function( user_id ) {
     var db = this.db;
     return new Promise( function( resolve, reject ) {
         try {
-            var query = {$or:[{user_id:user_id},{group:user_id}]};
+            var query = {$or:[{user_id:user_id},{'group.id':user_id}]};
             db.collection('sketches').find(query).toArray( function( err, result ) {
                 if ( err ) {
                     console.log( err );

@@ -16,13 +16,6 @@ Item {
         anchors.fill: parent
         model: 12
         Blob {
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    root.go('Home');
-                    //materialMetadataViewer.show();
-                }
-            }
         }
     }
     //
